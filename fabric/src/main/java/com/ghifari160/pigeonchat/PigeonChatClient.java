@@ -10,6 +10,7 @@ public class PigeonChatClient implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
         FabricConfig.initClients();
+        PigeonChatCommonClient.init();
         ItemScreen.init();
         ItemTintSources.ID_MAPPER.put(PigeonChatCommon.identifier("ink_container"), InkContainer.MAP_CODEC);
     }

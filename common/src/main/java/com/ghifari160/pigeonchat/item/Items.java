@@ -25,6 +25,7 @@ public class Items {
     public static Item PEN;
     public static Item QUILL;
     public static Item INK_BOTTLE;
+    public static Item LETTER;
 
     public static final List<Supplier<ItemStack>> TAB_ITEMS = new ArrayList<>();
 
@@ -84,10 +85,17 @@ public class Items {
                     stack.set(PigeonChatComponents.CONVERTED, new Converted(
                             new ItemStack(net.minecraft.world.item.Items.GLASS_BOTTLE)));
                 });
+        LETTER = createInTab(
+                ItemIDs.LETTER,
+                LetterItem::new,
+                new Item.Properties(),
+                stack -> stack.set(PigeonChatComponents.CONVERTED,
+                        new Converted(new ItemStack(net.minecraft.world.item.Items.PAPER))));
 
         consumer.accept(PEN, ItemIDs.PEN);
         consumer.accept(QUILL, ItemIDs.QUILL);
         consumer.accept(INK_BOTTLE, ItemIDs.INK_BOTTLE);
+        consumer.accept(LETTER, ItemIDs.LETTER);
     }
 
     private static Item createInTab(final Identifier id) {

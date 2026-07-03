@@ -10,6 +10,7 @@ import com.ghifari160.pigeonchat.data.ModelProvider;
 import com.ghifari160.pigeonchat.data.RecipeProvider;
 import com.ghifari160.pigeonchat.item.CreativeTabs;
 import com.ghifari160.pigeonchat.item.Items;
+import com.ghifari160.pigeonchat.network.SaveWritablePayload;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.Registries;
@@ -25,6 +26,8 @@ import net.neoforged.neoforge.client.event.RegisterColorHandlersEvent;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.data.event.GatherDataEvent;
 import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
+import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
+import net.neoforged.neoforge.network.registration.PayloadRegistrar;
 import net.neoforged.neoforge.registries.RegisterEvent;
 
 import java.util.concurrent.CompletableFuture;
@@ -57,6 +60,8 @@ public class PigeonChat {
 
     @SubscribeEvent
     public static void gatherData(GatherDataEvent.Client event) {
+        PigeonChatCommonClient.init();
+
         DataGenerator generator = event.getGenerator();
         PackOutput output = generator.getPackOutput();
         CompletableFuture<HolderLookup.Provider> registries = event.getLookupProvider();
@@ -74,7 +79,17 @@ public class PigeonChat {
     @SubscribeEvent
     private static void clientSetup(FMLClientSetupEvent event) {
         ConfigNeoForgeClient.setup();
+        PigeonChatCommonClient.init();
         ItemScreen.init();
+    }
+
+    @SubscribeEvent
+    private static void registerPayloads(RegisterPayloadHandlersEvent event) {
+        PayloadRegistrar registrar = event.registrar("1");
+        registrar.playToServer(
+                SaveWritablePayload.TYPE,
+                SaveWritablePayload.STREAM_CODEC,
+                (payload, ctx) -> payload.handle(ctx.player()));
     }
 
     public <T> void bind(

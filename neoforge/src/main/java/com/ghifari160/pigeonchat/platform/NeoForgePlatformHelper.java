@@ -1,8 +1,10 @@
 package com.ghifari160.pigeonchat.platform;
 
 import com.ghifari160.pigeonchat.platform.services.IPlatformHelper;
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.neoforged.fml.ModList;
 import net.neoforged.fml.loading.FMLLoader;
+import net.neoforged.neoforge.client.network.ClientPacketDistributor;
 
 public class NeoForgePlatformHelper implements IPlatformHelper {
 
@@ -22,5 +24,10 @@ public class NeoForgePlatformHelper implements IPlatformHelper {
     public boolean isDevelopmentEnvironment() {
 
         return !FMLLoader.getCurrent().isProduction();
+    }
+
+    @Override
+    public <T extends CustomPacketPayload> void sendPacketToServer(T payload) {
+        ClientPacketDistributor.sendToServer(payload);
     }
 }

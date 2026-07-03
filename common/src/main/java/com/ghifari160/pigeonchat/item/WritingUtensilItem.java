@@ -1,6 +1,7 @@
 package com.ghifari160.pigeonchat.item;
 
 import com.ghifari160.pigeonchat.component.PigeonChatComponents;
+import com.ghifari160.pigeonchat.tag.ItemTags;
 import com.ghifari160.pigeonchat.util.ContainerUtils;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
@@ -27,6 +28,14 @@ public class WritingUtensilItem extends Item {
                 InteractionHand.OFF_HAND : InteractionHand.MAIN_HAND;
         ItemStack utensil = player.getItemInHand(hand);
         ItemStack other = player.getItemInHand(otherHand);
+
+        if (other.is(ItemTags.WRITABLES)) {
+            if (other.is(ItemTags.WRITABLE_LETTERS)) {
+                player.openItemGui(other, otherHand);
+                return InteractionResult.SUCCESS;
+            }
+            return InteractionResult.PASS;
+        }
 
         if (!ContainerUtils.isRefillable(other) && !ContainerUtils.isDrainable(other)) {
             return InteractionResult.PASS;

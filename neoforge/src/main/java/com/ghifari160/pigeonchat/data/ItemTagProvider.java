@@ -1,8 +1,11 @@
 package com.ghifari160.pigeonchat.data;
 
 import com.ghifari160.pigeonchat.Constants;
+import com.ghifari160.pigeonchat.PigeonChatCommon;
+import com.ghifari160.pigeonchat.item.ItemIDs;
 import com.ghifari160.pigeonchat.tag.ItemTags;
 import net.minecraft.core.HolderLookup;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.data.PackOutput;
 import net.minecraft.references.ItemIds;
 import net.neoforged.neoforge.common.Tags;
@@ -19,8 +22,10 @@ public class ItemTagProvider extends ItemTagsProvider {
     @Override
     protected void addTags(HolderLookup.@NonNull Provider provider) {
         this.tag(ItemTags.WRITABLES)
-                .add(ItemIds.PAPER)
-                .add(ItemIds.BOOK);
+                .addTag(ItemTags.WRITABLE_LETTERS);
+        this.tag(ItemTags.WRITABLE_LETTERS)
+                .add(PigeonChatCommon.resourceKey(Registries.ITEM, ItemIDs.LETTER))
+                .add(ItemIds.PAPER);
         this.tag(ItemTags.NIB_MATERIALS)
                 .addTag(Tags.Items.NUGGETS_IRON)
                 .addTag(Tags.Items.NUGGETS_GOLD);

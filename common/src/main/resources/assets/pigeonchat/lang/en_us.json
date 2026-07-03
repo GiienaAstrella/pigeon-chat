@@ -7,9 +7,11 @@
   "gui.pigeonchat.config.common.pen.fill": "Max Fill",
   "gui.pigeonchat.config.common.quill": "Quill Configuration",
   "gui.pigeonchat.config.common.quill.fill": "Max Fill",
+  "gui.pigeonchat.edit_letter.title": "Edit Letter",
   "item.pigeonchat.ink_bottle": "Ink Bottle",
   "item.pigeonchat.ink_container.empty": "%s",
   "item.pigeonchat.ink_container.filled": "%s (%s)",
+  "item.pigeonchat.letter": "Letter",
   "item.pigeonchat.pen": "Pen",
   "item.pigeonchat.quill": "Quill",
   "itemGroup.pigeonchat.pigeonchat": "Pigeon Chat",
@@ -17,5 +19,6 @@
   "tag.item.pigeonchat.nib_materials": "Nib Materials",
   "tag.item.pigeonchat.quill_materials": "Quill Materials",
   "tag.item.pigeonchat.writables": "Valid Writing Targets",
-  "tooltip.pigeonchat.converted": "Base Material: %s"
+  "tooltip.pigeonchat.converted": "Base Material: %s",
+  "tooltip.pigeonchat.letter.sealed": "Right click to break the seal and retrieve seal material (%s)"
 }
