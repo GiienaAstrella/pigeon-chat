@@ -1,0 +1,14 @@
+build/
+.gradle/
+out/
+runs/
+.idea/
+.vscode/
+bin/
+.DS_Store
+Thumbs.db
+desktop.ini
+*.log
+logs/
+.stignore
+.stfolder/
