@@ -52,6 +52,7 @@ public abstract class ItemMixin {
     }
 
     @Unique
+    @SuppressWarnings("unused")
     private InteractionResult PotionItem$use(
             @NonNull Level level,
             Player player,
@@ -65,14 +66,12 @@ public abstract class ItemMixin {
 
         Optional<DyeColor> color = ContainerUtils.dyeFromStack(material);
 
-        if (!level.isClientSide()) {
-            int consumeAmount = PigeonChatConfig.COMMON.getOrDefault(
-                    PigeonChatConfig.Key.INK_BOTTLE_DYE_REFILL,
-                    PigeonChatConfig.Default.INK_BOTTLE_DYE_REFILL);
+        int consumeAmount = PigeonChatConfig.COMMON.getOrDefault(
+                PigeonChatConfig.Key.INK_BOTTLE_DYE_REFILL,
+                PigeonChatConfig.Default.INK_BOTTLE_DYE_REFILL);
 
-            if (material.count() < consumeAmount) return null;
-            material.consume(consumeAmount, player);
-        }
+        if (material.count() < consumeAmount) return null;
+        material.consume(consumeAmount, player);
 
         ItemStack newContainer = new ItemStack(Items.INK_BOTTLE);
         color.ifPresentOrElse(
