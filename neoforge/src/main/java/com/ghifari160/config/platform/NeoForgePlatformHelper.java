@@ -3,6 +3,7 @@ package com.ghifari160.config.platform;
 import com.ghifari160.config.impl.networking.ConfigPayload;
 import com.ghifari160.config.impl.networking.ConfigReloadPayload;
 import com.ghifari160.config.platform.services.IPlatformHelper;
+import net.minecraft.client.Minecraft;
 import net.minecraft.server.level.ServerPlayer;
 import net.neoforged.fml.loading.FMLLoader;
 import net.neoforged.fml.loading.FMLPaths;
@@ -49,6 +50,7 @@ public class NeoForgePlatformHelper implements IPlatformHelper {
 
     @Override
     public void sendReloadPacket(String modID) {
+        if (Minecraft.getInstance().getConnection() == null) return;
         ClientPacketDistributor.sendToServer(new ConfigReloadPayload(modID));
     }
 }

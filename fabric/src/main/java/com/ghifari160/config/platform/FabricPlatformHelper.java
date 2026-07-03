@@ -8,6 +8,7 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.fabricmc.loader.api.FabricLoader;
+import net.minecraft.client.Minecraft;
 import net.minecraft.server.level.ServerPlayer;
 
 import java.io.File;
@@ -58,6 +59,7 @@ public class FabricPlatformHelper implements IPlatformHelper {
 
     @Override
     public void sendReloadPacket(String modID) {
+        if (Minecraft.getInstance().getConnection() == null) return;
         ClientPlayNetworking.send(new ConfigReloadPayload(modID));
     }
 }

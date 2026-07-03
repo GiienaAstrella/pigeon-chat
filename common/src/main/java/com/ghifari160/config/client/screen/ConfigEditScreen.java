@@ -24,6 +24,7 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Consumer;
 
 public class ConfigEditScreen extends OptionsSubScreen {
@@ -120,6 +121,9 @@ public class ConfigEditScreen extends OptionsSubScreen {
                     } else if (defaultVal instanceof Integer) {
                         valueWidget =
                                 this.createIntValue(value.path(), label, (Integer) value.get());
+                    } else if (defaultVal instanceof Boolean) {
+                        valueWidget =
+                                this.createBooleanValue(value.path(), label, (Boolean) value.get());
                     } else if (value.get() != null) {
                         ConfigEditBox box = new ConfigEditBox(
                                 this.font,
@@ -284,6 +288,45 @@ public class ConfigEditScreen extends OptionsSubScreen {
         });
         box.setValue(oldVal.toString());
         return box;
+    }
+
+    protected AbstractWidget createBooleanValue(
+            String path,
+            Component ignoredLabel,
+            Boolean oldVal) {
+        AtomicBoolean currentVal = new AtomicBoolean(oldVal);
+
+        return Button.builder(
+                this.resolveBooleanValue(oldVal),
+                b -> {
+                    boolean newVal = !currentVal.get();
+                    currentVal.set(newVal);
+                    b.setMessage(this.resolveBooleanValue(newVal));
+
+                    if (oldVal.equals(newVal)) {
+                        this.resetManager.remove(path);
+                        return;
+                    }
+
+                    this.onChanged();
+                    this.resetManager.remove(path);
+                    this.resetManager.add(
+                            path,
+                            v -> this.config.set(path, v),
+                            newVal,
+                            v -> {
+                                currentVal.set(v);
+                                b.setMessage(this.resolveBooleanValue(v));
+                                this.config.set(path, v);
+                            },
+                            oldVal);
+                })
+                .size(Button.DEFAULT_WIDTH, Button.DEFAULT_HEIGHT)
+                .build();
+    }
+
+    private Component resolveBooleanValue(boolean value) {
+        return value ? CommonComponents.GUI_YES : CommonComponents.GUI_NO;
     }
 
     public static class ResetManager {

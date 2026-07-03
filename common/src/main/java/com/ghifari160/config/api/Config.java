@@ -64,7 +64,18 @@ public class Config {
     public void load() {
         this.ensureParentDirExists();
         ConfigConstants.LOG.info("Loading {} for {}", this.getFilePath(), this.getModID());
-        this.config.load();
+
+        if (Files.exists(this.filePath)) {
+            try (CommentedFileConfig onDisk =
+                         CommentedFileConfig.builder(this.filePath).sync().build()) {
+                onDisk.load();
+                for (String path : this.values.keySet()) {
+                    Object raw = onDisk.get(path);
+                    if (raw != null) this.config.set(path, raw);
+                }
+            }
+        }
+
         for (Value<?> value : this.values.values()) {
             value.load();
         }
@@ -348,6 +359,7 @@ public class Config {
             this.config.config.set(path, value);
             this.config.values.put(path, new Value<>(this.config.config, path, value));
             this.consumeComment(this.config.config::setComment, this.config.comments::put);
+            ConfigConstants.LOG.info("{}={}", path, value);
             this.stack.pop();
             return this;
         }
