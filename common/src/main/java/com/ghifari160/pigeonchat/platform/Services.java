@@ -2,6 +2,7 @@ package com.ghifari160.pigeonchat.platform;
 
 import com.ghifari160.pigeonchat.Constants;
 import com.ghifari160.pigeonchat.platform.services.IPlatformHelper;
+import com.ghifari160.pigeonchat.platform.services.IRegistryHelper;
 
 import java.util.ServiceLoader;
 
@@ -14,6 +15,12 @@ public class Services {
     // For example this can be used to check if the code is running on NeoForge vs Fabric, or to ask the modloader if another
     // mod is loaded.
     public static final IPlatformHelper PLATFORM = load(IPlatformHelper.class);
+    private static IRegistryHelper registryHelper;
+
+    public static IRegistryHelper registry() {
+        if (registryHelper == null) registryHelper = load(IRegistryHelper.class);
+        return registryHelper;
+    }
 
     // This code is used to load a service for the current environment. Your implementation of the service must be defined
     // manually by including a text file in META-INF/services named with the fully qualified class name of the service.

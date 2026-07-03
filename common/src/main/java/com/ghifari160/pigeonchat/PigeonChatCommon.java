@@ -1,7 +1,10 @@
 package com.ghifari160.pigeonchat;
 
 import com.ghifari160.pigeonchat.platform.Services;
+import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.Items;
 
 // This class is part of the common project meaning it is shared between all supported loaders. Code written here can only
@@ -27,5 +30,17 @@ public class PigeonChatCommon {
 
             Constants.LOG.info("Hello to examplemod");
         }
+    }
+
+    public static Identifier identifier(String path) {
+        return Identifier.fromNamespaceAndPath(Constants.MOD_ID, path);
+    }
+
+    public static <T> ResourceKey<T> resourceKey(ResourceKey<? extends Registry<T>> registry, final String path) {
+        return resourceKey(registry, identifier(path));
+    }
+
+    public static <T> ResourceKey<T> resourceKey(ResourceKey<? extends Registry<T>> registry, final Identifier identifier) {
+        return ResourceKey.create(registry, identifier);
     }
 }
