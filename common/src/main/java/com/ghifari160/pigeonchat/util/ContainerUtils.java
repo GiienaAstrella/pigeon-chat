@@ -18,6 +18,7 @@ import org.jspecify.annotations.Nullable;
 import java.util.Optional;
 import java.util.function.Function;
 
+@SuppressWarnings("BooleanMethodIsAlwaysInverted")
 public class ContainerUtils {
     /**
      * Checks whether {@code stack} is a Container.
@@ -32,7 +33,7 @@ public class ContainerUtils {
      */
     public static boolean isRefillable(ItemStack stack) {
         InkContainer container = stack.get(PigeonChatComponents.INK_CONTAINER);
-        return container != null && container.refillable();
+        return container != null && container.isRefillable();
     }
 
     /**
@@ -40,7 +41,14 @@ public class ContainerUtils {
      */
     public static boolean isDrainable(ItemStack stack) {
         InkContainer container = stack.get(PigeonChatComponents.INK_CONTAINER);
-        return container != null && container.drainable();
+        return container != null && container.isDrainable();
+    }
+
+    /**
+     * Checks whether {@code stack} is a writing utensil.
+     */
+    public static boolean isUtensil(ItemStack stack) {
+        return isContainer(stack) && stack.has(PigeonChatComponents.UTENSIL);
     }
 
     /**
@@ -62,9 +70,8 @@ public class ContainerUtils {
      */
     @Nullable
     public static DyeColor inkColor(ItemStack stack) {
-        InkContainer container = stack.get(PigeonChatComponents.INK_CONTAINER);
-        if (container == null) return null;
-        return container.color().orElse(null);
+        if (!isContainer(stack)) return null;
+        return stack.get(PigeonChatComponents.INK_COLOR);
     }
 
     /**
@@ -108,6 +115,50 @@ public class ContainerUtils {
             Player player,
             EquipmentSlot slot) {
         if (!isDrainable(stack)) return;
+
+        int nextDamage = stack.getDamageValue() + amount;
+        int maxDamage = stack.getMaxDamage();
+        stack.setDamageValue(nextDamage);
+
+        if (nextDamage >= maxDamage && !isUnbreakable(stack)) {
+            Converted converted = stack.get(PigeonChatComponents.CONVERTED);
+            stack.shrink(1);
+            if (converted != null) {
+                player.setItemSlot(slot, converted.baseItem());
+            }
+        }
+    }
+
+    /**
+     * Drains the fill of a Container {@code stack} that is also a writing utensil by
+     * {@code amount}.
+     * Containers will be drained only up to their maximum capacity.
+     * Containers are broken when they are empty unless they are Unbreakable.
+     * If {@code stack} was converted from a base material, the conversion will be reversed instead
+     * of the Container breaking.
+     */
+    public static void write(
+            ItemStack stack,
+            final int amount,
+            Player player,
+            InteractionHand hand) {
+        write(stack, amount, player, hand.asEquipmentSlot());
+    }
+
+    /**
+     * Drains the fill of a Container {@code stack} that is also a writing utensil by
+     * {@code amount}.
+     * Containers will be drained only up to their maximum capacity.
+     * Containers are broken when they are empty unless they are Unbreakable.
+     * If {@code stack} was converted from a base material, the conversion will be reversed instead
+     * of the Container breaking.
+     */
+    public static void write (
+            ItemStack stack,
+            final int amount,
+            Player player,
+            EquipmentSlot slot) {
+        if (!isUtensil(stack)) return;
 
         int nextDamage = stack.getDamageValue() + amount;
         int maxDamage = stack.getMaxDamage();

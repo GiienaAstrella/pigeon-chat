@@ -5,9 +5,11 @@ import com.ghifari160.pigeonchat.PigeonChatConfig;
 import com.ghifari160.pigeonchat.component.Converted;
 import com.ghifari160.pigeonchat.component.InkContainer;
 import com.ghifari160.pigeonchat.component.PigeonChatComponents;
+import com.ghifari160.pigeonchat.item.InkContainerItem;
 import com.ghifari160.pigeonchat.item.Items;
 import com.ghifari160.pigeonchat.tag.ItemTags;
 import com.ghifari160.pigeonchat.util.ContainerUtils;
+import net.minecraft.util.Unit;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
@@ -74,12 +76,11 @@ public abstract class ItemMixin {
         material.consume(consumeAmount, player);
 
         ItemStack newContainer = new ItemStack(Items.INK_BOTTLE);
+        newContainer.set(PigeonChatComponents.INK_CONTAINER, InkContainerItem.component());
         color.ifPresentOrElse(
-                c -> newContainer.set(PigeonChatComponents.INK_CONTAINER,
-                        new InkContainer(c, true, true)),
+                c -> newContainer.set(PigeonChatComponents.INK_COLOR, c),
                 () -> {
-                    newContainer.set(PigeonChatComponents.INK_CONTAINER,
-                        new InkContainer(DyeColor.BLACK, true, true));
+                    newContainer.set(PigeonChatComponents.INK_COLOR, DyeColor.BLACK);
                     Constants.LOG.error("{} not in dye tag! Falling back to {}",
                             material.getItemName(),
                             DyeColor.BLACK.getName());
@@ -125,8 +126,9 @@ public abstract class ItemMixin {
         }
 
         ItemStack utensil = new ItemStack(Items.QUILL);
-        utensil.set(PigeonChatComponents.INK_CONTAINER,
-                new InkContainer(color, true, false));
+        utensil.set(PigeonChatComponents.INK_CONTAINER, InkContainer.withRefillable(true));
+        utensil.set(PigeonChatComponents.UTENSIL, Unit.INSTANCE);
+        utensil.set(PigeonChatComponents.INK_COLOR, color);
         utensil.set(PigeonChatComponents.CONVERTED,
                 new Converted(material));
 

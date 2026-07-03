@@ -1,13 +1,14 @@
 package com.ghifari160.pigeonchat.item;
 
-import com.ghifari160.pigeonchat.PigeonChatConfig;
 import com.ghifari160.pigeonchat.PigeonChatCommon;
+import com.ghifari160.pigeonchat.PigeonChatConfig;
 import com.ghifari160.pigeonchat.component.Converted;
 import com.ghifari160.pigeonchat.component.InkContainer;
 import com.ghifari160.pigeonchat.component.PigeonChatComponents;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.Identifier;
+import net.minecraft.util.Unit;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -39,11 +40,14 @@ public class Items {
                                 PigeonChatConfig.Key.PEN_FILL,
                                 PigeonChatConfig.Default.PEN_FILL))
                         .component(PigeonChatComponents.INK_CONTAINER,
-                                new InkContainer(true, false))
+                                InkContainer.withRefillable(true))
+                        .component(PigeonChatComponents.UTENSIL, Unit.INSTANCE)
                         .component(PigeonChatComponents.UNBREAKABLE, true),
                 stack -> {
                     stack.set(PigeonChatComponents.INK_CONTAINER,
-                            new InkContainer(DyeColor.BLACK, true, false));
+                            InkContainer.withRefillable(true));
+                    stack.set(PigeonChatComponents.UTENSIL, Unit.INSTANCE);
+                    stack.set(PigeonChatComponents.INK_COLOR, DyeColor.BLACK);
                     stack.set(PigeonChatComponents.UNBREAKABLE, true);
                     stack.setDamageValue(0);
                 });
@@ -55,10 +59,13 @@ public class Items {
                                 PigeonChatConfig.Key.QUILL_FILL,
                                 PigeonChatConfig.Default.QUILL_FILL))
                         .component(PigeonChatComponents.INK_CONTAINER,
-                                new InkContainer(DyeColor.BLACK, true, false)),
+                                InkContainer.withRefillable(true))
+                        .component(PigeonChatComponents.UTENSIL, Unit.INSTANCE),
                 stack -> {
                     stack.set(PigeonChatComponents.INK_CONTAINER,
-                            new InkContainer(DyeColor.BLACK, true, false));
+                            InkContainer.withRefillable(true));
+                    stack.set(PigeonChatComponents.UTENSIL, Unit.INSTANCE);
+                    stack.set(PigeonChatComponents.INK_COLOR, DyeColor.BLACK);
                     stack.set(PigeonChatComponents.CONVERTED,
                             new Converted(new ItemStack(net.minecraft.world.item.Items.FEATHER)));
                 });
@@ -70,10 +77,10 @@ public class Items {
                                 PigeonChatConfig.Key.INK_BOTTLE_FILL,
                                 PigeonChatConfig.Default.INK_BOTTLE_FILL))
                         .component(PigeonChatComponents.INK_CONTAINER,
-                                new InkContainer(DyeColor.BLACK, true, true)),
+                                InkContainerItem.component()),
                 stack -> {
-                    stack.set(PigeonChatComponents.INK_CONTAINER,
-                            new InkContainer(DyeColor.BLACK, true, true));
+                    stack.set(PigeonChatComponents.INK_CONTAINER, InkContainerItem.component());
+                    stack.set(PigeonChatComponents.INK_COLOR, DyeColor.BLACK);
                     stack.set(PigeonChatComponents.CONVERTED, new Converted(
                             new ItemStack(net.minecraft.world.item.Items.GLASS_BOTTLE)));
                 });

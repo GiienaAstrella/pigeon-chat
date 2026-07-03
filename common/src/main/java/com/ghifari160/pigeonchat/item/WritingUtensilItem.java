@@ -1,6 +1,5 @@
 package com.ghifari160.pigeonchat.item;
 
-import com.ghifari160.pigeonchat.component.InkContainer;
 import com.ghifari160.pigeonchat.component.PigeonChatComponents;
 import com.ghifari160.pigeonchat.util.ContainerUtils;
 import net.minecraft.network.chat.Component;
@@ -38,17 +37,9 @@ public class WritingUtensilItem extends Item {
             return InteractionResult.PASS;
         }
 
-        InkContainer utensilComponent = utensil.get(PigeonChatComponents.INK_CONTAINER);
-        if (utensilComponent == null) {
-            utensilComponent = new InkContainer(true, false);
-        }
-
         int remainingFill = ContainerUtils.remainingFill(other);
         int filled = ContainerUtils.refill(utensil, remainingFill);
-        utensil.set(PigeonChatComponents.INK_CONTAINER, new InkContainer(
-                ContainerUtils.inkColor(other),
-                utensilComponent.refillable(),
-                utensilComponent.drainable()));
+        utensil.set(PigeonChatComponents.INK_COLOR, ContainerUtils.inkColor(other));
         ContainerUtils.drain(other, filled, player, otherHand);
         return InteractionResult.SUCCESS;
     }

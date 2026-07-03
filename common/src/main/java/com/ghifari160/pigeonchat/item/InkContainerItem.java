@@ -1,5 +1,6 @@
 package com.ghifari160.pigeonchat.item;
 
+import com.ghifari160.pigeonchat.component.InkContainer;
 import com.ghifari160.pigeonchat.util.ContainerUtils;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.Component;
@@ -12,11 +13,17 @@ import net.minecraft.world.item.component.TooltipDisplay;
 import net.minecraft.world.level.Level;
 import org.jspecify.annotations.NonNull;
 
+import java.util.Optional;
+
 public class InkContainerItem extends Item {
     public InkContainerItem(final Item.Properties properties) {
         properties.stacksTo(1);
         properties.component(DataComponents.TOOLTIP_DISPLAY, TooltipDisplay.DEFAULT);
         super(properties);
+    }
+
+    public static InkContainer component() {
+        return new InkContainer(Optional.of(true), Optional.of(true));
     }
 
     @Override
