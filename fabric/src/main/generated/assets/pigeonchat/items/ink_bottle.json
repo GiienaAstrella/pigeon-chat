@@ -1,0 +1,12 @@
+{
+  "model": {
+    "type": "minecraft:model",
+    "model": "pigeonchat:item/ink_bottle",
+    "tints": [
+      {
+        "type": "pigeonchat:ink_container",
+        "default": -14869215
+      }
+    ]
+  }
+}

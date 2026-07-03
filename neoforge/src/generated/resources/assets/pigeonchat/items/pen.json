@@ -1,0 +1,25 @@
+{
+  "model": {
+    "type": "minecraft:composite",
+    "models": [
+      {
+        "type": "minecraft:model",
+        "model": "pigeonchat:item/pen_barrel"
+      },
+      {
+        "type": "minecraft:model",
+        "model": "pigeonchat:item/pen_nib"
+      },
+      {
+        "type": "minecraft:model",
+        "model": "pigeonchat:item/pen_fill",
+        "tints": [
+          {
+            "type": "pigeonchat:ink_container",
+            "default": -14869215
+          }
+        ]
+      }
+    ]
+  }
+}

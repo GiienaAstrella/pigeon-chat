@@ -17,6 +17,12 @@
     "entrypoints": {
         "main": [
             "com.ghifari160.pigeonchat.PigeonChat"
+        ],
+        "client": [
+            "com.ghifari160.pigeonchat.PigeonChatClient"
+        ],
+        "fabric-datagen": [
+            "com.ghifari160.pigeonchat.data.PigeonChatDataGenerator"
         ]
     },
     "mixins": [

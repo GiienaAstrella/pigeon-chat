@@ -8,7 +8,6 @@ import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 
 import java.util.function.BiConsumer;
 
@@ -20,7 +19,7 @@ public class CreativeTabs {
 
     public static void register(BiConsumer<CreativeModeTab, Identifier> consumer) {
         TAB = Services.registry().tabBuilder()
-                .icon(() -> new ItemStack(Items.FEATHER))
+                .icon(() -> new ItemStack(Items.QUILL))
                 .title(Component.translatable(TAB_ID.toLanguageKey("itemGroup")))
                 .build();
 

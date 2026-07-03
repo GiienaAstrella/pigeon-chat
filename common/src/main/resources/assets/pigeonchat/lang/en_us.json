@@ -1,0 +1,14 @@
+{
+  "color.pigeonchat.none": "None",
+  "item.pigeonchat.ink_bottle": "Ink Bottle",
+  "item.pigeonchat.ink_container.empty": "%s",
+  "item.pigeonchat.ink_container.filled": "%s (%s)",
+  "item.pigeonchat.pen": "Pen",
+  "item.pigeonchat.quill": "Quill",
+  "itemGroup.pigeonchat.pigeonchat": "Pigeon Chat",
+  "tag.item.pigeonchat.ink_materials": "Ink Materials",
+  "tag.item.pigeonchat.nib_materials": "Nib Materials",
+  "tag.item.pigeonchat.quill_materials": "Quill Materials",
+  "tag.item.pigeonchat.writables": "Valid Writing Targets",
+  "tooltip.pigeonchat.converted": "Base Material: %s"
+}

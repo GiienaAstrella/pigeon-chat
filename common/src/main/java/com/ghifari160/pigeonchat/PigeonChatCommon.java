@@ -2,45 +2,65 @@ package com.ghifari160.pigeonchat;
 
 import com.ghifari160.pigeonchat.platform.Services;
 import net.minecraft.core.Registry;
-import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.world.item.Items;
+import org.jspecify.annotations.Nullable;
 
-// This class is part of the common project meaning it is shared between all supported loaders. Code written here can only
-// import and access the vanilla codebase, libraries used by vanilla, and optionally third party libraries that provide
-// common compatible binaries. This means common code can not directly use loader specific concepts such as NeoForge events
-// however it will be compatible with all supported mod loaders.
+import java.util.ArrayList;
+import java.util.List;
+
 public class PigeonChatCommon {
-
-    // The loader specific projects are able to import and use any code from the common project. This allows you to
-    // write the majority of your code here and load it from your loader specific projects. This example has some
-    // code that gets invoked by the entry point of the loader specific projects.
     public static void init() {
-
-        Constants.LOG.info("Hello from Common init on {}! we are currently in a {} environment!", Services.PLATFORM.getPlatformName(), Services.PLATFORM.getEnvironmentName());
-        Constants.LOG.info("The ID for diamonds is {}", BuiltInRegistries.ITEM.getKey(Items.DIAMOND));
-
-        // It is common for all supported loaders to provide a similar feature that can not be used directly in the
-        // common code. A popular way to get around this is using Java's built-in service loader feature to create
-        // your own abstraction layer. You can learn more about this in our provided services class. In this example
-        // we have an interface in the common code and use a loader specific implementation to delegate our call to
-        // the platform specific approach.
-        if (Services.PLATFORM.isModLoaded("examplemod")) {
-
-            Constants.LOG.info("Hello to examplemod");
+        Constants.LOG.info("{} in {}", Constants.MOD_NAME, Services.PLATFORM.getPlatformName());
+        if (Services.PLATFORM.isDevelopmentEnvironment()) {
+            Constants.LOG.info("We are in a development environment!");
         }
     }
 
+    /**
+     * Returns an {@code Identifier} in the mod namespace.
+     */
     public static Identifier identifier(String path) {
         return Identifier.fromNamespaceAndPath(Constants.MOD_ID, path);
     }
 
-    public static <T> ResourceKey<T> resourceKey(ResourceKey<? extends Registry<T>> registry, final String path) {
+    /**
+     * Returns a translation key in the mod namespace.
+     */
+    public static String langKey(String path, String prefix) {
+        return langKey(path, prefix, null);
+    }
+
+    /**
+     * Returns a translation key in the mod namespace.
+     */
+    public static String langKey(String path, String prefix, @Nullable String suffix) {
+        List<String> parts = new ArrayList<>();
+        parts.add(prefix);
+        parts.add(Constants.MOD_ID);
+        parts.add(path);
+        if (suffix != null && !suffix.isEmpty()) {
+            parts.addLast(suffix);
+        }
+        return String.join(".", parts);
+    }
+
+    /**
+     * Returns a resource key for {@code registry} in the mod namespace.
+     */
+    @SuppressWarnings("unused")
+    public static <T> ResourceKey<T> resourceKey(
+            ResourceKey<? extends Registry<T>> registry,
+            final String path) {
         return resourceKey(registry, identifier(path));
     }
 
-    public static <T> ResourceKey<T> resourceKey(ResourceKey<? extends Registry<T>> registry, final Identifier identifier) {
+    /**
+     * Returns a resource key for {@code registry}.
+     */
+    public static <T> ResourceKey<T> resourceKey(
+            ResourceKey<? extends Registry<T>> registry,
+            final Identifier identifier) {
         return ResourceKey.create(registry, identifier);
     }
 }

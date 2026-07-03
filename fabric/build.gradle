@@ -12,7 +12,18 @@ dependencies {
     implementation("net.fabricmc:fabric-loader:${fabric_loader_version}")
     implementation("net.fabricmc.fabric-api:fabric-api:${fabric_version}")
 
+    implementation("com.electronwill.night-config:core:${nightconfig_version}")
+    implementation("com.electronwill.night-config:toml:${nightconfig_version}")
+    include("com.electronwill.night-config:core:${nightconfig_version}")
+    include("com.electronwill.night-config:toml:${nightconfig_version}")
+
     implementation("com.terraformersmc:modmenu:${project.modmenu_version}")
+}
+
+fabricApi {
+    configureDataGeneration {
+        client = true
+    }
 }
 
 loom {

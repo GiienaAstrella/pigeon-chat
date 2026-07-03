@@ -35,6 +35,9 @@ jar {
 }
 
 processResources {
+    exclude '**/*.psd'
+    exclude '**/*.piskel'
+
     var expandProps = [
             'version'                      : version,
             'group'                        : project.group, //Else we target the task's group.

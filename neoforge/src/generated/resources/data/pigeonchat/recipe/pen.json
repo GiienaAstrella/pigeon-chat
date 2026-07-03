@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "group": "pigeonchat:pen",
+  "key": {
+    "B": "minecraft:iron_ingot",
+    "N": "#pigeonchat:nib_materials"
+  },
+  "pattern": [
+    " B ",
+    "N  "
+  ],
+  "result": {
+    "id": "pigeonchat:pen"
+  }
+}
