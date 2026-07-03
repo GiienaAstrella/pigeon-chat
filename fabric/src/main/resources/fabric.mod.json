@@ -19,16 +19,16 @@
     "environment": "*",
     "entrypoints": {
         "main": [
-            "com.ghifari160.pigeonchat.PigeonChat"
+            "me.giiena.pigeonchat.PigeonChat"
         ],
         "client": [
-            "com.ghifari160.pigeonchat.PigeonChatClient"
+            "me.giiena.pigeonchat.PigeonChatClient"
         ],
         "fabric-datagen": [
-            "com.ghifari160.pigeonchat.data.PigeonChatDataGenerator"
+            "me.giiena.pigeonchat.data.PigeonChatDataGenerator"
         ],
         "modmenu": [
-            "com.ghifari160.config.integration.ModMenuPlugin"
+            "me.giiena.config.integration.ModMenuPlugin"
         ]
     },
     "mixins": [
