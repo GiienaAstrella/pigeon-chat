@@ -3,6 +3,7 @@ package com.ghifari160.pigeonchat;
 import com.ghifari160.config.ConfigNeoForgeClient;
 import com.ghifari160.config.NeoForgeConfig;
 import com.ghifari160.pigeonchat.client.color.item.InkContainer;
+import com.ghifari160.pigeonchat.client.screen.ItemScreen;
 import com.ghifari160.pigeonchat.component.PigeonChatComponents;
 import com.ghifari160.pigeonchat.data.ItemTagProvider;
 import com.ghifari160.pigeonchat.data.ModelProvider;
@@ -73,6 +74,7 @@ public class PigeonChat {
     @SubscribeEvent
     private static void clientSetup(FMLClientSetupEvent event) {
         ConfigNeoForgeClient.setup();
+        ItemScreen.init();
     }
 
     public <T> void bind(
