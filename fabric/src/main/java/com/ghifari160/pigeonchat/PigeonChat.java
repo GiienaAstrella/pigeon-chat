@@ -1,5 +1,6 @@
 package com.ghifari160.pigeonchat;
 
+import com.ghifari160.config.FabricConfig;
 import com.ghifari160.pigeonchat.component.PigeonChatComponents;
 import com.ghifari160.pigeonchat.item.CreativeTabs;
 import com.ghifari160.pigeonchat.item.Items;
@@ -18,7 +19,8 @@ public class PigeonChat implements ModInitializer {
 
     @Override
     public void onInitialize() {
-        PigeonChatConfig.load();
+        FabricConfig.init();
+        PigeonChatConfig.init();
 
         bind(BuiltInRegistries.DATA_COMPONENT_TYPE, PigeonChatComponents::register);
         ItemComponentTooltipProviderRegistry.addAfter(DataComponents.DAMAGE,

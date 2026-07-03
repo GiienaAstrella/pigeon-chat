@@ -23,12 +23,16 @@
         ],
         "fabric-datagen": [
             "com.ghifari160.pigeonchat.data.PigeonChatDataGenerator"
+        ],
+        "modmenu": [
+            "com.ghifari160.config.integration.ModMenuPlugin"
         ]
     },
     "mixins": [
         "${mod_id}.mixins.json",
         "${mod_id}.fabric.mixins.json"
     ],
+    "accessWidener": "${mod_id}.accesswidener",
     "depends": {
         "fabricloader": ">=${fabric_loader_version}",
         "fabric-api": "*",

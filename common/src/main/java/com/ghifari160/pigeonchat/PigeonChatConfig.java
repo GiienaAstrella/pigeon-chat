@@ -1,90 +1,41 @@
 package com.ghifari160.pigeonchat;
 
-import com.electronwill.nightconfig.core.file.CommentedFileConfig;
-import com.ghifari160.config.ConfigSpec;
-import com.ghifari160.config.ConfigValue;
-import com.ghifari160.config.platform.Services;
-import org.jspecify.annotations.Nullable;
-
-import java.nio.file.Path;
+import com.ghifari160.config.api.Config;
+import com.ghifari160.config.api.ConfigRegistry;
 
 public final class PigeonChatConfig {
-    public static final Common COMMON = new Common();
-
-    @Nullable
-    public static CommentedFileConfig openFile;
-
-    private PigeonChatConfig() {}
-
-    public static synchronized void load() {
-        if (openFile != null) {
-            openFile.close();
-        }
-
-        Path path = resolveConfigPath();
-
-        openFile = CommentedFileConfig.builder(path)
-                .preserveInsertionOrder()
-                .build();
-        assert openFile != null;
-
-        if (path.toFile().exists()) {
-            openFile.load();
-        }
-
-        boolean correct = COMMON.spec.correctAll(openFile);
-        COMMON.spec.bind(openFile);
-
-        if (correct || !path.toFile().exists()) {
-            save();
-        }
+    public static final class Key {
+        public static final String PEN_FILL = "pen.fill";
+        public static final String QUILL_FILL = "quill.fill";
+        public static final String INK_BOTTLE_FILL = "ink_bottle.fill";
+        public static final String INK_BOTTLE_DYE_REFILL = "ink_bottle.dye_refill";
     }
 
-    public static synchronized void save() {
-        if (openFile == null) {
-            throw new IllegalStateException("save() called before load().");
-        }
-        COMMON.spec.applyComments(openFile);
-        openFile.save();
+    public static final class Default {
+        public static final int PEN_FILL = 500;
+        public static final int QUILL_FILL = 60;
+        public static final int INK_BOTTLE_FILL = 2000;
+        public static final int INK_BOTTLE_DYE_REFILL = 2;
     }
 
-    private static Path resolveConfigPath() {
-        Path dir = Services.CONFIG.isDedicatedServer() ?
-                Services.CONFIG.getDefaultConfigDir() :
-                Services.CONFIG.getConfigDir();
-        return dir.resolve(Constants.MOD_ID + ".toml");
-    }
+    public static Config COMMON;
 
-    public static final class Common {
-        public final ConfigSpec spec;
+    public static void init() {
+        COMMON = ConfigRegistry.registerSingle(Constants.MOD_ID, Config.Type.COMMON);
 
-        public final ConfigValue<Integer> penFill;
-        public final ConfigValue<Integer> quillFill;
+        COMMON.section("pen").comment("Pen configuration").close();
+        COMMON.section(Key.PEN_FILL).comment("Maximum fill").set(Default.PEN_FILL);
 
-        public final ConfigValue<Integer> inkBottleFill;
-        public final ConfigValue<Integer> inkBottleFillFromDye;
+        COMMON.section("quill").comment("Quill configuration").close();
+        COMMON.section(Key.QUILL_FILL).comment("Maximum fill").set(Default.QUILL_FILL);
 
-        public Common() {
-            ConfigSpec.Builder b = new ConfigSpec.Builder();
+        COMMON.section("ink_bottle").comment("Ink Bottle configuration").close();
+        COMMON.section(Key.INK_BOTTLE_FILL).comment("Maximum fill").set(Default.INK_BOTTLE_FILL);
+        COMMON.section(Key.INK_BOTTLE_DYE_REFILL)
+                .comment("Number of Dyes to combine with a water bottle for max fill")
+                .set(Default.INK_BOTTLE_DYE_REFILL);
 
-            b.comment("Pen configuration").push("pen");
-            penFill = b.comment("Maximum fill")
-                    .defineInRange("max_fill", 500, 0, Integer.MAX_VALUE);
-            b.pop();
-
-            b.comment("Quill configuration").push("quill");
-            quillFill = b.comment("Maximum fill")
-                    .defineInRange("max_fill", 60, 0, Integer.MAX_VALUE);
-            b.pop();
-
-            b.comment("Ink Bottle Configuration").push("ink_bottle");
-            inkBottleFill = b.comment("Maximum fill")
-                    .defineInRange("max_fill", 2000, 0, Integer.MAX_VALUE);
-            inkBottleFillFromDye = b.comment("Number of Dyes to combine with a water bottle for max fill")
-                    .defineInRange("dye_refill", 2, 0, Integer.MAX_VALUE);
-            b.pop();
-
-            spec = b.build();
-        }
+        COMMON.load();
+        COMMON.save();
     }
 }

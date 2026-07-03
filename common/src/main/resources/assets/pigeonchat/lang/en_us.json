@@ -1,5 +1,12 @@
 {
   "color.pigeonchat.none": "None",
+  "gui.pigeonchat.config.common.ink_bottle": "Ink Bottle Configuration",
+  "gui.pigeonchat.config.common.ink_bottle.dye_refill": "Dye Refill",
+  "gui.pigeonchat.config.common.ink_bottle.fill": "Max Fill",
+  "gui.pigeonchat.config.common.pen": "Pen Configuration",
+  "gui.pigeonchat.config.common.pen.fill": "Max Fill",
+  "gui.pigeonchat.config.common.quill": "Quill Configuration",
+  "gui.pigeonchat.config.common.quill.fill": "Max Fill",
   "item.pigeonchat.ink_bottle": "Ink Bottle",
   "item.pigeonchat.ink_container.empty": "%s",
   "item.pigeonchat.ink_container.filled": "%s (%s)",

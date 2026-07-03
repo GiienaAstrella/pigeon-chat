@@ -66,7 +66,9 @@ public abstract class ItemMixin {
         Optional<DyeColor> color = ContainerUtils.dyeFromStack(material);
 
         if (!level.isClientSide()) {
-            int consumeAmount = PigeonChatConfig.COMMON.inkBottleFillFromDye.get();
+            int consumeAmount = PigeonChatConfig.COMMON.getOrDefault(
+                    PigeonChatConfig.Key.INK_BOTTLE_DYE_REFILL,
+                    PigeonChatConfig.Default.INK_BOTTLE_DYE_REFILL);
 
             if (material.count() < consumeAmount) return null;
             material.consume(consumeAmount, player);

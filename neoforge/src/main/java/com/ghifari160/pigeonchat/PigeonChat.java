@@ -1,5 +1,7 @@
 package com.ghifari160.pigeonchat;
 
+import com.ghifari160.config.ConfigNeoForgeClient;
+import com.ghifari160.config.NeoForgeConfig;
 import com.ghifari160.pigeonchat.client.color.item.InkContainer;
 import com.ghifari160.pigeonchat.component.PigeonChatComponents;
 import com.ghifari160.pigeonchat.data.ItemTagProvider;
@@ -17,6 +19,7 @@ import net.minecraft.resources.ResourceKey;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.Mod;
+import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.neoforge.client.event.RegisterColorHandlersEvent;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.data.event.GatherDataEvent;
@@ -35,7 +38,8 @@ public class PigeonChat {
         EVENT_BUS = modEventBus;
         EVENT_BUS.register(PigeonChat.class);
         NeoForge.EVENT_BUS.register(PigeonChatGameEvents.class);
-        PigeonChatConfig.load();
+        NeoForgeConfig.init(modEventBus);
+        PigeonChatConfig.init();
 
         bind(Registries.DATA_COMPONENT_TYPE, PigeonChatComponents::register);
         bind(Registries.ITEM, Items::register);
@@ -64,6 +68,11 @@ public class PigeonChat {
     @SubscribeEvent
     public static void registerItemTintSources(RegisterColorHandlersEvent.ItemTintSources event) {
         event.register(PigeonChatCommon.identifier("ink_container"), InkContainer.MAP_CODEC);
+    }
+
+    @SubscribeEvent
+    private static void clientSetup(FMLClientSetupEvent event) {
+        ConfigNeoForgeClient.setup();
     }
 
     public <T> void bind(

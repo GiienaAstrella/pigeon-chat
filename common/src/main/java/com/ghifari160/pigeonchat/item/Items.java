@@ -32,8 +32,12 @@ public class Items {
                 ItemIDs.PEN,
                 WritingUtensilItem::new,
                 new Item.Properties()
-                        .durability(PigeonChatConfig.COMMON.penFill.get())
-                        .component(DataComponents.DAMAGE, PigeonChatConfig.COMMON.penFill.get())
+                        .durability(PigeonChatConfig.COMMON.getOrDefault(
+                                PigeonChatConfig.Key.PEN_FILL,
+                                PigeonChatConfig.Default.PEN_FILL))
+                        .component(DataComponents.DAMAGE, PigeonChatConfig.COMMON.getOrDefault(
+                                PigeonChatConfig.Key.PEN_FILL,
+                                PigeonChatConfig.Default.PEN_FILL))
                         .component(PigeonChatComponents.INK_CONTAINER,
                                 new InkContainer(true, false))
                         .component(PigeonChatComponents.UNBREAKABLE, true),
@@ -47,7 +51,9 @@ public class Items {
                 ItemIDs.QUILL,
                 WritingUtensilItem::new,
                 new Item.Properties()
-                        .durability(PigeonChatConfig.COMMON.quillFill.get())
+                        .durability(PigeonChatConfig.COMMON.getOrDefault(
+                                PigeonChatConfig.Key.QUILL_FILL,
+                                PigeonChatConfig.Default.QUILL_FILL))
                         .component(PigeonChatComponents.INK_CONTAINER,
                                 new InkContainer(DyeColor.BLACK, true, false)),
                 stack -> {
@@ -60,7 +66,9 @@ public class Items {
                 ItemIDs.INK_BOTTLE,
                 InkContainerItem::new,
                 new Item.Properties()
-                        .durability(PigeonChatConfig.COMMON.inkBottleFill.get())
+                        .durability(PigeonChatConfig.COMMON.getOrDefault(
+                                PigeonChatConfig.Key.INK_BOTTLE_FILL,
+                                PigeonChatConfig.Default.INK_BOTTLE_FILL))
                         .component(PigeonChatComponents.INK_CONTAINER,
                                 new InkContainer(DyeColor.BLACK, true, true)),
                 stack -> {
