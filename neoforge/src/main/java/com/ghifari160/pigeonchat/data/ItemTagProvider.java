@@ -22,10 +22,14 @@ public class ItemTagProvider extends ItemTagsProvider {
     @Override
     protected void addTags(HolderLookup.@NonNull Provider provider) {
         this.tag(ItemTags.WRITABLES)
-                .addTag(ItemTags.WRITABLE_LETTERS);
+                .addTag(ItemTags.WRITABLE_LETTERS)
+                .addTag(ItemTags.WRITABLE_NAME_TAGS);
         this.tag(ItemTags.WRITABLE_LETTERS)
                 .add(PigeonChatCommon.resourceKey(Registries.ITEM, ItemIDs.LETTER))
                 .add(ItemIds.PAPER);
+        this.tag(ItemTags.WRITABLE_NAME_TAGS)
+                .add(ItemIds.NAME_TAG);
+
         this.tag(ItemTags.NIB_MATERIALS)
                 .addTag(Tags.Items.NUGGETS_IRON)
                 .addTag(Tags.Items.NUGGETS_GOLD);

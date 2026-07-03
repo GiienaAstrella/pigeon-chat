@@ -1,5 +1,6 @@
 package com.ghifari160.pigeonchat.item;
 
+import com.ghifari160.pigeonchat.PigeonChatConfig;
 import com.ghifari160.pigeonchat.component.PigeonChatComponents;
 import com.ghifari160.pigeonchat.tag.ItemTags;
 import com.ghifari160.pigeonchat.util.ContainerUtils;
@@ -31,6 +32,12 @@ public class WritingUtensilItem extends Item {
 
         if (other.is(ItemTags.WRITABLES)) {
             if (other.is(ItemTags.WRITABLE_LETTERS)) {
+                player.openItemGui(other, otherHand);
+                return InteractionResult.SUCCESS;
+            } else if (other.is(ItemTags.WRITABLE_NAME_TAGS) &&
+                    PigeonChatConfig.COMMON.getOrDefault(
+                            PigeonChatConfig.Key.NAME_TAG_EDITABLE,
+                            PigeonChatConfig.Default.NAME_TAG_EDITABLE)) {
                 player.openItemGui(other, otherHand);
                 return InteractionResult.SUCCESS;
             }

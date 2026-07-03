@@ -19,6 +19,7 @@ public class ItemScreen {
 
     public static void init() {
         register(ItemTags.WRITABLE_LETTERS, WritableEditScreen::new);
+        register(ItemTags.WRITABLE_NAME_TAGS, NameTagEditScreen::new);
     }
 
     public static void register(Item item, Factory factory) {

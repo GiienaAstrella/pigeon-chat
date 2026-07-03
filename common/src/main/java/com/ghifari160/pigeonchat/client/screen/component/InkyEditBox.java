@@ -30,6 +30,7 @@ public class InkyEditBox extends AbstractTextAreaWidget {
     private final Font font;
     private final int inkColor;
     private final int cursorColor;
+    private final Component pastText;
     private final List<FormattedCharSequence> pastLines;
     private final InkyTextField textField;
     private final long focusedTime = Util.getMillis();
@@ -41,7 +42,7 @@ public class InkyEditBox extends AbstractTextAreaWidget {
             int x, int y, int width, int height,
             Component pastText,
             int inkColor, int cursorColor,
-            int characterLimit,
+            int inkLimit,
             Component narration) {
         super(x, y, width, height, narration, AbstractScrollArea.defaultSettings(4), false, true);
 
@@ -50,6 +51,7 @@ public class InkyEditBox extends AbstractTextAreaWidget {
         this.cursorColor = cursorColor;
 
         int innerWidth = width - PADDING * 4;
+        this.pastText = pastText;
         this.pastLines = font.split(pastText, innerWidth);
         String lastPastLineString = this.pastLines.isEmpty() ? "" :
                 StringUtil.extractPlain(this.pastLines.getLast());
@@ -57,19 +59,28 @@ public class InkyEditBox extends AbstractTextAreaWidget {
 
         this.textField = new InkyTextField(font, innerWidth);
         this.textField.setFirstLineIndent(firstLineIndent);
-        this.textField.setCharacterLimit(characterLimit);
+        this.textField.inkLimit(inkLimit);
         this.textField.setValueListener(_ -> {});
         this.textField.setCursorListener(this::scrollToCursor);
 
         this.editable = true;
     }
 
-    public int getCharacterLimit() {
+    public int inkLimit() {
+        return this.textField.inkLimit();
+    }
+
+    public void inkLimit(int limit) {
+        this.textField.inkLimit(limit);
+    }
+
+    public int characterLimit() {
         return this.textField.characterLimit();
     }
 
-    public void setCharacterLimit(int limit) {
-        this.textField.setCharacterLimit(limit);
+    public void characterLimit(int limit) {
+        Preconditions.checkArgument(limit >= 0, "Character limit cannot be negative");
+        this.textField.characterLimit(Math.max(0, limit - this.pastText.getString().length()));
     }
 
     public void setLineLimit(int limit) {
@@ -229,16 +240,29 @@ public class InkyEditBox extends AbstractTextAreaWidget {
     protected void extractDecorations(@NonNull GuiGraphicsExtractor graphics) {
         if (!this.editable) return;
         super.extractDecorations(graphics);
-        if (this.textField.hasCharacterLimit()) {
-            int characterLimit = this.textField.characterLimit();
-            Component countText = Component.translatable("gui.multiLineEditBox.character_limit",
-                    StringUtil.countIgnoreWhitespace(this.textField.value()), characterLimit);
+
+        if (this.textField.hasInkLimit()) {
+            int remainingInk = this.textField.inkLimit() -
+                    StringUtil.countIgnoreWhitespace(this.textField.value());
+            Component inkCount = Component.literal(Integer.toString(remainingInk));
             graphics.text(
                     this.font,
-                    countText,
-                    this.getX() + PADDING,
+                    inkCount,
+                    this.getX() + this.width - this.font.width(inkCount),
                     this.getY() + this.height + PADDING,
                     this.cursorColor,
+                    false);
+
+        }
+        if (this.textField.hasCharacterLimit()) {
+            int remainingChars = this.textField.characterLimit() - this.textField.value().length();
+            Component charCount = Component.literal(Integer.toString(remainingChars));
+            graphics.text(
+                    this.font,
+                    charCount,
+                    this.getX() + PADDING,
+                    this.getY() + this.height + PADDING,
+                    0xFF000000,
                     false);
         }
     }

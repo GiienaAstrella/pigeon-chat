@@ -21,10 +21,14 @@ public class ItemTagProvider extends FabricTagsProvider.ItemTagsProvider {
     @Override
     protected void addTags(HolderLookup.@NonNull Provider registries) {
         builder(ItemTags.WRITABLES)
-                .forceAddTag(ItemTags.WRITABLE_LETTERS);
+                .forceAddTag(ItemTags.WRITABLE_LETTERS)
+                .forceAddTag(ItemTags.WRITABLE_NAME_TAGS);
         builder(ItemTags.WRITABLE_LETTERS)
                 .add(PigeonChatCommon.resourceKey(Registries.ITEM, ItemIDs.LETTER))
                 .add(ItemIds.PAPER);
+        builder(ItemTags.WRITABLE_NAME_TAGS)
+                .add(ItemIds.NAME_TAG);
+
         builder(ItemTags.NIB_MATERIALS)
                 .forceAddTag(ConventionalItemTags.IRON_NUGGETS)
                 .forceAddTag(ConventionalItemTags.GOLD_NUGGETS);

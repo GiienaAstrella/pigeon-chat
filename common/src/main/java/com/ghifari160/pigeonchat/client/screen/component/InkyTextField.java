@@ -26,6 +26,7 @@ public class InkyTextField {
     private int cursor;
     private int selectCursor;
     private boolean selecting;
+    private int inkLimit = Integer.MAX_VALUE;
     private int characterLimit = Integer.MAX_VALUE;
     private int lineLimit = Integer.MAX_VALUE;
     private Consumer<String> valueListener = _ -> {};
@@ -47,6 +48,19 @@ public class InkyTextField {
         this.firstLineIndent = indent;
     }
 
+    public boolean hasInkLimit() {
+        return this.inkLimit != Integer.MAX_VALUE;
+    }
+
+    public int inkLimit() {
+        return this.inkLimit;
+    }
+
+    public void inkLimit(int limit) {
+        Preconditions.checkArgument(limit >= 0, "Ink limit cannot be negative");
+        this.inkLimit = limit;
+    }
+
     public boolean hasCharacterLimit() {
         return this.characterLimit != Integer.MAX_VALUE;
     }
@@ -55,9 +69,9 @@ public class InkyTextField {
         return this.characterLimit;
     }
 
-    public void setCharacterLimit(int characterLimit) {
-        Preconditions.checkArgument(characterLimit >= 0, "Character limit cannot be negative");
-        this.characterLimit = characterLimit;
+    public void characterLimit(int limit) {
+        Preconditions.checkArgument(limit >= 0, "Character limit cannot be negative");
+        this.characterLimit = limit;
     }
 
     public boolean hasLineLimit() {
@@ -441,18 +455,21 @@ public class InkyTextField {
     }
 
     private String truncateFullText(String input) {
-        return this.hasCharacterLimit() ?
-                StringUtil.truncateIgnoreWhitespace(input, this.characterLimit) :
-                input;
+        return truncateInsertionText(input);
     }
 
     private String truncateInsertionText(String input) {
         String truncatedInput = input;
-        if (this.hasCharacterLimit()) {
-            int remainingCharacters = this.characterLimit -
+        if (this.hasInkLimit()) {
+            int remainingCharacters = this.inkLimit -
                     StringUtil.countIgnoreWhitespace(this.value);
             truncatedInput =
                     StringUtil.truncateIgnoreWhitespace(input, remainingCharacters);
+        }
+        if (this.hasCharacterLimit()) {
+            int remainingCharacters = this.characterLimit - this.value.length();
+            truncatedInput = StringUtil.
+                    truncateStringIfNecessary(truncatedInput, remainingCharacters, false);
         }
         return truncatedInput;
     }

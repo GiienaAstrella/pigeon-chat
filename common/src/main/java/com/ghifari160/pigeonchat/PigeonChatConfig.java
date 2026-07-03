@@ -9,6 +9,8 @@ public final class PigeonChatConfig {
         public static final String QUILL_FILL = "quill.fill";
         public static final String INK_BOTTLE_FILL = "ink_bottle.fill";
         public static final String INK_BOTTLE_DYE_REFILL = "ink_bottle.dye_refill";
+        public static final String NAME_TAG_VIEWABLE = "name_tag.viewable";
+        public static final String NAME_TAG_EDITABLE = "name_tag.editable";
     }
 
     public static final class Default {
@@ -16,6 +18,8 @@ public final class PigeonChatConfig {
         public static final int QUILL_FILL = 60;
         public static final int INK_BOTTLE_FILL = 2000;
         public static final int INK_BOTTLE_DYE_REFILL = 2;
+        public static final boolean NAME_TAG_VIEWABLE = true;
+        public static final boolean NAME_TAG_EDITABLE = true;
     }
 
     public static Config COMMON;
@@ -34,6 +38,12 @@ public final class PigeonChatConfig {
         COMMON.section(Key.INK_BOTTLE_DYE_REFILL)
                 .comment("Number of Dyes to combine with a water bottle for max fill")
                 .set(Default.INK_BOTTLE_DYE_REFILL);
+
+        COMMON.section("name_tag").comment("Name Tag configuration").close();
+        COMMON.section(Key.NAME_TAG_VIEWABLE).comment("Make Name Tags viewable")
+                .set(Default.NAME_TAG_VIEWABLE);
+        COMMON.section(Key.NAME_TAG_EDITABLE).comment("Make Name Tags editable with utensils")
+                .set(Default.NAME_TAG_EDITABLE);
 
         COMMON.load();
         COMMON.save();

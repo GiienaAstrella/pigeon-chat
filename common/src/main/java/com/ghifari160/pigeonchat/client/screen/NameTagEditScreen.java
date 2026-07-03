@@ -2,35 +2,45 @@ package com.ghifari160.pigeonchat.client.screen;
 
 import com.ghifari160.pigeonchat.PigeonChatCommon;
 import com.ghifari160.pigeonchat.client.screen.component.InkyEditBox;
-import com.ghifari160.pigeonchat.component.Converted;
-import com.ghifari160.pigeonchat.component.PigeonChatComponents;
-import com.ghifari160.pigeonchat.component.Writable;
 import com.ghifari160.pigeonchat.network.SaveWritablePayload;
 import com.ghifari160.pigeonchat.platform.Services;
 import com.ghifari160.pigeonchat.util.ContainerUtils;
+import com.ghifari160.pigeonchat.util.InteractionUtils;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.renderer.RenderPipelines;
-import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.network.chat.Style;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.DyeColor;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import org.jspecify.annotations.NonNull;
 
-public class WritableEditScreen extends Screen {
+import java.util.Optional;
+
+public class NameTagEditScreen extends Screen {
     public static final Component TITLE =
-            Component.translatable(PigeonChatCommon.langKey("edit_letter", "gui", "title"));
+            Component.translatable(PigeonChatCommon.langKey("edit_name_tag", "gui", "title"));
 
-    private static final int MAX_LINES = 14;
+    private static final int BOX_WIDTH = 122;
+    private static final int BOX_WIDTH_DELTA = 0;
+    private static final int BOX_HEIGHT = 44;
+    private static final int BOX_HEIGHT_DELTA = 4;
+    private static final int MAX_CHARS = 50;
+    private static final Identifier BACKGROUND = PigeonChatCommon.identifier("name_tag")
+            .withPrefix("textures/gui/")
+            .withSuffix(".png");
+    private static final int BACKGROUND_WIDTH = 240;
+    private static final int BACKGROUND_WIDTH_DELTA = 20;
+    private static final int BACKGROUND_HEIGHT = 100;
+    private static final int BACKGROUND_HEIGHT_DELTA = 0;
 
-    private final Identifier background;
     private final ItemStack utensil;
     private final InteractionHand hand;
     private final Component pastText;
@@ -38,29 +48,13 @@ public class WritableEditScreen extends Screen {
     private InkyEditBox box;
     private boolean saved = false;
 
-    public WritableEditScreen(Player owner, ItemStack writable, InteractionHand hand) {
+    public NameTagEditScreen(Player owner, ItemStack tag, InteractionHand hand) {
         super(TITLE);
 
-        Item baseItem = null;
-        if (writable.has(PigeonChatComponents.CONVERTED)) {
-            Converted converted = writable.get(PigeonChatComponents.CONVERTED);
-            if (converted != null) baseItem = converted.baseItem().getItem();
-        }
-        if (baseItem == null) baseItem = Items.PAPER;
-
-        Identifier baseItemID = BuiltInRegistries.ITEM.getKey(baseItem);
-        this.background = Identifier.fromNamespaceAndPath(
-                baseItemID.getNamespace(),
-                baseItemID.getPath())
-                .withPrefix("textures/gui/letter/")
-                .withSuffix(".png");
-
-        this.utensil = (hand == InteractionHand.MAIN_HAND) ?
-                owner.getItemInHand(InteractionHand.OFF_HAND) :
-                owner.getItemInHand(InteractionHand.MAIN_HAND);
+        this.utensil = owner.getItemInHand(InteractionUtils.otherHand(hand));
         this.hand = hand;
-        Writable content = writable.getOrDefault(PigeonChatComponents.WRITABLE, Writable.EMPTY);
-        this.pastText = content.contents();
+
+        this.pastText = tag.getOrDefault(DataComponents.CUSTOM_NAME, Component.empty());
     }
 
     @Override
@@ -72,27 +66,26 @@ public class WritableEditScreen extends Screen {
 
         this.box = InkyEditBox.builder()
                 .setInkColor(inkColor)
-                .setX((this.width - 114) / 2 - 8)
-                .setY(19)
+                .setX((this.width - BOX_WIDTH) / 2 - BOX_WIDTH_DELTA)
+                .setY((this.height - BOX_HEIGHT) / 2 - BOX_HEIGHT_DELTA)
                 .setPastText(this.pastText)
-                .setLineLimit(MAX_LINES)
-                .build(this.font, 122, 134, CommonComponents.EMPTY);
-        this.box.inkLimit(remainingFill);
+                .setLineLimit(4)
+                .setCharacterLimit(remainingFill)
+                .build(this.font, BOX_WIDTH, BOX_HEIGHT, Component.empty());
+        this.box.characterLimit(MAX_CHARS);
         this.box.setEditable(editable);
 
         Button done = Button
                 .builder(CommonComponents.GUI_DONE, _ -> this.onClose())
                 .pos(
-                        (this.width - Button.DEFAULT_WIDTH) / 2 - 3,
-                        this.box.getHeight() + 4 + 9 + 4 + 28)
+                        (this.width - Button.DEFAULT_WIDTH) / 2 + 3,
+                        this.box.getY() + this.box.getHeight() + 40)
                 .build();
 
         this.addRenderableWidget(this.box);
         this.addRenderableWidget(done);
 
-        if (editable) {
-            this.setInitialFocus(this.box);
-        }
+        if (editable) this.setInitialFocus(this.box);
     }
 
     @Override
@@ -104,23 +97,15 @@ public class WritableEditScreen extends Screen {
         super.extractBackground(graphics, mouseX, mouseY, a);
         graphics.blit(
                 RenderPipelines.GUI_TEXTURED,
-                this.background,
-                this.backgroundLeft(),
-                this.backgroundTop(),
+                BACKGROUND,
+                (this.width - BACKGROUND_WIDTH) / 2 - BACKGROUND_WIDTH_DELTA,
+                (this.height - BACKGROUND_HEIGHT) / 2 - BACKGROUND_HEIGHT_DELTA,
                 0F,
                 0F,
-                192,
-                192,
+                BACKGROUND_WIDTH,
+                BACKGROUND_HEIGHT,
                 256,
                 256);
-    }
-
-    private int backgroundLeft() {
-        return (this.width - 192) / 2;
-    }
-
-    private int backgroundTop() {
-        return 2;
     }
 
     @Override
@@ -131,8 +116,14 @@ public class WritableEditScreen extends Screen {
 
     protected void save() {
         if (this.saved) return;
-        Component newText = this.box.getValue();
-        if (newText.equals(Component.empty())) return;
+        Component value = this.box.getValue();
+        if (value.equals(Component.empty())) return;
+
+        MutableComponent newText = Component.empty();
+        value.visit((style, text) -> {
+            newText.append(Component.literal(text.replace('\n', ' ')).setStyle(style));
+            return Optional.empty();
+        }, Style.EMPTY);
 
         Services.PLATFORM.sendPacketToServer(new SaveWritablePayload(newText, this.hand));
         this.saved = true;

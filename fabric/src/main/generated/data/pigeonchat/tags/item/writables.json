@@ -1,5 +1,6 @@
 {
   "values": [
-    "#pigeonchat:writables/letter"
+    "#pigeonchat:writables/letter",
+    "#pigeonchat:writables/name_tag"
   ]
 }

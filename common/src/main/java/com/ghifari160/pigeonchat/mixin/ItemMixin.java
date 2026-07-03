@@ -9,6 +9,7 @@ import com.ghifari160.pigeonchat.item.InkContainerItem;
 import com.ghifari160.pigeonchat.item.Items;
 import com.ghifari160.pigeonchat.tag.ItemTags;
 import com.ghifari160.pigeonchat.util.ContainerUtils;
+import com.ghifari160.pigeonchat.util.InteractionUtils;
 import net.minecraft.util.Unit;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -48,6 +49,11 @@ public abstract class ItemMixin {
             res = PotionItem$use(level, player, hand);
         } else if (heldItem.is(ItemTags.QUILL_MATERIALS)) {
             res = QuillMaterials$use(level, player, hand);
+        } else if (heldItem.is(ItemTags.WRITABLE_NAME_TAGS) &&
+                PigeonChatConfig.COMMON.getOrDefault(
+                        PigeonChatConfig.Key.NAME_TAG_VIEWABLE,
+                        PigeonChatConfig.Default.NAME_TAG_VIEWABLE)) {
+            res = NameTagItem$use(level, player, hand);
         }
 
         if (res != null) cir.setReturnValue(res);
@@ -60,8 +66,7 @@ public abstract class ItemMixin {
             Player player,
             @NonNull InteractionHand hand) {
         ItemStack container = player.getItemInHand(hand);
-        ItemStack material = player.getItemInHand(hand == InteractionHand.MAIN_HAND ?
-                InteractionHand.OFF_HAND : InteractionHand.MAIN_HAND);
+        ItemStack material = player.getItemInHand(InteractionUtils.otherHand(hand));
         if (!material.is(net.minecraft.tags.ItemTags.DYES)) {
             return null;
         }
@@ -106,8 +111,7 @@ public abstract class ItemMixin {
             Player player,
             @NonNull InteractionHand hand) {
         ItemStack material = player.getItemInHand(hand);
-        InteractionHand otherHand = (hand == InteractionHand.MAIN_HAND) ?
-                InteractionHand.OFF_HAND : InteractionHand.MAIN_HAND;
+        InteractionHand otherHand = InteractionUtils.otherHand(hand);
         ItemStack other = player.getItemInHand(otherHand);
 
         if (!ContainerUtils.isRefillable(other) ||
@@ -147,5 +151,18 @@ public abstract class ItemMixin {
             }
         }
         return InteractionResult.SUCCESS.heldItemTransformedTo(material);
+    }
+
+    @SuppressWarnings("unused")
+    @Unique
+    private InteractionResult NameTagItem$use(
+            @NonNull Level level,
+            Player player,
+            @NonNull InteractionHand hand) {
+        ItemStack other = player.getItemInHand(InteractionUtils.otherHand(hand));
+        if (ContainerUtils.isUtensil(other)) return InteractionResult.PASS;
+
+        player.openItemGui(player.getItemInHand(hand), hand);
+        return InteractionResult.SUCCESS;
     }
 }

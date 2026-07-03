@@ -11,6 +11,7 @@ import com.ghifari160.pigeonchat.tag.ItemTags;
 import com.ghifari160.pigeonchat.util.ContainerUtils;
 import com.ghifari160.pigeonchat.util.InteractionUtils;
 import com.ghifari160.pigeonchat.util.StringUtil;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.ComponentSerialization;
@@ -41,18 +42,28 @@ public record SaveWritablePayload(Component contents, InteractionHand hand)
         ItemStack writable = player.getItemInHand(this.hand);
         ItemStack utensil = player.getItemInHand(InteractionUtils.otherHand(this.hand));
 
-        if (!(writable.is(ItemTags.WRITABLE_LETTERS))) return;
-        if (!ContainerUtils.isUtensil(utensil)) return;
-
-        Writable current = writable.getOrDefault(PigeonChatComponents.WRITABLE, Writable.EMPTY);
-        if (Sealed.isSealed(writable)) return;
+        if (!writable.is(ItemTags.WRITABLES)) return;
 
         int writeAmount = StringUtil.countIgnoreWhitespace(this.contents);
         if (ContainerUtils.remainingFill(utensil) < writeAmount) return;
 
+        if (writable.is(ItemTags.WRITABLE_LETTERS)) {
+            if (Sealed.isSealed(writable)) return;
+            this.handleLetter(player, writable);
+        } else if (writable.is(ItemTags.WRITABLE_NAME_TAGS)) {
+            this.handleNameTag(player, writable);
+        }
+
+        ContainerUtils.write(utensil, writeAmount, player, InteractionUtils.otherHand(this.hand));
+    }
+
+    private void handleLetter(Player player, ItemStack writable) {
+        Writable current = writable.getOrDefault(PigeonChatComponents.WRITABLE, Writable.EMPTY);
         Component combined = current.contents().copy().append(this.contents);
 
-        if (!(writable.getItem() instanceof LetterItem)) {
+        if (writable.getItem() instanceof LetterItem) {
+            writable.set(PigeonChatComponents.WRITABLE, current.withText(combined));
+        } else {
             ItemStack letter = new ItemStack(Items.LETTER);
             letter.set(PigeonChatComponents.WRITABLE, current.withText(combined));
             letter.set(PigeonChatComponents.CONVERTED, new Converted(writable));
@@ -60,14 +71,15 @@ public record SaveWritablePayload(Component contents, InteractionHand hand)
             writable.consume(1, player);
             if (writable.isEmpty()) {
                 player.setItemInHand(this.hand, letter);
-            } else {
-                if (!player.getInventory().add(letter)) {
-                    player.drop(letter, false);
-                }
+            } else if (!player.getInventory().add(letter)) {
+                player.drop(letter, false);
             }
-        } else {
-            writable.set(PigeonChatComponents.WRITABLE, current.withText(combined));
         }
-        ContainerUtils.write(utensil, writeAmount, player, InteractionUtils.otherHand(this.hand));
+    }
+
+    @SuppressWarnings("unused")
+    private void handleNameTag(Player player, ItemStack writable) {
+        Component current = writable.getOrDefault(DataComponents.CUSTOM_NAME, Component.empty());
+        writable.set(DataComponents.CUSTOM_NAME, current.copy().append(this.contents));
     }
 }
