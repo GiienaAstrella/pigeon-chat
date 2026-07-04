@@ -11,6 +11,8 @@ public final class PigeonChatConfig {
         public static final String INK_BOTTLE_DYE_REFILL = "ink_bottle.dye_refill";
         public static final String NAME_TAG_VIEWABLE = "name_tag.viewable";
         public static final String NAME_TAG_EDITABLE = "name_tag.editable";
+        public static final String PIGEON_ALLOW_RETURN = "pigeon.allow_return";
+        public static final String PIGEON_INVINCIBLE_DELIVERY = "pigeon.invincible_delivery";
     }
 
     public static final class Default {
@@ -20,6 +22,8 @@ public final class PigeonChatConfig {
         public static final int INK_BOTTLE_DYE_REFILL = 2;
         public static final boolean NAME_TAG_VIEWABLE = true;
         public static final boolean NAME_TAG_EDITABLE = true;
+        public static final boolean PIGEON_ALLOW_RETURN = true;
+        public static final boolean PIGEON_INVINCIBLE_DELIVERY = false;
     }
 
     public static Config COMMON;
@@ -44,6 +48,15 @@ public final class PigeonChatConfig {
                 .set(Default.NAME_TAG_VIEWABLE);
         COMMON.section(Key.NAME_TAG_EDITABLE).comment("Make Name Tags editable with utensils")
                 .set(Default.NAME_TAG_EDITABLE);
+
+        COMMON.section("pigeon").comment("Pigeon configuration").close();
+        COMMON.section(Key.PIGEON_ALLOW_RETURN)
+                .comment("Allow Pigeons to make return delivery.\n" +
+                        "If set to \"true\", Pigeons will follow the target post-delivery, and right-clicking Pigeons with a deliverable item begins a return delivery job bound to the original sender")
+                .set(Default.PIGEON_ALLOW_RETURN);
+        COMMON.section(Key.PIGEON_INVINCIBLE_DELIVERY)
+                .comment("Pigeons are invincible during delivery")
+                .set(Default.PIGEON_INVINCIBLE_DELIVERY);
 
         COMMON.load();
         COMMON.save();

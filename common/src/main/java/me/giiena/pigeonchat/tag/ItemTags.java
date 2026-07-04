@@ -11,6 +11,9 @@ public class ItemTags {
     public static final TagKey<Item> WRITABLE_LETTERS = create("writables/letter");
     public static final TagKey<Item> WRITABLE_NAME_TAGS = create("writables/name_tag");
 
+    public static final TagKey<Item> DELIVERABLES = create("deliverables");
+    public static final TagKey<Item> PIGEON_DELIVERABLES = create("deliverables/pigeon");
+
     public static final TagKey<Item> NIB_MATERIALS = create("nib_materials");
     public static final TagKey<Item> QUILL_MATERIALS = create("quill_materials");
 

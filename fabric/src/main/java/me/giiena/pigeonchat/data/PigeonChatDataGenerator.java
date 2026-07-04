@@ -16,5 +16,6 @@ public class PigeonChatDataGenerator implements DataGeneratorEntrypoint {
 
         pack.addProvider(ItemTagProvider::new);
         pack.addProvider(RecipeProvider::new);
+        pack.addProvider(EntityLootSubProvider::new);
     }
 }

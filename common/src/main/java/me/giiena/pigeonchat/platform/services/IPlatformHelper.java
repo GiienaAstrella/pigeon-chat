@@ -2,8 +2,8 @@ package me.giiena.pigeonchat.platform.services;
 
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 
+@SuppressWarnings("unused")
 public interface IPlatformHelper {
-
     /**
      * Gets the name of the current platform
      */
@@ -23,7 +23,6 @@ public interface IPlatformHelper {
      * Gets the name of the environment type as a string.
      */
     default String getEnvironmentName() {
-
         return isDevelopmentEnvironment() ? "development" : "production";
     }
 

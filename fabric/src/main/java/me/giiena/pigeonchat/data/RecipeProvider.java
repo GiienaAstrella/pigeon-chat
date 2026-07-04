@@ -9,13 +9,15 @@ import org.jspecify.annotations.NonNull;
 import java.util.concurrent.CompletableFuture;
 
 public class RecipeProvider extends FabricRecipeProvider {
-    public RecipeProvider(FabricPackOutput output, CompletableFuture<HolderLookup.Provider> registriesFuture) {
+    public RecipeProvider(FabricPackOutput output,
+                          CompletableFuture<HolderLookup.Provider> registriesFuture) {
         super(output, registriesFuture);
     }
 
     @Override
     protected net.minecraft.data.recipes.@NonNull RecipeProvider createRecipeProvider(
-            HolderLookup.@NonNull Provider registries, @NonNull RecipeOutput output) {
+            HolderLookup.@NonNull Provider registries,
+            @NonNull RecipeOutput output) {
         return new PigeonChatRecipeProvider(registries, output);
     }
 

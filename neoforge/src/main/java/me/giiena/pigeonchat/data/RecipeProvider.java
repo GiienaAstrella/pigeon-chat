@@ -8,7 +8,8 @@ import org.jspecify.annotations.NonNull;
 import java.util.concurrent.CompletableFuture;
 
 public final class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider.Runner {
-    public RecipeProvider(PackOutput packOutput, CompletableFuture<HolderLookup.Provider> registries) {
+    public RecipeProvider(PackOutput packOutput,
+                          CompletableFuture<HolderLookup.Provider> registries) {
         super(packOutput, registries);
     }
 

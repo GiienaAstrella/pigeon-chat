@@ -5,8 +5,10 @@ import me.giiena.pigeonchat.component.PigeonChatComponents;
 import me.giiena.pigeonchat.component.Sealed;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.entity.player.ItemTooltipEvent;
 
+@EventBusSubscriber
 public class PigeonChatGameEvents {
     @SubscribeEvent
     public static void onItemTooltip(ItemTooltipEvent event) {

@@ -29,6 +29,13 @@ public class ItemTagProvider extends FabricTagsProvider.ItemTagsProvider {
         builder(ItemTags.WRITABLE_NAME_TAGS)
                 .add(ItemIds.NAME_TAG);
 
+        builder(ItemTags.DELIVERABLES)
+                .forceAddTag(ItemTags.PIGEON_DELIVERABLES);
+        builder(ItemTags.PIGEON_DELIVERABLES)
+                .forceAddTag(ItemTags.WRITABLE_LETTERS)
+                .add(ItemIds.MAP)
+                .add(ItemIds.FILLED_MAP);
+
         builder(ItemTags.NIB_MATERIALS)
                 .forceAddTag(ConventionalItemTags.IRON_NUGGETS)
                 .forceAddTag(ConventionalItemTags.GOLD_NUGGETS);

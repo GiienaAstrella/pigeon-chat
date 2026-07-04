@@ -12,11 +12,11 @@ public class ModelProvider extends FabricModelProvider {
     }
 
     @Override
-    public void generateBlockStateModels(BlockModelGenerators blockModelGenerators) {}
+    public void generateBlockStateModels(@NonNull BlockModelGenerators gen) {}
 
     @Override
-    public void generateItemModels(ItemModelGenerators itemModelGenerators) {
-        PigeonChatModelProvider.generateItemModels(itemModelGenerators);
+    public void generateItemModels(@NonNull ItemModelGenerators gen) {
+        PigeonChatModelProvider.generateItemModels(gen);
     }
 
     @Override

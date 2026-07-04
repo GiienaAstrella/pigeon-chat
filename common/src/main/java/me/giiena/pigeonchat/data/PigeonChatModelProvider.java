@@ -44,10 +44,14 @@ public class PigeonChatModelProvider {
                 Identifier.withDefaultNamespace("item/paper"),
                 PigeonChatCommon.identifier("item/letter"),
                 1);
+        gen.generateFlatItem(Items.PIGEON_SPAWN_EGG, ModelTemplates.FLAT_ITEM);
     }
 
     @SuppressWarnings("SameParameterValue")
-    private static void generatePenModel(ItemModelGenerators gen, Item item, ModelTemplate template) {
+    private static void generatePenModel(
+            ItemModelGenerators gen,
+            Item item,
+            ModelTemplate template) {
         ItemModel.Unbaked barrel = ItemModelUtils.plainModel(
                 gen.createFlatItemModel(item, "_barrel", template));
         ItemModel.Unbaked nib = ItemModelUtils.plainModel(

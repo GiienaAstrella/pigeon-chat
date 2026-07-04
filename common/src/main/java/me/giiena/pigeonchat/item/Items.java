@@ -5,6 +5,7 @@ import me.giiena.pigeonchat.PigeonChatConfig;
 import me.giiena.pigeonchat.component.Converted;
 import me.giiena.pigeonchat.component.InkContainer;
 import me.giiena.pigeonchat.component.PigeonChatComponents;
+import me.giiena.pigeonchat.entity.EntityTypes;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.Identifier;
@@ -12,6 +13,7 @@ import net.minecraft.util.Unit;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.SpawnEggItem;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,14 +22,16 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
-@SuppressWarnings("unused")
+@SuppressWarnings({"unused", "SameParameterValue"})
 public class Items {
     public static Item PEN;
     public static Item QUILL;
     public static Item INK_BOTTLE;
     public static Item LETTER;
+    public static Item PIGEON_SPAWN_EGG;
 
     public static final List<Supplier<ItemStack>> TAB_ITEMS = new ArrayList<>();
+    public static final List<Supplier<ItemStack>> SPAWN_EGG_TAB_ITEMS = new ArrayList<>();
 
     public static void register(BiConsumer<Item, Identifier> consumer) {
         PEN = createInTab(
@@ -91,11 +95,18 @@ public class Items {
                 new Item.Properties(),
                 stack -> stack.set(PigeonChatComponents.CONVERTED,
                         new Converted(new ItemStack(net.minecraft.world.item.Items.PAPER))));
+        PIGEON_SPAWN_EGG = createInTab(
+                ItemIDs.PIGEON_SPAWN_EGG,
+                SpawnEggItem::new,
+                new Item.Properties().spawnEgg(EntityTypes.PIGEON));
 
         consumer.accept(PEN, ItemIDs.PEN);
         consumer.accept(QUILL, ItemIDs.QUILL);
         consumer.accept(INK_BOTTLE, ItemIDs.INK_BOTTLE);
         consumer.accept(LETTER, ItemIDs.LETTER);
+        consumer.accept(PIGEON_SPAWN_EGG, ItemIDs.PIGEON_SPAWN_EGG);
+
+        SPAWN_EGG_TAB_ITEMS.add(() -> new ItemStack(PIGEON_SPAWN_EGG));
     }
 
     private static Item createInTab(final Identifier id) {

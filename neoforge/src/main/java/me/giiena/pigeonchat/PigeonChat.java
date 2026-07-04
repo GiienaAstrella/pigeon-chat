@@ -1,51 +1,55 @@
 package me.giiena.pigeonchat;
 
-import me.giiena.config.ConfigNeoForgeClient;
 import me.giiena.config.NeoForgeConfig;
-import me.giiena.pigeonchat.client.color.item.InkContainer;
-import me.giiena.pigeonchat.client.screen.ItemScreen;
 import me.giiena.pigeonchat.component.PigeonChatComponents;
-import me.giiena.pigeonchat.data.ItemTagProvider;
-import me.giiena.pigeonchat.data.ModelProvider;
-import me.giiena.pigeonchat.data.RecipeProvider;
+import me.giiena.pigeonchat.entity.EntityTypes;
+import me.giiena.pigeonchat.inventory.MenuProviders;
+import me.giiena.pigeonchat.inventory.MenuTypes;
+import me.giiena.pigeonchat.inventory.MessengerMenu;
 import me.giiena.pigeonchat.item.CreativeTabs;
 import me.giiena.pigeonchat.item.Items;
+import me.giiena.pigeonchat.network.AssignMessengerPayload;
 import me.giiena.pigeonchat.network.SaveWritablePayload;
-import net.minecraft.core.HolderLookup;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.data.DataGenerator;
-import net.minecraft.data.PackOutput;
 import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.SpawnPlacementType;
+import net.minecraft.world.entity.SpawnPlacements;
+import net.minecraft.world.item.CreativeModeTabs;
+import net.minecraft.world.level.levelgen.Heightmap;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.common.Mod;
-import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
-import net.neoforged.neoforge.client.event.RegisterColorHandlersEvent;
-import net.neoforged.neoforge.common.NeoForge;
-import net.neoforged.neoforge.data.event.GatherDataEvent;
 import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
+import net.neoforged.neoforge.event.entity.EntityAttributeCreationEvent;
+import net.neoforged.neoforge.event.entity.RegisterSpawnPlacementsEvent;
 import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
 import net.neoforged.neoforge.network.registration.PayloadRegistrar;
 import net.neoforged.neoforge.registries.RegisterEvent;
 
-import java.util.concurrent.CompletableFuture;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
 @Mod(Constants.MOD_ID)
+@EventBusSubscriber
 public class PigeonChat {
     public static IEventBus EVENT_BUS;
 
     public PigeonChat(IEventBus modEventBus) {
         EVENT_BUS = modEventBus;
-        EVENT_BUS.register(PigeonChat.class);
-        NeoForge.EVENT_BUS.register(PigeonChatGameEvents.class);
         NeoForgeConfig.init(modEventBus);
         PigeonChatConfig.init();
 
         bind(Registries.DATA_COMPONENT_TYPE, PigeonChatComponents::register);
+
+        bindKey(Registries.ENTITY_TYPE, EntityTypes::registerTypes);
+        bind(Registries.MENU, MenuTypes::register);
+        MenuProviders.setMessenger(MessengerMenu::open);
+
         bind(Registries.ITEM, Items::register);
         bind(Registries.CREATIVE_MODE_TAB, CreativeTabs::register);
 
@@ -53,34 +57,13 @@ public class PigeonChat {
             if (event.getTabKey() == CreativeTabs.TAB_RESOURCE_KEY) {
                 Items.TAB_ITEMS.forEach(supplier -> event.accept(supplier.get()));
             }
+
+            if (event.getTabKey() == CreativeModeTabs.SPAWN_EGGS) {
+                Items.SPAWN_EGG_TAB_ITEMS.forEach(supplier -> event.accept(supplier.get()));
+            }
         });
 
         PigeonChatCommon.init();
-    }
-
-    @SubscribeEvent
-    public static void gatherData(GatherDataEvent.Client event) {
-        PigeonChatCommonClient.init();
-
-        DataGenerator generator = event.getGenerator();
-        PackOutput output = generator.getPackOutput();
-        CompletableFuture<HolderLookup.Provider> registries = event.getLookupProvider();
-
-        generator.addProvider(true, new ModelProvider(output));
-        generator.addProvider(true, new ItemTagProvider(output, registries));
-        generator.addProvider(true, new RecipeProvider(output, registries));
-    }
-
-    @SubscribeEvent
-    public static void registerItemTintSources(RegisterColorHandlersEvent.ItemTintSources event) {
-        event.register(PigeonChatCommon.identifier("ink_container"), InkContainer.MAP_CODEC);
-    }
-
-    @SubscribeEvent
-    private static void clientSetup(FMLClientSetupEvent event) {
-        ConfigNeoForgeClient.setup();
-        PigeonChatCommonClient.init();
-        ItemScreen.init();
     }
 
     @SubscribeEvent
@@ -90,14 +73,52 @@ public class PigeonChat {
                 SaveWritablePayload.TYPE,
                 SaveWritablePayload.STREAM_CODEC,
                 (payload, ctx) -> payload.handle(ctx.player()));
+        registrar.playToServer(
+                AssignMessengerPayload.TYPE,
+                AssignMessengerPayload.STREAM_CODEC,
+                (payload, ctx) -> payload.handle(ctx.player()));
     }
 
-    public <T> void bind(
+    @SubscribeEvent
+    private static void createDefaultAttributes(EntityAttributeCreationEvent event) {
+        EntityTypes.registerAttributes((type, builder) ->
+                event.put(type, builder.build()));
+    }
+
+    @SubscribeEvent
+    private static void registerSpawnPlacements(RegisterSpawnPlacementsEvent event) {
+        EntityTypes.registerSpawnPlacements(new EntityTypes.SpawnPlacementsRegistrar() {
+            @Override
+            public <T extends Mob> void register(EntityType<T> type,
+                                                 SpawnPlacementType placementType,
+                                                 Heightmap.Types heightMap,
+                                                 SpawnPlacements.SpawnPredicate<T> spawnPredicate) {
+                event.register(type,
+                        placementType,
+                        heightMap,
+                        spawnPredicate,
+                        RegisterSpawnPlacementsEvent.Operation.REPLACE);
+            }
+        });
+    }
+
+    private <T> void bind(
             ResourceKey<Registry<T>> registry,
             Consumer<BiConsumer<T, Identifier>> source) {
         EVENT_BUS.addListener((Consumer<RegisterEvent>) event -> {
             if (registry.equals(event.getRegistryKey())) {
                 source.accept((t, id) -> event.register(registry, id, () -> t));
+            }
+        });
+    }
+
+    @SuppressWarnings("SameParameterValue")
+    private <T> void bindKey(
+            ResourceKey<Registry<T>> registry,
+            Consumer<BiConsumer<T, ResourceKey<T>>> source) {
+        EVENT_BUS.addListener((Consumer<RegisterEvent>) event -> {
+            if (registry.equals(event.getRegistryKey())) {
+                source.accept((t, id) -> event.register(registry, id.identifier(), () -> t));
             }
         });
     }

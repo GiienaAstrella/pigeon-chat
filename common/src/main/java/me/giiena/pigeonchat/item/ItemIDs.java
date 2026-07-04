@@ -8,4 +8,6 @@ public class ItemIDs {
     public static final Identifier QUILL = PigeonChatCommon.identifier("quill");
     public static final Identifier INK_BOTTLE = PigeonChatCommon.identifier("ink_bottle");
     public static final Identifier LETTER = PigeonChatCommon.identifier("letter");
+    public static final Identifier PIGEON_SPAWN_EGG =
+            PigeonChatCommon.identifier("pigeon_spawn_egg");
 }

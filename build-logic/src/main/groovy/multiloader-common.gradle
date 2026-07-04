@@ -37,6 +37,7 @@ jar {
 processResources {
     exclude '**/*.psd'
     exclude '**/*.piskel'
+    exclude '**/*.bbmodel'
 
     var expandProps = [
             'version'                      : version,

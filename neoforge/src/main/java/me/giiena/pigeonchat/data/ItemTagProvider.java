@@ -15,7 +15,8 @@ import org.jspecify.annotations.NonNull;
 import java.util.concurrent.CompletableFuture;
 
 public class ItemTagProvider extends ItemTagsProvider {
-    public ItemTagProvider(PackOutput output, CompletableFuture<HolderLookup.Provider> lookupProvider) {
+    public ItemTagProvider(PackOutput output,
+                           CompletableFuture<HolderLookup.Provider> lookupProvider) {
         super(output, lookupProvider, Constants.MOD_ID);
     }
 
@@ -29,6 +30,13 @@ public class ItemTagProvider extends ItemTagsProvider {
                 .add(ItemIds.PAPER);
         this.tag(ItemTags.WRITABLE_NAME_TAGS)
                 .add(ItemIds.NAME_TAG);
+
+        this.tag(ItemTags.DELIVERABLES)
+                .addTag(ItemTags.PIGEON_DELIVERABLES);
+        this.tag(ItemTags.PIGEON_DELIVERABLES)
+                .addTag(ItemTags.WRITABLE_LETTERS)
+                .add(ItemIds.MAP)
+                .add(ItemIds.FILLED_MAP);
 
         this.tag(ItemTags.NIB_MATERIALS)
                 .addTag(Tags.Items.NUGGETS_IRON)
