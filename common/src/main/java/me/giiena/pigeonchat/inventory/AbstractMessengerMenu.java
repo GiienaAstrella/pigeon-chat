@@ -2,7 +2,9 @@ package me.giiena.pigeonchat.inventory;
 
 import com.google.common.base.Preconditions;
 import me.giiena.pigeonchat.Constants;
+import me.giiena.pigeonchat.PigeonChatCommon;
 import me.giiena.pigeonchat.entity.MessengerAnimal;
+import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.Entity;
@@ -20,6 +22,12 @@ import org.jspecify.annotations.NonNull;
  */
 @SuppressWarnings("JavadocReference")
 public abstract class AbstractMessengerMenu extends AbstractContainerMenu {
+    public static final Component TITLE =
+            Component.translatable(PigeonChatCommon.langKey(
+                    "messenger",
+                    "gui",
+                    "title"));
+
     private final MessengerAnimal messenger;
     private final Player sender;
     private final InteractionHand hand;

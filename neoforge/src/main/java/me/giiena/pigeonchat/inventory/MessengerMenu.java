@@ -1,6 +1,5 @@
 package me.giiena.pigeonchat.inventory;
 
-import me.giiena.pigeonchat.client.screen.TargetSelectionScreen;
 import me.giiena.pigeonchat.entity.MessengerAnimal;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
@@ -36,7 +35,7 @@ public class MessengerMenu extends AbstractMessengerMenu {
             @Override
             @NonNull
             public Component getDisplayName() {
-                return TargetSelectionScreen.TITLE;
+                return TITLE;
             }
 
             @Override

@@ -1,7 +1,6 @@
 package me.giiena.pigeonchat.client.screen;
 
 import com.mojang.authlib.GameProfile;
-import me.giiena.pigeonchat.PigeonChatCommon;
 import me.giiena.pigeonchat.inventory.AbstractMessengerMenu;
 import me.giiena.pigeonchat.network.AssignMessengerPayload;
 import me.giiena.pigeonchat.platform.Services;
@@ -28,12 +27,6 @@ import java.util.Comparator;
 import java.util.List;
 
 public class TargetSelectionScreen extends AbstractContainerScreen<AbstractMessengerMenu> {
-    public static final Component TITLE =
-            Component.translatable(PigeonChatCommon.langKey(
-                    "messenger",
-                    "gui",
-                    "title"));
-
     private static final int FACE_SIZE = 16;
     private static final int ROW_WIDTH = 130;
     private static final int ROW_HEIGHT = 24;
@@ -65,7 +58,7 @@ public class TargetSelectionScreen extends AbstractContainerScreen<AbstractMesse
     @Override
     protected void init() {
         HeaderAndFooterLayout layout = new HeaderAndFooterLayout(this, 32);
-        StringWidget title = layout.addToHeader(new StringWidget(TITLE, this.font));
+        StringWidget title = layout.addToHeader(new StringWidget(this.title, this.font));
         this.addRenderableWidget(title);
 
         LinearLayout footerLayout = new LinearLayout(
