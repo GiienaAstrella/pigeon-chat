@@ -73,7 +73,10 @@ public abstract class MessengerAnimal extends Animal {
      */
     public boolean isLetterDeliverable(ItemStack stack) {
         if (stack.is(ItemTags.WRITABLE_LETTERS)) {
-            return stack.getItem() instanceof LetterItem && Sealed.isSealed(stack);
+            if (stack.getItem() instanceof LetterItem && Sealed.isSealed(stack)) {
+                return true;
+            }
+            return !(stack.getItem() instanceof LetterItem);
         }
         return false;
     }
@@ -109,8 +112,8 @@ public abstract class MessengerAnimal extends Animal {
     }
 
     @Override
-    protected void dropCustomDeathLoot(ServerLevel level,
-                                       DamageSource source,
+    protected void dropCustomDeathLoot(@NonNull ServerLevel level,
+                                       @NonNull DamageSource source,
                                        boolean killedByPlayer) {
         super.dropCustomDeathLoot(level, source, killedByPlayer);
         if (this.isCarrying()) this.spawnAtLocation(level, this.carrying());
