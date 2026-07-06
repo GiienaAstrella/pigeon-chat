@@ -26,7 +26,6 @@ import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.entity.SpawnPlacements;
-import net.minecraft.world.item.CreativeModeTabs;
 
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
@@ -59,10 +58,9 @@ public class PigeonChat implements ModInitializer {
         bind(BuiltInRegistries.CREATIVE_MODE_TAB, CreativeTabs::register);
         EntityTypes.registerAttributes(FabricDefaultAttributeRegistry::register);
 
-        CreativeModeTabEvents.modifyOutputEvent(CreativeTabs.TAB_RESOURCE_KEY).register(entries ->
-                Items.TAB_ITEMS.forEach(supplier -> entries.accept(supplier.get())));
-        CreativeModeTabEvents.modifyOutputEvent(CreativeModeTabs.SPAWN_EGGS).register(entries ->
-                Items.SPAWN_EGG_TAB_ITEMS.forEach(supplier -> entries.accept(supplier.get())));
+        CreativeTabs.TAB_ITEMS.forEach((tab, items) ->
+                CreativeModeTabEvents.modifyOutputEvent(tab).register(entries ->
+                        items.forEach(supplier -> entries.accept(supplier.get()))));
 
         PigeonChatCommon.init();
     }

@@ -43,5 +43,10 @@ public class ItemTagProvider extends ItemTagsProvider {
                 .addTag(Tags.Items.NUGGETS_GOLD);
         this.tag(ItemTags.QUILL_MATERIALS)
                 .addTag(Tags.Items.FEATHERS);
+
+        this.tag(Tags.Items.FOODS_RAW_MEAT)
+                .add(PigeonChatCommon.resourceKey(Registries.ITEM, ItemIDs.PIGEON));
+        this.tag(Tags.Items.FOODS_COOKED_MEAT)
+                .add(PigeonChatCommon.resourceKey(Registries.ITEM, ItemIDs.COOKED_PIGEON));
     }
 }

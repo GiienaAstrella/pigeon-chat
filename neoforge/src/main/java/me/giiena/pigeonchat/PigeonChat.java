@@ -53,15 +53,12 @@ public class PigeonChat {
         bind(Registries.ITEM, Items::register);
         bind(Registries.CREATIVE_MODE_TAB, CreativeTabs::register);
 
-        EVENT_BUS.addListener((Consumer<BuildCreativeModeTabContentsEvent>) event -> {
-            if (event.getTabKey() == CreativeTabs.TAB_RESOURCE_KEY) {
-                Items.TAB_ITEMS.forEach(supplier -> event.accept(supplier.get()));
+        EVENT_BUS.addListener((Consumer<BuildCreativeModeTabContentsEvent>) event ->
+                CreativeTabs.TAB_ITEMS.forEach((tab, items) -> {
+            if (event.getTabKey() == tab) {
+                items.forEach(supplier -> event.accept(supplier.get()));
             }
-
-            if (event.getTabKey() == CreativeModeTabs.SPAWN_EGGS) {
-                Items.SPAWN_EGG_TAB_ITEMS.forEach(supplier -> event.accept(supplier.get()));
-            }
-        });
+        }));
 
         PigeonChatCommon.init();
     }

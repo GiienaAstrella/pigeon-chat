@@ -45,6 +45,8 @@ public class PigeonChatModelProvider {
                 PigeonChatCommon.identifier("item/letter"),
                 1);
         gen.generateFlatItem(Items.PIGEON_SPAWN_EGG, ModelTemplates.FLAT_ITEM);
+        gen.generateFlatItem(Items.PIGEON, ModelTemplates.FLAT_ITEM);
+        gen.generateFlatItem(Items.COOKED_PIGEON, ModelTemplates.FLAT_ITEM);
     }
 
     @SuppressWarnings("SameParameterValue")

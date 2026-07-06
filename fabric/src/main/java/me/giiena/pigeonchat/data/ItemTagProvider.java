@@ -41,5 +41,10 @@ public class ItemTagProvider extends FabricTagsProvider.ItemTagsProvider {
                 .forceAddTag(ConventionalItemTags.GOLD_NUGGETS);
         builder(ItemTags.QUILL_MATERIALS)
                 .forceAddTag(ConventionalItemTags.FEATHERS);
+
+        builder(ConventionalItemTags.RAW_MEAT_FOODS)
+                .add(PigeonChatCommon.resourceKey(Registries.ITEM, ItemIDs.PIGEON));
+        builder(ConventionalItemTags.COOKED_MEAT_FOODS)
+                .add(PigeonChatCommon.resourceKey(Registries.ITEM, ItemIDs.COOKED_PIGEON));
     }
 }

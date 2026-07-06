@@ -8,21 +8,44 @@ import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.ItemLike;
 
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 import java.util.function.BiConsumer;
+import java.util.function.Supplier;
 
 public class CreativeTabs {
-    static final Identifier TAB_ID = PigeonChatCommon.identifier("pigeonchat");
-    public static final ResourceKey<CreativeModeTab> TAB_RESOURCE_KEY =
-            PigeonChatCommon.resourceKey(Registries.CREATIVE_MODE_TAB, TAB_ID);
-    public static CreativeModeTab TAB;
+    public static final ResourceKey<CreativeModeTab> TAB = create("pigeonchat");
+
+    public static final Map<ResourceKey<CreativeModeTab>, List<Supplier<ItemStack>>> TAB_ITEMS =
+            new LinkedHashMap<>();
 
     public static void register(BiConsumer<CreativeModeTab, Identifier> consumer) {
-        TAB = Services.registry().tabBuilder()
+        consumer.accept(builder()
                 .icon(() -> new ItemStack(Items.QUILL))
-                .title(Component.translatable(TAB_ID.toLanguageKey("itemGroup")))
-                .build();
+                .title(Component.translatable(TAB.identifier().toLanguageKey("itemGroup")))
+                .build(), TAB.identifier());
+    }
 
-        consumer.accept(TAB, TAB_ID);
+    public static void addItem(ResourceKey<CreativeModeTab> tab, ItemLike item) {
+        addItem(tab, () -> new ItemStack(item));
+    }
+
+    public static void addItem(ResourceKey<CreativeModeTab> tab, Supplier<ItemStack> supplier) {
+        List<Supplier<ItemStack>> contents = TAB_ITEMS.computeIfAbsent(tab,
+                _ -> new LinkedList<>());
+        contents.add(supplier);
+    }
+
+    @SuppressWarnings("SameParameterValue")
+    private static ResourceKey<CreativeModeTab> create(String id) {
+        return PigeonChatCommon.resourceKey(Registries.CREATIVE_MODE_TAB, id);
+    }
+
+    private static CreativeModeTab.Builder builder() {
+        return Services.registry().tabBuilder();
     }
 }

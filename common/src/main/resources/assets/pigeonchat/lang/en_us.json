@@ -21,6 +21,8 @@
   "item.pigeonchat.ink_container.filled": "%s (%s)",
   "item.pigeonchat.letter": "Letter",
   "item.pigeonchat.pen": "Pen",
+  "item.pigeonchat.cooked_pigeon": "Cooked Pigeon",
+  "item.pigeonchat.pigeon": "Raw Pigeon",
   "item.pigeonchat.pigeon_spawn_egg": "Pigeon Spawn Egg",
   "item.pigeonchat.quill": "Quill",
   "itemGroup.pigeonchat.pigeonchat": "Pigeon Chat",
