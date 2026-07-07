@@ -14,6 +14,7 @@ import net.minecraft.client.gui.components.StringWidget;
 import net.minecraft.client.gui.layouts.HeaderAndFooterLayout;
 import net.minecraft.client.gui.layouts.LinearLayout;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
+import net.minecraft.client.multiplayer.ClientPacketListener;
 import net.minecraft.client.multiplayer.PlayerInfo;
 import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
@@ -22,7 +23,6 @@ import net.minecraft.world.item.component.ResolvableProfile;
 import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 
-import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
@@ -37,18 +37,21 @@ public class TargetSelectionScreen extends AbstractContainerScreen<AbstractMesse
     private TargetList list;
     private Button done;
 
-    public TargetSelectionScreen(AbstractMessengerMenu menu, Inventory inventory, Component title) {
+    public TargetSelectionScreen(AbstractMessengerMenu menu,
+                                 Inventory inventory,
+                                 Component title) {
         super(menu, inventory, title);
-        this.candidates = collectOnlinePlayers();
+        this.candidates = collectCandidates();
     }
 
-    private static List<GameProfile> collectOnlinePlayers() {
-        if (Minecraft.getInstance().getConnection() == null) {
-            return new ArrayList<>();
-        }
-        return Minecraft.getInstance().getConnection().getOnlinePlayers()
+    private List<GameProfile> collectCandidates() {
+        ClientPacketListener connection = Minecraft.getInstance().getConnection();
+        if (connection == null) return List.of();
+
+        return connection.getOnlinePlayers()
                 .stream()
                 .map(PlayerInfo::getProfile)
+                .filter(profile -> this.menu.isValidTarget(profile.id()))
                 .toList();
     }
 

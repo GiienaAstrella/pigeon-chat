@@ -1,6 +1,7 @@
 package me.giiena.pigeonchat.inventory;
 
 import me.giiena.pigeonchat.entity.MessengerAnimal;
+import net.minecraft.core.UUIDUtil;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
@@ -10,6 +11,9 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import org.jspecify.annotations.NonNull;
 
+import java.util.List;
+import java.util.UUID;
+
 /**
  * Menu for {@link MessengerAnimal}.
  */
@@ -18,11 +22,13 @@ public class MessengerMenu extends AbstractMessengerMenu {
                             Inventory inventory,
                             int messengerID,
                             Player sender,
+                            List<UUID> targets,
                             InteractionHand hand) {
         super(MenuTypes.MESSENGER,
                 containerID,
                 resolveMessenger(inventory, messengerID),
                 sender,
+                targets,
                 hand);
     }
 
@@ -30,7 +36,10 @@ public class MessengerMenu extends AbstractMessengerMenu {
      * Opens menu for {@link MessengerAnimal}.
      * Implements {@link AbstractMessengerMenu.Opener}.
      */
-    public static void open(ServerPlayer player, MessengerAnimal messenger, InteractionHand hand) {
+    public static void open(ServerPlayer player,
+                            MessengerAnimal messenger,
+                            List<UUID> targets,
+                            InteractionHand hand) {
         MenuProvider provider = new MenuProvider() {
             @Override
             @NonNull
@@ -46,10 +55,14 @@ public class MessengerMenu extends AbstractMessengerMenu {
                         inventory,
                         messenger.getId(),
                         player,
+                        targets,
                         hand);
             }
         };
 
-        player.openMenu(provider, buf -> buf.writeVarInt(messenger.getId()));
+        player.openMenu(provider, buf -> {
+            buf.writeVarInt(messenger.getId());
+            buf.writeCollection(targets, UUIDUtil.STREAM_CODEC);
+        });
     }
 }

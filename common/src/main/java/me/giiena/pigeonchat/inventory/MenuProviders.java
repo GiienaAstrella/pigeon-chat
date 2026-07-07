@@ -5,6 +5,9 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import org.jetbrains.annotations.ApiStatus;
 
+import java.util.List;
+import java.util.UUID;
+
 public class MenuProviders {
     private static AbstractMessengerMenu.Opener messenger;
 
@@ -22,7 +25,8 @@ public class MenuProviders {
      */
     public static void openMessenger(ServerPlayer player,
                                      MessengerAnimal messengerAnimal,
+                                     List<UUID> targets,
                                      InteractionHand hand) {
-        messenger.open(player, messengerAnimal, hand);
+        messenger.open(player, messengerAnimal, targets, hand);
     }
 }

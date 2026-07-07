@@ -16,6 +16,9 @@ import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.ApiStatus;
 import org.jspecify.annotations.NonNull;
 
+import java.util.List;
+import java.util.UUID;
+
 /**
  * Common menu code for {@link MessengerAnimal}.
  * Also see the loader specific {@link MessengerMenu}.
@@ -28,18 +31,22 @@ public abstract class AbstractMessengerMenu extends AbstractContainerMenu {
                     "gui",
                     "title"));
 
+    public final Player sender;
+    public final List<UUID> targets;
+
     private final MessengerAnimal messenger;
-    private final Player sender;
     private final InteractionHand hand;
 
     protected AbstractMessengerMenu(final MenuType<? extends AbstractMessengerMenu> type,
                                     final int id,
                                     final MessengerAnimal messenger,
                                     final Player sender,
+                                    final List<UUID> targets,
                                     final InteractionHand hand) {
         super(type, id);
         this.messenger = messenger;
         this.sender = sender;
+        this.targets = targets;
         this.hand = hand;
     }
 
@@ -53,6 +60,14 @@ public abstract class AbstractMessengerMenu extends AbstractContainerMenu {
         throw new IllegalStateException(entity.getStringUUID() + " is not MessengerAnimal");
     }
 
+    public static List<UUID> collectValidTargets(ServerPlayer sender) {
+        return sender.level().getServer().getPlayerList().getPlayers().stream()
+                .filter(p -> !p.getUUID().equals(sender.getUUID()))
+                .filter(p -> p.level().dimension().equals(sender.level().dimension()))
+                .map(ServerPlayer::getUUID)
+                .toList();
+    }
+
     @Override
     @NonNull
     public ItemStack quickMoveStack(@NonNull Player player, int i) {
@@ -64,6 +79,13 @@ public abstract class AbstractMessengerMenu extends AbstractContainerMenu {
         return this.messenger.isAlive() &&
                 !this.messenger.isCarrying() &&
                 player.isWithinEntityInteractionRange(this.messenger, 4.0d);
+    }
+
+    /**
+     * Returns true if {@code id} is a valid delivery target.
+     */
+    public boolean isValidTarget(UUID id) {
+        return targets.contains(id);
     }
 
     /**
@@ -95,6 +117,9 @@ public abstract class AbstractMessengerMenu extends AbstractContainerMenu {
         /**
          * Opens menu for {@link MessengerAnimal}.
          */
-        void open(ServerPlayer player, MessengerAnimal messenger, InteractionHand hand);
+        void open(ServerPlayer player,
+                  MessengerAnimal messenger,
+                  List<UUID> targets,
+                  InteractionHand hand);
     }
 }

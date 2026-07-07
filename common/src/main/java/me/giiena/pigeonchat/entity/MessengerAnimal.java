@@ -2,6 +2,7 @@ package me.giiena.pigeonchat.entity;
 
 import me.giiena.pigeonchat.PigeonChatConfig;
 import me.giiena.pigeonchat.component.Sealed;
+import me.giiena.pigeonchat.inventory.AbstractMessengerMenu;
 import me.giiena.pigeonchat.inventory.MenuProviders;
 import me.giiena.pigeonchat.item.LetterItem;
 import me.giiena.pigeonchat.tag.ItemTags;
@@ -158,7 +159,10 @@ public abstract class MessengerAnimal extends Animal {
             return InteractionResult.FAIL;
         } else if (this.isDeliverable(held)) {
             if (player instanceof ServerPlayer serverPlayer) {
-                MenuProviders.openMessenger(serverPlayer, this, hand);
+                MenuProviders.openMessenger(serverPlayer,
+                        this,
+                        AbstractMessengerMenu.collectValidTargets(serverPlayer),
+                        hand);
             }
             return InteractionResult.SUCCESS;
         }
