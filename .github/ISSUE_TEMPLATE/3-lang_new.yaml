@@ -1,0 +1,28 @@
+name: Request Translation
+description: Request a new language translation for this mod
+labels: [ "localization" ]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        We're not quite ready to begin translation yet.
+        However, these tickets are an essential tool to track demand.
+        Once we're ready for translation, we will accept contributions on a translation service like Crowdin or Weblate.
+  - type: input
+    id: lang
+    attributes:
+      label: Language
+      placeholder: English
+    validations:
+      required: true
+  - type: dropdown
+    id: translator
+    attributes:
+      label: Are you willing to perform the translation for this language?
+      description: If you are not willing, we cannot guarantee we can find a translator.
+      options:
+        - "Yes"
+        - "No"
+        - Maybe
+    validations:
+      required: true

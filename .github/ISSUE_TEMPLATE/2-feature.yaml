@@ -1,0 +1,20 @@
+name: Feature Request
+description: Request a new feature or improvements, or for a Minecraft version to be supported.
+labels: [ "enhancement" ]
+body:
+  - type: textarea
+    attributes:
+      label: What does the feature do?
+      description: Clearly and concisely describe the new feature.
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: Why should we add this feature?
+      description: Why is this feature relevant to other players of this mod?
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: Additional information
+      description: Include references and/or additional context here.

@@ -1,0 +1,61 @@
+name: Bug Report
+description: Report a bug
+labels: [ "bug", "triage" ]
+body:
+  - type: markdown
+    attributes:
+      value: Please complete this report with as much detail as you can provide. Duplicate reports will be closed.
+  - type: input
+    id: version
+    attributes:
+      label: Mod Version
+      description: The numbers on the jar file name (e.g. `pigeonchat-fabric-26.2-0.1.0` is version `26.2-0.1.0`).
+      placeholder: "26.2-0.1.0"
+    validations:
+      required: true
+  - type: input
+    id: mc-version
+    attributes:
+      label: Minecraft Version
+      description: What version of Minecraft are you running?
+      placeholder: "26.2"
+    validations:
+      required: true
+  - type: dropdown
+    id: loader
+    attributes:
+      label: Mod Loader
+      description: What mod loader (e.g. Fabric or NeoForge) are you running? If the issue exists on multiple mod loaders, please submit a separate bug report for each loader.
+      options:
+        - Fabric
+        - NeoForge
+    validations:
+      required: true
+  - type: input
+    id: loader-version
+    attributes:
+      label: Mod Loader Version
+      description: What mod loader version are you running? For Fabric, this is the version of the mod loader itself, not the Fabric API.
+      placeholder: "0.19.3"
+    validations:
+      required: true
+  - type: input
+    id: api-version
+    attributes:
+      label: Mod Loader API Version
+      description: "**Fabric:** enter the Fabric API version. **NeoForge:** Leave blank."
+      placeholder: "0.154.1+26.2"
+  - type: textarea
+    attributes:
+      label: What happened?
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: What did you expect to happen?
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: Relevant logs
+      description: Please upload logs to [mclo.gs](https://mclo.gs/) so we can find the problem faster.
