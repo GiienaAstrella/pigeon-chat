@@ -12,7 +12,8 @@
     ],
     "contact": {
         "homepage": "${homepage}",
-        "sources": "${issueTracker}"
+        "sources": "${homepage}",
+        "issues": "${issueTracker}"
     },
     "license": "${license}",
     "icon": "${mod_id}.png",
