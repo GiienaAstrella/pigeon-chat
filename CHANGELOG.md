@@ -4,6 +4,20 @@ All notable changes in Changelog will be documented in this file.
 
 The format is based on [Keep a Changelog].
 
+## [UNRELEASED]
+
+### Added
+
+### Changed
+
+### Deprecated
+
+### Removed
+
+### Fixed
+
+### Security
+
 ## [0.1.0] - 2026-07-08
 
 ### Added
@@ -31,8 +45,6 @@ The format is based on [Keep a Changelog].
 - Name Tags can now be named by right-clicking while holding a writing utensil with the other hand.
 - Right-clicking a Name Tag without holding a writing utensil with the other hand displays its name.
 
-### Security
-
- [Keep a Changelog]: https://keepachangelog.com/en/1.1.0/
+[Keep a Changelog]: https://keepachangelog.com/en/1.1.0/
 [UNRELEASED]: https://github.com/GiienaAstrella/pigeon-chat/compare/v0.1.0...HEAD
 [0.1.0]: https://github.com/GiienaAstrella/pigeon-chat/compare/0f0e4a9c15de3a94691e7d807bed1eacdb5a48bb...v0.1.0
