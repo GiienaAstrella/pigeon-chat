@@ -10,6 +10,9 @@ The format is based on [Keep a Changelog].
 
 ### Changed
 
+- Version numbering now includes the Minecraft version as build metadata (e.g. `+26.2` for
+  Minecraft 26.2).
+
 ### Deprecated
 
 ### Removed

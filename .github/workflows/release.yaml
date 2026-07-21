@@ -1,0 +1,123 @@
+name: release
+on:
+  push:
+    tags:
+      - "v*"
+
+jobs:
+  release:
+    permissions:
+      contents: write
+      packages: read
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+      - name: Setup Java
+        uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: 25
+      - name: Setup Go
+        uses: actions/setup-go@v7
+        with:
+          go-version: 1.26
+      - name: Install Changelog
+        run: go install giiena.me/changelog@v0.4.0
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v6
+        with:
+          cache-read-only: true
+          cache-cleanup: on-success
+      - name: Restore Fabric Loom cache
+        id: loom-cache
+        uses: actions/cache/restore@v6
+        with:
+          path: .gradle/loom-cache
+          key: >-
+            loom-${{ runner.os }}-${{ hashFiles(
+              '**/build.gradle',
+              '**/build.gradle.kts',
+              '**/settings.gradle',
+              '**/settings.gradle.kts',
+              '**/gradle.properties',
+              'gradle/libs.versions.toml',
+              'gradle/wrapper/gradle-wrapper.properties',
+              'build-logic/**/*.gradle',
+              'build-logic/**/*.gradle.kts',
+              'build-logic/**/*.kt'
+            ) }}
+          restore-keys: |
+            loom-${{ runner.os }}-
+      - name: Build
+        uses: nick-fields/retry@v4
+        env:
+          GITHUB_ACTOR: ${{ github.actor }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          timeout_minutes: 30
+          max_attempts: 5
+          retry_wait_seconds: 30
+          command: ./gradlew build --stacktrace
+      - name: Generate release notes
+        run: |
+          changelog get "${{ github.ref_name }}" > RELEASE.md
+          sed -i '1{/^## \[.*\] - .*/d}' RELEASE.md
+          sed -i '/./,$!d' RELEASE.md
+      - name: Create draft release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh release create "${{ github.ref_name }}" \
+            --draft \
+            --title "${{ github.ref_name }}" \
+            --notes-file RELEASE.md
+      - name: Resolve release jars
+        id: jars
+        run: |
+          FABRIC_JAR=$(ls fabric/build/libs/*.jar | grep -v -- '-sources.jar' | grep -v -- '-javadoc.jar')
+          NEOFORGE_JAR=$(ls neoforge/build/libs/*.jar | grep -v -- '-sources.jar' | grep -v -- '-javadoc.jar')
+          echo "fabric=${FABRIC_JAR}" >> "$GITHUB_OUTPUT"
+          echo "neoforge=${NEOFORGE_JAR}" >> "$GITHUB_OUTPUT"
+      - name: Upload Fabric artifacts
+        uses: actions/upload-artifact@v7
+        with:
+          name: fabric
+          path: fabric/build/libs/*.jar
+          if-no-files-found: error
+          retention-days: 14
+      - name: Upload NeoForge artifacts
+        uses: actions/upload-artifact@v7
+        with:
+          name: neoforge
+          path: neoforge/build/libs/*.jar
+          if-no-files-found: error
+          retention-days: 14
+      - name: Upload release artifacts
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh release upload "${{ github.ref_name }}" \
+            "${{ steps.jars.outputs.fabric }}" \
+            "${{ steps.jars.outputs.neoforge }}"
+      - name: Publish to Modrinth & CurseForge
+        uses: Kir-Antipov/mc-publish@v3
+        with:
+          modrinth-id: ${{ vars.MODRINTH_PROJECT_ID }}
+          modrinth-token: ${{ secrets.MODRINTH_TOKEN }}
+          curseforge-id: ${{ vars.CURSEFORGE_PROJECT_ID }}
+          curseforge-token: ${{ secrets.CURSEFORGE_TOKEN }}
+          files: |
+            ${{ steps.jars.outputs.fabric }}
+            ${{ steps.jars.outputs.neoforge }}
+          loaders: |
+            fabric
+            neoforge
+          game-versions: |
+            26.2
+          version-type: alpha
+          changelog-file: RELEASE.md
+      - name: Publish release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: gh release edit "${{ github.ref_name }}" --draft=false
