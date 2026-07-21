@@ -1,0 +1,94 @@
+name: Build
+on:
+  push:
+    paths:
+      - .github/workflows/ci.yaml
+      - build-logic/**
+      - build.gradle
+      - common/**
+      - fabric/**
+      - gradle*
+      - neoforge/**
+      - settings.gradle
+  pull_request:
+    paths:
+      - .github/workflows/ci.yaml
+      - build-logic/**
+      - build.gradle
+      - common/**
+      - fabric/**
+      - gradle*
+      - neoforge/**
+      - settings.gradle
+
+jobs:
+  build:
+    permissions:
+      contents: write
+      packages: read
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+      - name: Setup Java
+        uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: 25
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v6
+        with:
+          cache-read-only: ${{ github.ref != 'refs/heads/main' }}
+          cache-cleanup: on-success
+          dependency-graph: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' &&
+            'generate-and-submit' || 'disabled' }}
+      - name: Restore Fabric Loom cache
+        id: loom-cache
+        uses: actions/cache/restore@v6
+        with:
+          path: .gradle/loom-cache
+          key: >-
+            loom-${{ runner.os }}-${{ hashFiles(
+              '**/build.gradle',
+              '**/build.gradle.kts',
+              '**/settings.gradle',
+              '**/settings.gradle.kts',
+              '**/gradle.properties',
+              'gradle/libs.versions.toml',
+              'gradle/wrapper/gradle-wrapper.properties',
+              'build-logic/**/*.gradle',
+              'build-logic/**/*.gradle.kts',
+              'build-logic/**/*.kt'
+            ) }}
+          restore-keys: |
+            loom-${{ runner.os }}-
+      - name: Build
+        uses: nick-fields/retry@v4
+        env:
+          GITHUB_ACTOR: ${{ github.actor }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          timeout_minutes: 30
+          max_attempts: 5
+          retry_wait_seconds: 30
+          command: ./gradlew build --stacktrace
+      - name: Save Fabric Loom cache
+        if: github.ref == 'refs/heads/main'
+        uses: actions/cache/save@v6
+        with:
+          path: .gradle/loom-cache
+          key: ${{ steps.loom-cache.outputs.cache-primary-key }}
+      - name: Upload Fabric artifacts
+        uses: actions/upload-artifact@v7
+        with:
+          name: fabric
+          path: fabric/build/libs/*.jar
+          if-no-files-found: error
+          retention-days: 14
+      - name: Upload NeoForge artifacts
+        uses: actions/upload-artifact@v7
+        with:
+          name: neoforge
+          path: neoforge/build/libs/*.jar
+          if-no-files-found: error
+          retention-days: 14
