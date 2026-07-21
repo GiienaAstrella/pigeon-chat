@@ -39,6 +39,10 @@ neoForge {
     }
 }
 
+dependencies {
+    jarJar(implementation("me.giiena.config:gcl-neoforge:$gcl_version"))
+}
+
 sourceSets.main.resources { srcDir 'src/generated/resources' }
 
 // Implement mcgradleconventions loader attribute

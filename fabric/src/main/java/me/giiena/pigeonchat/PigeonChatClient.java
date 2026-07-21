@@ -1,6 +1,5 @@
 package me.giiena.pigeonchat;
 
-import me.giiena.config.FabricConfig;
 import me.giiena.pigeonchat.client.color.item.InkContainer;
 import me.giiena.pigeonchat.client.renderer.entity.EntityModelLayers;
 import me.giiena.pigeonchat.client.renderer.entity.EntityRenderers;
@@ -15,7 +14,6 @@ import net.minecraft.client.gui.screens.MenuScreens;
 public class PigeonChatClient implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
-        FabricConfig.initClients();
         PigeonChatCommonClient.init();
         ItemScreen.init();
         ItemTintSources.ID_MAPPER.put(

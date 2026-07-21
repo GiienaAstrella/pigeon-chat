@@ -1,6 +1,5 @@
 package me.giiena.pigeonchat;
 
-import me.giiena.config.ConfigNeoForgeClient;
 import me.giiena.pigeonchat.client.color.item.InkContainer;
 import me.giiena.pigeonchat.client.renderer.entity.EntityModelLayers;
 import me.giiena.pigeonchat.client.renderer.entity.EntityRenderers;
@@ -36,7 +35,6 @@ import java.util.concurrent.CompletableFuture;
 public class PigeonChatClient {
     @SubscribeEvent
     private static void clientSetup(FMLClientSetupEvent event) {
-        ConfigNeoForgeClient.setup();
         PigeonChatCommonClient.init();
         ItemScreen.init();
     }

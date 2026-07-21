@@ -1,6 +1,5 @@
 package me.giiena.pigeonchat;
 
-import me.giiena.config.FabricConfig;
 import me.giiena.pigeonchat.component.PigeonChatComponents;
 import me.giiena.pigeonchat.entity.EntityTypes;
 import me.giiena.pigeonchat.entity.Pigeon;
@@ -33,7 +32,6 @@ import java.util.function.Consumer;
 public class PigeonChat implements ModInitializer {
     @Override
     public void onInitialize() {
-        FabricConfig.init();
         PigeonChatConfig.init();
         networkingInit();
 

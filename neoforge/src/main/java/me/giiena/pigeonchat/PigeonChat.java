@@ -1,6 +1,5 @@
 package me.giiena.pigeonchat;
 
-import me.giiena.config.NeoForgeConfig;
 import me.giiena.pigeonchat.component.PigeonChatComponents;
 import me.giiena.pigeonchat.entity.EntityTypes;
 import me.giiena.pigeonchat.inventory.MenuProviders;
@@ -18,7 +17,6 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.SpawnPlacementType;
 import net.minecraft.world.entity.SpawnPlacements;
-import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -41,7 +39,6 @@ public class PigeonChat {
 
     public PigeonChat(IEventBus modEventBus) {
         EVENT_BUS = modEventBus;
-        NeoForgeConfig.init(modEventBus);
         PigeonChatConfig.init();
 
         bind(Registries.DATA_COMPONENT_TYPE, PigeonChatComponents::register);
