@@ -11,6 +11,7 @@ public final class PigeonChatConfig {
         public static final String INK_BOTTLE_DYE_REFILL = "ink_bottle.dye_refill";
         public static final String NAME_TAG_VIEWABLE = "name_tag.viewable";
         public static final String NAME_TAG_EDITABLE = "name_tag.editable";
+        public static final String NAME_TAG_ANVIL_EDITABLE = "name_tag.anvil_editable";
         public static final String PIGEON_ALLOW_RETURN = "pigeon.allow_return";
         public static final String PIGEON_INVINCIBLE_DELIVERY = "pigeon.invincible_delivery";
     }
@@ -22,6 +23,7 @@ public final class PigeonChatConfig {
         public static final int INK_BOTTLE_DYE_REFILL = 2;
         public static final boolean NAME_TAG_VIEWABLE = true;
         public static final boolean NAME_TAG_EDITABLE = true;
+        public static final boolean NAME_TAG_ANVIL_EDITABLE = false;
         public static final boolean PIGEON_ALLOW_RETURN = true;
         public static final boolean PIGEON_INVINCIBLE_DELIVERY = false;
     }
@@ -48,6 +50,8 @@ public final class PigeonChatConfig {
                 .set(Default.NAME_TAG_VIEWABLE);
         COMMON.section(Key.NAME_TAG_EDITABLE).comment("Make Name Tags editable with utensils")
                 .set(Default.NAME_TAG_EDITABLE);
+        COMMON.section(Key.NAME_TAG_ANVIL_EDITABLE).comment("Allow naming on Anvil")
+                .set(Default.NAME_TAG_ANVIL_EDITABLE);
 
         COMMON.section("pigeon").comment("Pigeon configuration").close();
         COMMON.section(Key.PIGEON_ALLOW_RETURN)

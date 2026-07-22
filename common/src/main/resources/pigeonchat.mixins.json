@@ -4,6 +4,7 @@
   "package": "me.giiena.pigeonchat.mixin",
   "compatibilityLevel": "JAVA_25",
   "mixins": [
+    "AnvilMenuMixin",
     "ItemMixin"
   ],
   "client": [

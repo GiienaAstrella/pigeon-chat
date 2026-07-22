@@ -27,9 +27,6 @@
         ],
         "fabric-datagen": [
             "me.giiena.pigeonchat.data.PigeonChatDataGenerator"
-        ],
-        "modmenu": [
-            "me.giiena.config.integration.ModMenuPlugin"
         ]
     },
     "mixins": [

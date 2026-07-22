@@ -12,6 +12,8 @@ The format is based on [Keep a Changelog].
 
 - Version numbering now includes the Minecraft version as build metadata (e.g. `+26.2` for
   Minecraft 26.2).
+- Name Tags are not nameable by default through Anvil.
+  This behavior is configurable.
 
 ### Deprecated
 

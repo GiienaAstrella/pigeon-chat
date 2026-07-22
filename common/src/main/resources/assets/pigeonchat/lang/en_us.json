@@ -5,6 +5,7 @@
   "gui.pigeonchat.config.common.ink_bottle.dye_refill": "Dye Refill",
   "gui.pigeonchat.config.common.ink_bottle.fill": "Max Fill",
   "gui.pigeonchat.config.common.name_tag": "Name Tag Configuration",
+  "gui.pigeonchat.config.common.name_tag.anvil_editable": "Anvil Editable",
   "gui.pigeonchat.config.common.name_tag.editable": "Editable",
   "gui.pigeonchat.config.common.name_tag.viewable": "Viewable",
   "gui.pigeonchat.config.common.pen": "Pen Configuration",
