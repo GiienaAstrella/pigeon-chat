@@ -285,28 +285,18 @@ public abstract class MessengerAnimal extends Animal {
         return name;
     }
 
-    /**
-     * Attempts to teleport to the delivery target.
-     */
-    public void tryTeleportToTarget() {
-        LivingEntity entity = this.target();
-        if (entity != null) {
-            this.teleportToAroundBlockPos(entity.blockPosition());
-        }
+    public void tryTeleportNearTarget(float maxDistance) {
+        LivingEntity target = this.target();
+        if (target == null) return;
+        int min = 2;
+        int max = Math.max(min, (int) maxDistance);
+        this.teleportToAroundBlockPos(target.blockPosition(), min, max);
     }
 
-    /**
-     * Returns true if this entity should attempt to teleport to the delivery target.
-     */
-    public boolean shouldTryTeleportToTarget() {
-        LivingEntity entity = this.target();
-        return entity != null && this.distanceToSqr(entity) >= 144.0d;
-    }
-
-    private void teleportToAroundBlockPos(BlockPos target) {
+    private void teleportToAroundBlockPos(BlockPos target, int minOffset, int maxOffset) {
         for (int attempt = 0; attempt < 10; attempt++) {
-            int dx = this.random.nextIntBetweenInclusive(-3, 3);
-            int dz = this.random.nextIntBetweenInclusive(-3, 3);
+            int dx = this.random.nextIntBetweenInclusive(minOffset, maxOffset);
+            int dz = this.random.nextIntBetweenInclusive(minOffset, maxOffset);
             if (Math.abs(dx) >= 2 || Math.abs(dz) >= 2) {
                 int dy = this.random.nextIntBetweenInclusive(-1, 1);
                 if (this.maybeTeleportTo(

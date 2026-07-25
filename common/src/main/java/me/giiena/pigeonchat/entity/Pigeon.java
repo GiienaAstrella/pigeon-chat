@@ -1,7 +1,8 @@
 package me.giiena.pigeonchat.entity;
 
 import me.giiena.pigeonchat.PigeonChatConfig;
-import me.giiena.pigeonchat.entity.goal.FollowTargetGoal;
+import me.giiena.pigeonchat.entity.goal.DirectApproachTargetGoal;
+import me.giiena.pigeonchat.entity.goal.LaunchTeleportToTargetGoal;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.ItemTags;
@@ -62,8 +63,9 @@ public class Pigeon extends MessengerAnimal {
     protected void registerGoals() {
         this.goalSelector.addGoal(0, new FloatGoal(this));
         this.goalSelector.addGoal(1, new LookAtPlayerGoal(this, Player.class, 8.0f));
-        this.goalSelector.addGoal(2, new FollowTargetGoal(this, 1.0d, 2.0f, 1.0f));
-        this.goalSelector.addGoal(3, new PigeonWanderGoal(this, 1.0d));
+        this.goalSelector.addGoal(2, new DirectApproachTargetGoal(this, 1.0d, 2.0f, 1.0f));
+        this.goalSelector.addGoal(3, new LaunchTeleportToTargetGoal(this, 1.0d));
+        this.goalSelector.addGoal(4, new PigeonWanderGoal(this, 1.0d));
     }
 
     public static AttributeSupplier.Builder createAttributes() {
