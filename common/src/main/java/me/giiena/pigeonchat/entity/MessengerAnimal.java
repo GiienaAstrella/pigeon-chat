@@ -350,6 +350,6 @@ public abstract class MessengerAnimal extends Animal {
     }
 
     protected boolean canFly() {
-        return true;
+        return false;
     }
 }

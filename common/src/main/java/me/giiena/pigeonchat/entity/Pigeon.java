@@ -182,6 +182,11 @@ public class Pigeon extends MessengerAnimal {
         return false;
     }
 
+    @Override
+    protected boolean canFly() {
+        return true;
+    }
+
     public static class PigeonWanderGoal extends WaterAvoidingRandomFlyingGoal {
         private final MessengerAnimal messenger;
 
