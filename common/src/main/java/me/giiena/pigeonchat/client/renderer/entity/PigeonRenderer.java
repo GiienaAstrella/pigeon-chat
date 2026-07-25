@@ -5,6 +5,7 @@ import me.giiena.pigeonchat.entity.Pigeon;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.resources.Identifier;
+import net.minecraft.util.Mth;
 import net.minecraft.world.item.ItemDisplayContext;
 import org.jspecify.annotations.NonNull;
 
@@ -30,6 +31,10 @@ public class PigeonRenderer extends MobRenderer<Pigeon, PigeonRenderState, Pigeo
                                    float partialTicks) {
         super.extractRenderState(entity, state, partialTicks);
         state.carrying = entity.carrying();
+        float flap = Mth.lerp(partialTicks, entity.oFlap, entity.flap);
+        float flapSpeed = Mth.lerp(partialTicks, entity.oFlapSpeed, entity.flapSpeed);
+        state.flapAngle = (Mth.sin(flap) + 1.0f) * flapSpeed;
+        state.pose = PigeonModel.getPose(entity);
 
         if (!state.carrying.isEmpty()) {
             this.itemModelResolver.updateForTopItem(

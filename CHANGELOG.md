@@ -18,6 +18,7 @@ The format is based on [Keep a Changelog].
   If their target falls outside of pathfinding range, Pigeons will fly towards their target's
   general direction before teleporting to within pathfinding range of the target.
   At that point, they will continue to fly to their target.
+- Pigeons now have animations.
 
 ### Deprecated
 

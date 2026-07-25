@@ -104,7 +104,7 @@ public class Pigeon extends MessengerAnimal {
         if (!this.onGround() && movement.y < 0.0d) {
             this.setDeltaMovement(movement.multiply(1.0, 0.6, 1.0));
         }
-        this.flap += this.flapping * 2.0f;
+        this.flap += this.flapping * 0.8f;
     }
 
     @Override

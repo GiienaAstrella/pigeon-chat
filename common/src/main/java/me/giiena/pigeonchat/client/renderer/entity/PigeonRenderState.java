@@ -7,4 +7,10 @@ import net.minecraft.world.item.ItemStack;
 public class PigeonRenderState extends LivingEntityRenderState {
     public ItemStack carrying = ItemStack.EMPTY;
     public final ItemStackRenderState carryingState = new ItemStackRenderState();
+    public float flapAngle;
+    public PigeonModel.Pose pose;
+
+    public PigeonRenderState() {
+        this.pose = PigeonModel.Pose.FLYING;
+    }
 }
