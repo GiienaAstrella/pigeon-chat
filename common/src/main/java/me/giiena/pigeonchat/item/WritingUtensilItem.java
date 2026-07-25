@@ -4,7 +4,9 @@ import me.giiena.pigeonchat.PigeonChatConfig;
 import me.giiena.pigeonchat.component.PigeonChatComponents;
 import me.giiena.pigeonchat.tag.ItemTags;
 import me.giiena.pigeonchat.util.ContainerUtils;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
@@ -13,10 +15,21 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import org.jspecify.annotations.NonNull;
 
-public class WritingUtensilItem extends Item {
+public class WritingUtensilItem extends Item implements PigeonChatItem {
     public WritingUtensilItem(final Item.Properties properties) {
         properties.stacksTo(1);
         super(properties);
+    }
+
+    @Override
+    public int pigeonchat$getMaxDamage(ItemStack stack) {
+        Identifier id = BuiltInRegistries.ITEM.getKey(stack.getItem());
+        if (id == ItemIDs.PEN) {
+            return PigeonChatConfig.Common.PEN_FILL.get();
+        } else if (id == ItemIDs.QUILL) {
+            return PigeonChatConfig.Common.QUILL_FILL.get();
+        }
+        return PigeonChatItem.super.pigeonchat$getMaxDamage(stack);
     }
 
     @Override

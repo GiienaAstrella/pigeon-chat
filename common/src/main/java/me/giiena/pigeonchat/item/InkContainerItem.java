@@ -1,5 +1,6 @@
 package me.giiena.pigeonchat.item;
 
+import me.giiena.pigeonchat.PigeonChatConfig;
 import me.giiena.pigeonchat.component.InkContainer;
 import me.giiena.pigeonchat.util.ContainerUtils;
 import net.minecraft.core.component.DataComponents;
@@ -15,7 +16,7 @@ import org.jspecify.annotations.NonNull;
 
 import java.util.Optional;
 
-public class InkContainerItem extends Item {
+public class InkContainerItem extends Item implements PigeonChatItem {
     public InkContainerItem(final Item.Properties properties) {
         properties.stacksTo(1);
         properties.component(DataComponents.TOOLTIP_DISPLAY, TooltipDisplay.DEFAULT);
@@ -24,6 +25,11 @@ public class InkContainerItem extends Item {
 
     public static InkContainer component() {
         return new InkContainer(Optional.of(true), Optional.of(true));
+    }
+
+    @Override
+    public int pigeonchat$getMaxDamage(ItemStack stack) {
+        return PigeonChatConfig.Common.INK_BOTTLE_FILL.get();
     }
 
     @Override

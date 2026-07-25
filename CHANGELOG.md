@@ -21,6 +21,9 @@ The format is based on [Keep a Changelog].
 
 ### Fixed
 
+- Fixed an issue where config driven item durabilities (e.g. Pen, Quill, and Ink Bottle) shows the
+  wrong durability when connected to a server.
+
 ### Security
 
 ## [0.1.0] - 2026-07-08
