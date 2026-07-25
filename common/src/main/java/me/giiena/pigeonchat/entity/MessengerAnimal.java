@@ -123,9 +123,7 @@ public abstract class MessengerAnimal extends Animal {
     @Override
     @NonNull
     public InteractionResult mobInteract(Player player, @NonNull InteractionHand hand) {
-        final boolean allowReturn = PigeonChatConfig.COMMON.
-                getOrDefault(PigeonChatConfig.Key.PIGEON_ALLOW_RETURN,
-                        PigeonChatConfig.Default.PIGEON_ALLOW_RETURN);
+        final boolean allowReturn = PigeonChatConfig.Common.PIGEON_ALLOW_RETURN.get();
 
         ItemStack held = player.getItemInHand(hand);
         if (this.hasTarget()) {

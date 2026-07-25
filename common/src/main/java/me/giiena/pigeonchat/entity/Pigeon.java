@@ -118,9 +118,7 @@ public class Pigeon extends MessengerAnimal {
 
     @Override
     public boolean isInvulnerable() {
-        final boolean invincibleDelivery = PigeonChatConfig.COMMON.getOrDefault(
-                PigeonChatConfig.Key.PIGEON_INVINCIBLE_DELIVERY,
-                PigeonChatConfig.Default.PIGEON_INVINCIBLE_DELIVERY);
+        final boolean invincibleDelivery = PigeonChatConfig.Common.PIGEON_INVINCIBLE_DELIVERY.get();
 
         if (invincibleDelivery) {
             return this.hasTarget() && (this.isCarrying() || !this.hasSender());

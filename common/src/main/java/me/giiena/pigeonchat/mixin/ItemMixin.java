@@ -50,9 +50,7 @@ public abstract class ItemMixin {
         } else if (heldItem.is(ItemTags.QUILL_MATERIALS)) {
             res = QuillMaterials$use(level, player, hand);
         } else if (heldItem.is(ItemTags.WRITABLE_NAME_TAGS) &&
-                PigeonChatConfig.COMMON.getOrDefault(
-                        PigeonChatConfig.Key.NAME_TAG_VIEWABLE,
-                        PigeonChatConfig.Default.NAME_TAG_VIEWABLE)) {
+                PigeonChatConfig.Common.NAME_TAG_VIEWABLE.get()) {
             res = NameTagItem$use(level, player, hand);
         }
 
@@ -73,9 +71,7 @@ public abstract class ItemMixin {
 
         Optional<DyeColor> color = ContainerUtils.dyeFromStack(material);
 
-        int consumeAmount = PigeonChatConfig.COMMON.getOrDefault(
-                PigeonChatConfig.Key.INK_BOTTLE_DYE_REFILL,
-                PigeonChatConfig.Default.INK_BOTTLE_DYE_REFILL);
+        int consumeAmount = PigeonChatConfig.Common.INK_BOTTLE_DYE_REFILL.get();
 
         if (material.count() < consumeAmount) return null;
         material.consume(consumeAmount, player);

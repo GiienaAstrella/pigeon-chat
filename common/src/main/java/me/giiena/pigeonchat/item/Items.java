@@ -37,12 +37,8 @@ public class Items {
                 ItemIDs.PEN,
                 WritingUtensilItem::new,
                 new Item.Properties()
-                        .durability(PigeonChatConfig.COMMON.getOrDefault(
-                                PigeonChatConfig.Key.PEN_FILL,
-                                PigeonChatConfig.Default.PEN_FILL))
-                        .component(DataComponents.DAMAGE, PigeonChatConfig.COMMON.getOrDefault(
-                                PigeonChatConfig.Key.PEN_FILL,
-                                PigeonChatConfig.Default.PEN_FILL))
+                        .durability(PigeonChatConfig.Common.PEN_FILL.get())
+                        .component(DataComponents.DAMAGE, PigeonChatConfig.Common.PEN_FILL.get())
                         .component(PigeonChatComponents.INK_CONTAINER,
                                 InkContainer.withRefillable(true))
                         .component(PigeonChatComponents.UTENSIL, Unit.INSTANCE)
@@ -59,9 +55,7 @@ public class Items {
                 ItemIDs.QUILL,
                 WritingUtensilItem::new,
                 new Item.Properties()
-                        .durability(PigeonChatConfig.COMMON.getOrDefault(
-                                PigeonChatConfig.Key.QUILL_FILL,
-                                PigeonChatConfig.Default.QUILL_FILL))
+                        .durability(PigeonChatConfig.Common.QUILL_FILL.get())
                         .component(PigeonChatComponents.INK_CONTAINER,
                                 InkContainer.withRefillable(true))
                         .component(PigeonChatComponents.UTENSIL, Unit.INSTANCE),
@@ -77,9 +71,7 @@ public class Items {
                 ItemIDs.INK_BOTTLE,
                 InkContainerItem::new,
                 new Item.Properties()
-                        .durability(PigeonChatConfig.COMMON.getOrDefault(
-                                PigeonChatConfig.Key.INK_BOTTLE_FILL,
-                                PigeonChatConfig.Default.INK_BOTTLE_FILL))
+                        .durability(PigeonChatConfig.Common.INK_BOTTLE_FILL.get())
                         .component(PigeonChatComponents.INK_CONTAINER,
                                 InkContainerItem.component()),
                 stack -> {

@@ -35,9 +35,7 @@ public class WritingUtensilItem extends Item {
                 player.openItemGui(other, otherHand);
                 return InteractionResult.SUCCESS;
             } else if (other.is(ItemTags.WRITABLE_NAME_TAGS) &&
-                    PigeonChatConfig.COMMON.getOrDefault(
-                            PigeonChatConfig.Key.NAME_TAG_EDITABLE,
-                            PigeonChatConfig.Default.NAME_TAG_EDITABLE)) {
+                    PigeonChatConfig.Common.NAME_TAG_EDITABLE.get()) {
                 player.openItemGui(other, otherHand);
                 return InteractionResult.SUCCESS;
             }

@@ -21,8 +21,7 @@ public abstract class AnvilMenuMixin {
             at = @At("HEAD")
     )
     private void pigeonchat$lockItemName(CallbackInfo ci) {
-        if (PigeonChatConfig.COMMON.getOrDefault(PigeonChatConfig.Key.NAME_TAG_ANVIL_EDITABLE,
-                PigeonChatConfig.Default.NAME_TAG_ANVIL_EDITABLE)) return;
+        if (PigeonChatConfig.Common.NAME_TAG_ANVIL_EDITABLE.get()) return;
 
         AnvilMenu menu = (AnvilMenu)(Object) this;
         ItemStack input = menu.getSlot(AnvilMenu.INPUT_SLOT).getItem();
