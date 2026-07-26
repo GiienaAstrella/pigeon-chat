@@ -2,6 +2,7 @@ package me.giiena.pigeonchat;
 
 import me.giiena.config.api.Config;
 import me.giiena.config.api.ConfigRegistry;
+import me.giiena.pigeonchat.platform.Services;
 
 public final class PigeonChatConfig {
     public static final class Common {
@@ -40,9 +41,14 @@ public final class PigeonChatConfig {
         private static final Config.Builder PIGEON =
                 CONFIG.comment("Pigeon configuration").push("pigeon");
         public static final Config.Value<Boolean> PIGEON_ALLOW_RETURN =
-                PIGEON.push("allow_return").define(true);
+                PIGEON.comment("Set to true to make Pigeons wait by their target to be dismissed or assigned a return delivery")
+                        .push("allow_return").define(true);
         public static final Config.Value<Boolean> PIGEON_INVINCIBLE_DELIVERY =
-                PIGEON.push("invincible_delivery").define(true);
+                PIGEON.comment("Make pigeons invincible during delivery")
+                        .push("invincible_delivery").define(true);
+        public static final Config.Value<Boolean> PIGEON_ALLOW_SELF_DELIVERY =
+                PIGEON.comment("Allow delivery to self").push("allow_self_delivery")
+                        .define(Services.PLATFORM.isDevelopmentEnvironment());
     }
 
     public static void init() {

@@ -3,6 +3,7 @@ package me.giiena.pigeonchat.inventory;
 import com.google.common.base.Preconditions;
 import me.giiena.pigeonchat.Constants;
 import me.giiena.pigeonchat.PigeonChatCommon;
+import me.giiena.pigeonchat.PigeonChatConfig;
 import me.giiena.pigeonchat.entity.MessengerAnimal;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
@@ -62,7 +63,10 @@ public abstract class AbstractMessengerMenu extends AbstractContainerMenu {
 
     public static List<UUID> collectValidTargets(ServerPlayer sender) {
         return sender.level().getServer().getPlayerList().getPlayers().stream()
-                .filter(p -> !p.getUUID().equals(sender.getUUID()))
+                .filter(p -> {
+                    if (PigeonChatConfig.Common.PIGEON_ALLOW_SELF_DELIVERY.get()) return true;
+                    return !p.getUUID().equals(sender.getUUID());
+                })
                 .filter(p -> p.level().dimension().equals(sender.level().dimension()))
                 .map(ServerPlayer::getUUID)
                 .toList();

@@ -19,6 +19,8 @@ The format is based on [Keep a Changelog].
   general direction before teleporting to within pathfinding range of the target.
   At that point, they will continue to fly to their target.
 - Pigeons now have animations.
+- Self delivery is now configurable (`pigeon.allow_self_delivery`).
+  This defaults to `false` outside of the development environment.
 
 ### Deprecated
 
