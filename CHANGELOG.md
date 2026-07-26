@@ -8,6 +8,8 @@ The format is based on [Keep a Changelog].
 
 ### Added
 
+- Pigeons now have animations. ([#4])
+
 ### Changed
 
 - Version numbering now includes the Minecraft version as build metadata (e.g. `+26.2` for
@@ -17,8 +19,7 @@ The format is based on [Keep a Changelog].
 - Pigeons will now fly to their delivery target if within pathfinding range.
   If their target falls outside of pathfinding range, Pigeons will fly towards their target's
   general direction before teleporting to within pathfinding range of the target.
-  At that point, they will continue to fly to their target.
-- Pigeons now have animations.
+  At that point, they will continue to fly to their target. ([#2])
 - Self delivery is now configurable (`pigeon.allow_self_delivery`).
   This defaults to `false` outside of the development environment.
 
@@ -60,6 +61,8 @@ The format is based on [Keep a Changelog].
 - Name Tags can now be named by right-clicking while holding a writing utensil with the other hand.
 - Right-clicking a Name Tag without holding a writing utensil with the other hand displays its name.
 
+[#2]: https://github.com/GiienaAstrella/pigeon-chat/issues/2
+[#4]: https://github.com/GiienaAstrella/pigeon-chat/issues/4
+[0.1.0]: https://github.com/GiienaAstrella/pigeon-chat/compare/0f0e4a9c15de3a94691e7d807bed1eacdb5a48bb...v0.1.0
 [Keep a Changelog]: https://keepachangelog.com/en/1.1.0/
 [UNRELEASED]: https://github.com/GiienaAstrella/pigeon-chat/compare/v0.1.0...HEAD
-[0.1.0]: https://github.com/GiienaAstrella/pigeon-chat/compare/0f0e4a9c15de3a94691e7d807bed1eacdb5a48bb...v0.1.0

@@ -23,8 +23,9 @@ public class PigeonCarriedItemLayer extends RenderLayer<PigeonRenderState, Pigeo
         if (state.carrying.isEmpty()) return;
 
         poseStack.pushPose();
+        this.getParentModel().head.translateAndRotate(poseStack);
         this.getParentModel().beak.translateAndRotate(poseStack);
-        poseStack.translate(0.0f, -0.55f, -0.3f);
+        poseStack.translate(0.0f, 0.0f, -0.04f);
         poseStack.mulPose(Axis.XP.rotation(-1.0f));
         poseStack.scale(0.5f, 0.5f, 0.5f);
 
