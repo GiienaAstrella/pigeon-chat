@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=east": {
+      "model": "pigeonchat:block/bird_cage",
+      "y": 90
+    },
+    "facing=north": {
+      "model": "pigeonchat:block/bird_cage"
+    },
+    "facing=south": {
+      "model": "pigeonchat:block/bird_cage",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "pigeonchat:block/bird_cage",
+      "y": 270
+    }
+  }
+}

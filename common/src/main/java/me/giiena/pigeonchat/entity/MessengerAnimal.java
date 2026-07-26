@@ -4,6 +4,7 @@ import me.giiena.pigeonchat.PigeonChatConfig;
 import me.giiena.pigeonchat.component.Sealed;
 import me.giiena.pigeonchat.inventory.AbstractMessengerMenu;
 import me.giiena.pigeonchat.inventory.MenuProviders;
+import me.giiena.pigeonchat.inventory.MessengerAnimalSource;
 import me.giiena.pigeonchat.item.LetterItem;
 import me.giiena.pigeonchat.tag.ItemTags;
 import net.minecraft.core.BlockPos;
@@ -158,7 +159,7 @@ public abstract class MessengerAnimal extends Animal {
         } else if (this.isDeliverable(held)) {
             if (player instanceof ServerPlayer serverPlayer) {
                 MenuProviders.openMessenger(serverPlayer,
-                        this,
+                        new MessengerAnimalSource(this),
                         AbstractMessengerMenu.collectValidTargets(serverPlayer),
                         hand);
             }

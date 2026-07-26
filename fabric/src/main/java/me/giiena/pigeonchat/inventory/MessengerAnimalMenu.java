@@ -22,16 +22,16 @@ import java.util.UUID;
 /**
  * Menu for {@link MessengerAnimal}.
  */
-public class MessengerMenu extends AbstractMessengerMenu {
-    protected MessengerMenu(int containerID,
-                            Inventory inventory,
-                            int messengerID,
-                            Player sender,
-                            List<UUID> targets,
-                            InteractionHand hand) {
+public class MessengerAnimalMenu extends AbstractMessengerMenu {
+    protected MessengerAnimalMenu(int containerID,
+                                  Inventory inventory,
+                                  int messengerID,
+                                  Player sender,
+                                  List<UUID> targets,
+                                  InteractionHand hand) {
         super(MenuTypes.MESSENGER,
                 containerID,
-                resolveMessenger(inventory, messengerID),
+                MessengerAnimalSource.resolve(inventory, messengerID),
                 sender,
                 targets,
                 hand);
@@ -43,15 +43,18 @@ public class MessengerMenu extends AbstractMessengerMenu {
      */
     @ApiStatus.Internal
     public static void open(ServerPlayer player,
-                            MessengerAnimal messenger,
+                            MessengerMenuSource source,
                             List<UUID> targets,
                             InteractionHand hand) {
+        MessengerAnimal messenger = source.messenger();
+        if (messenger == null) return;
+
         player.openMenu(new ExtendedMenuProvider<Data>() {
             @Override
             public AbstractContainerMenu createMenu(int containerId,
                                                     @NonNull Inventory inventory,
                                                     @NonNull Player player) {
-                return new MessengerMenu(containerId,
+                return new MessengerAnimalMenu(containerId,
                         inventory,
                         messenger.getId(),
                         player,

@@ -17,16 +17,16 @@ import java.util.UUID;
 /**
  * Menu for {@link MessengerAnimal}.
  */
-public class MessengerMenu extends AbstractMessengerMenu {
-    protected MessengerMenu(int containerID,
-                            Inventory inventory,
-                            int messengerID,
-                            Player sender,
-                            List<UUID> targets,
-                            InteractionHand hand) {
+public class MessengerAnimalMenu extends AbstractMessengerMenu {
+    protected MessengerAnimalMenu(int containerID,
+                                  Inventory inventory,
+                                  int messengerID,
+                                  Player sender,
+                                  List<UUID> targets,
+                                  InteractionHand hand) {
         super(MenuTypes.MESSENGER,
                 containerID,
-                resolveMessenger(inventory, messengerID),
+                MessengerAnimalSource.resolve(inventory, messengerID),
                 sender,
                 targets,
                 hand);
@@ -37,9 +37,12 @@ public class MessengerMenu extends AbstractMessengerMenu {
      * Implements {@link AbstractMessengerMenu.Opener}.
      */
     public static void open(ServerPlayer player,
-                            MessengerAnimal messenger,
+                            MessengerMenuSource source,
                             List<UUID> targets,
                             InteractionHand hand) {
+        MessengerAnimal messenger = source.messenger();
+        if (messenger == null) return;
+
         MenuProvider provider = new MenuProvider() {
             @Override
             @NonNull
@@ -51,7 +54,7 @@ public class MessengerMenu extends AbstractMessengerMenu {
             public AbstractContainerMenu createMenu(int containerID,
                                                     @NonNull Inventory inventory,
                                                     @NonNull Player player) {
-                return new MessengerMenu(containerID,
+                return new MessengerAnimalMenu(containerID,
                         inventory,
                         messenger.getId(),
                         player,

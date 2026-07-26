@@ -9,6 +9,10 @@ The format is based on [Keep a Changelog].
 ### Added
 
 - Pigeons now have animations. ([#4])
+- Bird Cage.
+  Right-click a Pigeon to capture one.
+  Sneak-right-click a placed down Bird Cage to retrieve it.
+  Like with Pigeons in the wild, right-click a caged Pigeon to make deliveries. ([#7])
 
 ### Changed
 
@@ -63,6 +67,7 @@ The format is based on [Keep a Changelog].
 
 [#2]: https://github.com/GiienaAstrella/pigeon-chat/issues/2
 [#4]: https://github.com/GiienaAstrella/pigeon-chat/issues/4
+[#7]: https://github.com/GiienaAstrella/pigeon-chat/issues/7
 [0.1.0]: https://github.com/GiienaAstrella/pigeon-chat/compare/0f0e4a9c15de3a94691e7d807bed1eacdb5a48bb...v0.1.0
 [Keep a Changelog]: https://keepachangelog.com/en/1.1.0/
 [UNRELEASED]: https://github.com/GiienaAstrella/pigeon-chat/compare/v0.1.0...HEAD

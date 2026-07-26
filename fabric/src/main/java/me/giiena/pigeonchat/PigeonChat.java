@@ -1,11 +1,14 @@
 package me.giiena.pigeonchat;
 
+import me.giiena.pigeonchat.block.BlockEntities;
+import me.giiena.pigeonchat.block.Blocks;
 import me.giiena.pigeonchat.component.PigeonChatComponents;
 import me.giiena.pigeonchat.entity.EntityTypes;
 import me.giiena.pigeonchat.entity.Pigeon;
 import me.giiena.pigeonchat.inventory.MenuProviders;
 import me.giiena.pigeonchat.inventory.MenuTypes;
-import me.giiena.pigeonchat.inventory.MessengerMenu;
+import me.giiena.pigeonchat.inventory.MessengerAnimalMenu;
+import me.giiena.pigeonchat.inventory.MessengerCageMenu;
 import me.giiena.pigeonchat.item.CreativeTabs;
 import me.giiena.pigeonchat.item.Items;
 import me.giiena.pigeonchat.network.AssignMessengerPayload;
@@ -40,10 +43,13 @@ public class PigeonChat implements ModInitializer {
                 PigeonChatComponents.CONVERTED);
         ItemComponentTooltipProviderRegistry.addAfter(PigeonChatComponents.CONVERTED,
                 PigeonChatComponents.SEALED);
+        ItemComponentTooltipProviderRegistry.addBefore(PigeonChatComponents.CONVERTED,
+                PigeonChatComponents.CAGED_MESSENGER);
 
         bindKey(BuiltInRegistries.ENTITY_TYPE, EntityTypes::registerTypes);
         bind(BuiltInRegistries.MENU, MenuTypes::register);
-        MenuProviders.setMessenger(MessengerMenu::open);
+        MenuProviders.setMessenger(MessengerAnimalMenu::open);
+        MenuProviders.setCage(MessengerCageMenu::open);
         EntityTypes.registerSpawnPlacements(SpawnPlacements::register);
         BiomeModifications.addSpawn(BiomeSelectors.all(),
                 MobCategory.CREATURE,
@@ -52,8 +58,12 @@ public class PigeonChat implements ModInitializer {
                 Pigeon.MIN_SPAWN_COUNT,
                 Pigeon.MAX_SPAWN_COUNT);
 
+        bindKey(BuiltInRegistries.BLOCK_ENTITY_TYPE, BlockEntities::register);
+        bindKey(BuiltInRegistries.BLOCK, Blocks::registerBlocks);
         bind(BuiltInRegistries.ITEM, Items::register);
+        bindKey(BuiltInRegistries.ITEM, Blocks::registerItems);
         bind(BuiltInRegistries.CREATIVE_MODE_TAB, CreativeTabs::register);
+
         EntityTypes.registerAttributes(FabricDefaultAttributeRegistry::register);
 
         CreativeTabs.TAB_ITEMS.forEach((tab, items) ->

@@ -1,6 +1,7 @@
 package me.giiena.pigeonchat;
 
 import me.giiena.pigeonchat.client.color.item.InkContainer;
+import me.giiena.pigeonchat.client.renderer.blockentity.BlockEntityRenderers;
 import me.giiena.pigeonchat.client.renderer.entity.EntityModelLayers;
 import me.giiena.pigeonchat.client.renderer.entity.EntityRenderers;
 import me.giiena.pigeonchat.client.screen.ItemScreen;
@@ -23,6 +24,8 @@ public class PigeonChatClient implements ClientModInitializer {
         EntityModelLayers.registerModelLayers((loc, supp) ->
                 ModelLayerRegistry.registerModelLayer(loc, supp::get));
         EntityRenderers.register(net.minecraft.client.renderer.entity.EntityRenderers::register);
+        BlockEntityRenderers.register(net.minecraft.client.renderer.blockentity.BlockEntityRenderers::register);
         MenuScreens.register(MenuTypes.MESSENGER, TargetSelectionScreen::new);
+        MenuScreens.register(MenuTypes.CAGE, TargetSelectionScreen::new);
     }
 }

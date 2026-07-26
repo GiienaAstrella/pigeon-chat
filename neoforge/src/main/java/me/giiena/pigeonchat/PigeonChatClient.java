@@ -1,6 +1,7 @@
 package me.giiena.pigeonchat;
 
 import me.giiena.pigeonchat.client.color.item.InkContainer;
+import me.giiena.pigeonchat.client.renderer.blockentity.BlockEntityRenderers;
 import me.giiena.pigeonchat.client.renderer.entity.EntityModelLayers;
 import me.giiena.pigeonchat.client.renderer.entity.EntityRenderers;
 import me.giiena.pigeonchat.client.screen.ItemScreen;
@@ -74,10 +75,12 @@ public class PigeonChatClient {
     @SubscribeEvent
     private static void registerEntityRenderers(EntityRenderersEvent.RegisterRenderers event) {
         EntityRenderers.register(event::registerEntityRenderer);
+        BlockEntityRenderers.register(event::registerBlockEntityRenderer);
     }
 
     @SubscribeEvent
     private static void registerMenuScreens(RegisterMenuScreensEvent event) {
         event.register(MenuTypes.MESSENGER, TargetSelectionScreen::new);
+        event.register(MenuTypes.CAGE, TargetSelectionScreen::new);
     }
 }

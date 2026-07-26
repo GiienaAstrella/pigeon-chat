@@ -1,11 +1,13 @@
 package me.giiena.pigeonchat.data;
 
 import me.giiena.pigeonchat.PigeonChatCommon;
+import me.giiena.pigeonchat.block.Blocks;
 import me.giiena.pigeonchat.client.color.item.InkContainer;
 import me.giiena.pigeonchat.client.renderer.item.SealedWritableProperty;
 import me.giiena.pigeonchat.item.Items;
 import net.minecraft.client.color.item.Constant;
 import net.minecraft.client.color.item.ItemTintSource;
+import net.minecraft.client.data.models.BlockModelGenerators;
 import net.minecraft.client.data.models.ItemModelGenerators;
 import net.minecraft.client.data.models.model.ItemModelUtils;
 import net.minecraft.client.data.models.model.ModelTemplate;
@@ -22,7 +24,9 @@ import java.util.List;
 import java.util.Optional;
 
 public class PigeonChatModelProvider {
-    private PigeonChatModelProvider() {}
+    public static void generateBlockModels(BlockModelGenerators gen) {
+        gen.createNonTemplateHorizontalBlock(Blocks.BIRD_CAGE);
+    }
 
     public static void generateItemModels(ItemModelGenerators gen) {
         generatePenModel(gen, Items.PEN, ModelTemplates.FLAT_HANDHELD_ITEM);

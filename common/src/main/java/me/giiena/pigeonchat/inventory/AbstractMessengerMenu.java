@@ -1,7 +1,6 @@
 package me.giiena.pigeonchat.inventory;
 
 import com.google.common.base.Preconditions;
-import me.giiena.pigeonchat.Constants;
 import me.giiena.pigeonchat.PigeonChatCommon;
 import me.giiena.pigeonchat.PigeonChatConfig;
 import me.giiena.pigeonchat.entity.MessengerAnimal;
@@ -35,17 +34,17 @@ public abstract class AbstractMessengerMenu extends AbstractContainerMenu {
     public final Player sender;
     public final List<UUID> targets;
 
-    private final MessengerAnimal messenger;
+    private final MessengerMenuSource source;
     private final InteractionHand hand;
 
     protected AbstractMessengerMenu(final MenuType<? extends AbstractMessengerMenu> type,
                                     final int id,
-                                    final MessengerAnimal messenger,
+                                    final MessengerMenuSource source,
                                     final Player sender,
                                     final List<UUID> targets,
                                     final InteractionHand hand) {
         super(type, id);
-        this.messenger = messenger;
+        this.source = source;
         this.sender = sender;
         this.targets = targets;
         this.hand = hand;
@@ -80,9 +79,7 @@ public abstract class AbstractMessengerMenu extends AbstractContainerMenu {
 
     @Override
     public boolean stillValid(@NonNull Player player) {
-        return this.messenger.isAlive() &&
-                !this.messenger.isCarrying() &&
-                player.isWithinEntityInteractionRange(this.messenger, 4.0d);
+        return this.source.stillValid(player);
     }
 
     /**
@@ -93,23 +90,10 @@ public abstract class AbstractMessengerMenu extends AbstractContainerMenu {
     }
 
     /**
-     * Creates a delivery job bound to {@code target} and assigns {@link #messenger}.
+     * Creates a delivery job bound to {@code target} and assigns {@link #source}.
      */
     public void assignMessenger(ServerPlayer target) {
-        ItemStack held = this.sender.getItemInHand(this.hand);
-        if (this.messenger.isCarrying() || held.isEmpty() ||
-                !this.messenger.isDeliverable(held)) {
-            return;
-        }
-
-        ItemStack carrying = held.split(1);
-        this.messenger.carrying(carrying);
-        this.messenger.target(target);
-        this.messenger.sender(this.sender);
-        Constants.LOG.info("{} assigned delivery job (bound to {}) to {}",
-                this.sender.getName().getString(),
-                target.getName().getString(),
-                this.messenger.getReportableName());
+        this.source.assignMessenger(this.sender, this.hand, target);
     }
 
     /**
@@ -122,7 +106,7 @@ public abstract class AbstractMessengerMenu extends AbstractContainerMenu {
          * Opens menu for {@link MessengerAnimal}.
          */
         void open(ServerPlayer player,
-                  MessengerAnimal messenger,
+                  MessengerMenuSource source,
                   List<UUID> targets,
                   InteractionHand hand);
     }

@@ -1,5 +1,6 @@
 package me.giiena.pigeonchat;
 
+import me.giiena.pigeonchat.component.CagedMessenger;
 import me.giiena.pigeonchat.component.Converted;
 import me.giiena.pigeonchat.component.PigeonChatComponents;
 import me.giiena.pigeonchat.component.Sealed;
@@ -14,10 +15,17 @@ public class PigeonChatGameEvents {
     public static void onItemTooltip(ItemTooltipEvent event) {
         ItemStack stack = event.getItemStack();
 
+        CagedMessenger caged = stack.get(PigeonChatComponents.CAGED_MESSENGER);
+        if (caged != null) {
+            caged.addToTooltip(event.getContext(),
+                    event.getToolTip()::add,
+                    event.getFlags(),
+                    stack);
+        }
+
         Converted converted = stack.get(PigeonChatComponents.CONVERTED);
         if (converted != null) {
-            converted.addToTooltip(
-                    event.getContext(),
+            converted.addToTooltip(event.getContext(),
                     event.getToolTip()::add,
                     event.getFlags(),
                     stack);
@@ -25,8 +33,7 @@ public class PigeonChatGameEvents {
 
         Sealed sealed = stack.get(PigeonChatComponents.SEALED);
         if (sealed != null) {
-            sealed.addToTooltip(
-                    event.getContext(),
+            sealed.addToTooltip(event.getContext(),
                     event.getToolTip()::add,
                     event.getFlags(),
                     stack);

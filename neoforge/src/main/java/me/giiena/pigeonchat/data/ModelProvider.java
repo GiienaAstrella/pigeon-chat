@@ -14,6 +14,7 @@ public class ModelProvider extends net.minecraft.client.data.models.ModelProvide
     @Override
     protected void registerModels(@NonNull BlockModelGenerators blockGen,
                                   @NonNull ItemModelGenerators itemGen) {
+        PigeonChatModelProvider.generateBlockModels(blockGen);
         PigeonChatModelProvider.generateItemModels(itemGen);
     }
 

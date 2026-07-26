@@ -1,10 +1,13 @@
 package me.giiena.pigeonchat;
 
+import me.giiena.pigeonchat.block.BlockEntities;
+import me.giiena.pigeonchat.block.Blocks;
 import me.giiena.pigeonchat.component.PigeonChatComponents;
 import me.giiena.pigeonchat.entity.EntityTypes;
 import me.giiena.pigeonchat.inventory.MenuProviders;
 import me.giiena.pigeonchat.inventory.MenuTypes;
-import me.giiena.pigeonchat.inventory.MessengerMenu;
+import me.giiena.pigeonchat.inventory.MessengerAnimalMenu;
+import me.giiena.pigeonchat.inventory.MessengerCageMenu;
 import me.giiena.pigeonchat.item.CreativeTabs;
 import me.giiena.pigeonchat.item.Items;
 import me.giiena.pigeonchat.network.AssignMessengerPayload;
@@ -45,9 +48,13 @@ public class PigeonChat {
 
         bindKey(Registries.ENTITY_TYPE, EntityTypes::registerTypes);
         bind(Registries.MENU, MenuTypes::register);
-        MenuProviders.setMessenger(MessengerMenu::open);
+        MenuProviders.setMessenger(MessengerAnimalMenu::open);
+        MenuProviders.setCage(MessengerCageMenu::open);
 
+        bindKey(Registries.BLOCK_ENTITY_TYPE, BlockEntities::register);
+        bindKey(Registries.BLOCK, Blocks::registerBlocks);
         bind(Registries.ITEM, Items::register);
+        bindKey(Registries.ITEM, Blocks::registerItems);
         bind(Registries.CREATIVE_MODE_TAB, CreativeTabs::register);
 
         EVENT_BUS.addListener((Consumer<BuildCreativeModeTabContentsEvent>) event ->

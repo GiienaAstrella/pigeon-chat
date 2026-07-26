@@ -18,6 +18,7 @@ public class PigeonChatComponents {
     public static DataComponentType<Boolean> UNBREAKABLE;
     public static DataComponentType<Writable> WRITABLE;
     public static DataComponentType<Sealed> SEALED;
+    public static DataComponentType<CagedMessenger> CAGED_MESSENGER;
 
     public static void register(BiConsumer<DataComponentType<?>, Identifier> consumer) {
         INK_CONTAINER = DataComponentType.<InkContainer>builder()
@@ -48,6 +49,10 @@ public class PigeonChatComponents {
                 .persistent(Sealed.CODEC)
                 .networkSynchronized(Sealed.STREAM_CODEC)
                 .build();
+        CAGED_MESSENGER = DataComponentType.<CagedMessenger>builder()
+                .persistent(CagedMessenger.CODEC)
+                .networkSynchronized(CagedMessenger.STREAM_CODEC)
+                .build();
 
         consumer.accept(INK_CONTAINER, PigeonChatCommon.identifier("ink_container"));
         consumer.accept(INK_COLOR, PigeonChatCommon.identifier("ink_color"));
@@ -55,5 +60,6 @@ public class PigeonChatComponents {
         consumer.accept(UNBREAKABLE, PigeonChatCommon.identifier("unbreakable"));
         consumer.accept(WRITABLE, PigeonChatCommon.identifier("writable"));
         consumer.accept(SEALED, PigeonChatCommon.identifier("sealed"));
+        consumer.accept(CAGED_MESSENGER, PigeonChatCommon.identifier("caged_messenger"));
     }
 }
