@@ -18,6 +18,7 @@ public class ItemTags {
     public static final TagKey<Item> QUILL_MATERIALS = create("quill_materials");
 
     public static final TagKey<Item> STRINGS = create("c", "strings");
+    public static final TagKey<Item> WOODEN_SLABS = create("minecraft", "wooden_slabs");
 
     public static TagKey<Item> create(final String id) {
         return TagKey.create(Registries.ITEM, PigeonChatCommon.identifier(id));

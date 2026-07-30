@@ -25,6 +25,15 @@ public class PigeonChatRecipeProvider extends RecipeProvider {
                 .group(PigeonChatCommon.identifier("pen").toString())
                 .unlockedBy("has_iron_ingot", has(net.minecraft.world.item.Items.IRON_INGOT))
                 .save(this.output);
+        this.shaped(RecipeCategory.TRANSPORTATION, Items.BIRD_CAGE)
+                .define('S', ItemTags.WOODEN_SLABS)
+                .define('B', Ingredient.of(net.minecraft.world.item.Items.IRON_BARS))
+                .pattern("S")
+                .pattern("B")
+                .pattern("S")
+                .unlockedBy("has_iron_bar", has(net.minecraft.world.item.Items.IRON_BARS))
+                .unlockedBy("has_wooden_slab", has(ItemTags.WOODEN_SLABS))
+                .save(this.output);
     }
 
     public static String name() {

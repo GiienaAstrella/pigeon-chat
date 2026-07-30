@@ -198,7 +198,7 @@ public class BirdCageEntity extends BlockEntity implements MessengerMenuSource {
                 messenger.getReportableName());
     }
 
-    private boolean spawnMessenger(MessengerAnimal messenger, Direction facing, BlockPos pos) {
+    public boolean spawnMessenger(MessengerAnimal messenger, Direction facing, BlockPos pos) {
         if (this.level == null || this.level.isClientSide()) return false;
 
         messenger.setId(this.level.getNextEntityId());

@@ -12,7 +12,9 @@ The format is based on [Keep a Changelog].
 - Bird Cage.
   Right-click a Pigeon to capture one.
   Sneak-right-click a placed down Bird Cage to retrieve it.
-  Like with Pigeons in the wild, right-click a caged Pigeon to make deliveries. ([#7])
+  Like with Pigeons in the wild, right-click a caged Pigeon to make deliveries.
+  Breaking Bird Cage with a tool (as opposed to retrieving it), the captured entity will be
+  released. ([#7])
 
 ### Changed
 

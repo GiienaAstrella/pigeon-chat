@@ -10,9 +10,11 @@ import net.minecraft.core.Direction;
 import net.minecraft.core.component.DataComponentMap;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextColor;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.Containers;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
@@ -135,6 +137,22 @@ public class BirdCage extends BaseEntityBlock {
     }
 
     @Override
+    protected void spawnAfterBreak(@NonNull BlockState state,
+                                   @NonNull ServerLevel level,
+                                   @NonNull BlockPos pos,
+                                   @NonNull ItemStack tool,
+                                   boolean dropExperience) {
+        if (!(level.getBlockEntity(pos) instanceof BirdCageEntity cage)) {
+            super.spawnAfterBreak(state, level, pos, tool, dropExperience);
+            return;
+        }
+
+        MessengerAnimal messenger = cage.messenger();
+        if (messenger == null) return;
+        cage.spawnMessenger(messenger, state.getValue(FACING), pos);
+    }
+
+    @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
         builder.add(FACING);
     }
@@ -142,6 +160,22 @@ public class BirdCage extends BaseEntityBlock {
     @Override
     public BlockState getStateForPlacement(@NonNull BlockPlaceContext ctx) {
         return this.defaultBlockState().setValue(FACING, ctx.getHorizontalDirection().getOpposite());
+    }
+
+    @Override
+    public void playerDestroy(@NonNull Level level,
+                              @NonNull Player player,
+                              @NonNull BlockPos pos,
+                              @NonNull BlockState state,
+                              @Nullable BlockEntity blockEntity,
+                              @NonNull ItemStack destroyedWith) {
+        if (!level.isClientSide() && blockEntity instanceof BirdCageEntity cage) {
+            MessengerAnimal messenger = cage.messenger();
+            if (messenger == null) return;
+            cage.spawnMessenger(messenger, state.getValue(FACING), pos);
+            Containers.updateNeighboursAfterDestroy(state, level, pos);
+        }
+        super.playerDestroy(level, player, pos, state, blockEntity, destroyedWith);
     }
 
     @Override

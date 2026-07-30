@@ -7,6 +7,8 @@ import me.giiena.pigeonchat.client.renderer.entity.EntityRenderers;
 import me.giiena.pigeonchat.client.screen.ItemScreen;
 import me.giiena.pigeonchat.client.screen.TargetSelectionScreen;
 import me.giiena.pigeonchat.data.BiomeModifiers;
+import me.giiena.pigeonchat.data.BlockLootSubProvider;
+import me.giiena.pigeonchat.data.BlockTagProvider;
 import me.giiena.pigeonchat.data.EntityLootSubProvider;
 import me.giiena.pigeonchat.data.ItemTagProvider;
 import me.giiena.pigeonchat.data.ModelProvider;
@@ -54,11 +56,14 @@ public class PigeonChatClient {
         CompletableFuture<HolderLookup.Provider> registries = event.getLookupProvider();
 
         generator.addProvider(true, new ModelProvider(output));
+        generator.addProvider(true, new BlockTagProvider(output, registries));
         generator.addProvider(true, new ItemTagProvider(output, registries));
         generator.addProvider(true, new RecipeProvider(output, registries));
         List<LootTableProvider.SubProviderEntry> entries = List.of(
                 new LootTableProvider.SubProviderEntry(EntityLootSubProvider::new,
-                        LootContextParamSets.ENTITY));
+                        LootContextParamSets.ENTITY),
+                new LootTableProvider.SubProviderEntry(BlockLootSubProvider::new,
+                        LootContextParamSets.BLOCK));
         generator.addProvider(true, new LootTableProvider(output, Set.of(), entries, registries));
 
         RegistrySetBuilder builder = new RegistrySetBuilder();
