@@ -1,11 +1,9 @@
 package me.giiena.pigeonchat.data;
 
 import me.giiena.pigeonchat.Constants;
-import me.giiena.pigeonchat.PigeonChatCommon;
 import me.giiena.pigeonchat.item.ItemIDs;
 import me.giiena.pigeonchat.tag.ItemTags;
 import net.minecraft.core.HolderLookup;
-import net.minecraft.core.registries.Registries;
 import net.minecraft.data.PackOutput;
 import net.minecraft.references.ItemIds;
 import net.neoforged.neoforge.common.Tags;
@@ -26,7 +24,7 @@ public class ItemTagProvider extends ItemTagsProvider {
                 .addTag(ItemTags.WRITABLE_LETTERS)
                 .addTag(ItemTags.WRITABLE_NAME_TAGS);
         this.tag(ItemTags.WRITABLE_LETTERS)
-                .add(PigeonChatCommon.resourceKey(Registries.ITEM, ItemIDs.LETTER))
+                .add(ItemIDs.LETTER)
                 .add(ItemIds.PAPER);
         this.tag(ItemTags.WRITABLE_NAME_TAGS)
                 .add(ItemIds.NAME_TAG);
@@ -45,8 +43,8 @@ public class ItemTagProvider extends ItemTagsProvider {
                 .addTag(Tags.Items.FEATHERS);
 
         this.tag(Tags.Items.FOODS_RAW_MEAT)
-                .add(PigeonChatCommon.resourceKey(Registries.ITEM, ItemIDs.PIGEON));
+                .add(ItemIDs.PIGEON);
         this.tag(Tags.Items.FOODS_COOKED_MEAT)
-                .add(PigeonChatCommon.resourceKey(Registries.ITEM, ItemIDs.COOKED_PIGEON));
+                .add(ItemIDs.COOKED_PIGEON);
     }
 }

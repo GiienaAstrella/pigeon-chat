@@ -1,13 +1,11 @@
 package me.giiena.pigeonchat.data;
 
-import me.giiena.pigeonchat.PigeonChatCommon;
 import me.giiena.pigeonchat.item.ItemIDs;
 import me.giiena.pigeonchat.tag.ItemTags;
 import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagsProvider;
 import net.fabricmc.fabric.api.tag.convention.v2.ConventionalItemTags;
 import net.minecraft.core.HolderLookup;
-import net.minecraft.core.registries.Registries;
 import net.minecraft.references.ItemIds;
 import org.jspecify.annotations.NonNull;
 
@@ -24,7 +22,7 @@ public class ItemTagProvider extends FabricTagsProvider.ItemTagsProvider {
                 .forceAddTag(ItemTags.WRITABLE_LETTERS)
                 .forceAddTag(ItemTags.WRITABLE_NAME_TAGS);
         builder(ItemTags.WRITABLE_LETTERS)
-                .add(PigeonChatCommon.resourceKey(Registries.ITEM, ItemIDs.LETTER))
+                .add(ItemIDs.LETTER)
                 .add(ItemIds.PAPER);
         builder(ItemTags.WRITABLE_NAME_TAGS)
                 .add(ItemIds.NAME_TAG);
@@ -43,8 +41,8 @@ public class ItemTagProvider extends FabricTagsProvider.ItemTagsProvider {
                 .forceAddTag(ConventionalItemTags.FEATHERS);
 
         builder(ConventionalItemTags.RAW_MEAT_FOODS)
-                .add(PigeonChatCommon.resourceKey(Registries.ITEM, ItemIDs.PIGEON));
+                .add(ItemIDs.PIGEON);
         builder(ConventionalItemTags.COOKED_MEAT_FOODS)
-                .add(PigeonChatCommon.resourceKey(Registries.ITEM, ItemIDs.COOKED_PIGEON));
+                .add(ItemIDs.COOKED_PIGEON);
     }
 }

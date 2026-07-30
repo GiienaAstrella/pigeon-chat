@@ -22,13 +22,15 @@ public class BlockEntities {
             BirdCageEntity::new,
             Blocks.BIRD_CAGE);
 
-    public static void register(BiConsumer<BlockEntityType<?>, ResourceKey<BlockEntityType<?>>> registry) {
-        TYPES.forEach((key, type) -> registry.accept(type, key));
+    public static void register(
+            BiConsumer<ResourceKey<BlockEntityType<?>>, BlockEntityType<?>> registry) {
+        TYPES.forEach(registry);
     }
 
-    private static <T extends BlockEntity> BlockEntityType<T> create(String name,
-                                                                     BlockEntityType.BlockEntitySupplier<T> factory,
-                                                                     Block... blocks) {
+    private static <T extends BlockEntity> BlockEntityType<T> create(
+            String name,
+            BlockEntityType.BlockEntitySupplier<T> factory,
+            Block... blocks) {
         Identifier id = PigeonChatCommon.identifier(name);
         ResourceKey<BlockEntityType<?>> key = PigeonChatCommon.resourceKey(Registries.BLOCK_ENTITY_TYPE, id);
         BlockEntityType<T> type = new BlockEntityType<>(factory, Set.of(blocks));

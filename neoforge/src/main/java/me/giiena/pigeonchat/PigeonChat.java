@@ -44,23 +44,22 @@ public class PigeonChat {
         EVENT_BUS = modEventBus;
         PigeonChatConfig.init();
 
-        bind(Registries.DATA_COMPONENT_TYPE, PigeonChatComponents::register);
+        bind(Registries.DATA_COMPONENT_TYPE, PigeonChatComponents::registerAll);
 
         bindKey(Registries.ENTITY_TYPE, EntityTypes::registerTypes);
-        bind(Registries.MENU, MenuTypes::register);
+        bind(Registries.MENU, MenuTypes::registerAll);
         MenuProviders.setMessenger(MessengerAnimalMenu::open);
         MenuProviders.setCage(MessengerCageMenu::open);
 
         bindKey(Registries.BLOCK_ENTITY_TYPE, BlockEntities::register);
-        bindKey(Registries.BLOCK, Blocks::registerBlocks);
-        bind(Registries.ITEM, Items::register);
-        bindKey(Registries.ITEM, Blocks::registerItems);
-        bind(Registries.CREATIVE_MODE_TAB, CreativeTabs::register);
+        bindKey(Registries.BLOCK, Blocks::registerAll);
+        bindKey(Registries.ITEM, Items::registerAll);
+        bindKey(Registries.CREATIVE_MODE_TAB, CreativeTabs::registerAll);
 
         EVENT_BUS.addListener((Consumer<BuildCreativeModeTabContentsEvent>) event ->
                 CreativeTabs.TAB_ITEMS.forEach((tab, items) -> {
             if (event.getTabKey() == tab) {
-                items.forEach(supplier -> event.accept(supplier.get()));
+                items.forEach(supplier -> event.accept(supplier.get().create()));
             }
         }));
 
@@ -105,10 +104,10 @@ public class PigeonChat {
 
     private <T> void bind(
             ResourceKey<Registry<T>> registry,
-            Consumer<BiConsumer<T, Identifier>> source) {
+            Consumer<BiConsumer<Identifier, T>> source) {
         EVENT_BUS.addListener((Consumer<RegisterEvent>) event -> {
             if (registry.equals(event.getRegistryKey())) {
-                source.accept((t, id) -> event.register(registry, id, () -> t));
+                source.accept((id, t) -> event.register(registry, id, () -> t));
             }
         });
     }
@@ -116,10 +115,10 @@ public class PigeonChat {
     @SuppressWarnings("SameParameterValue")
     private <T> void bindKey(
             ResourceKey<Registry<T>> registry,
-            Consumer<BiConsumer<T, ResourceKey<T>>> source) {
+            Consumer<BiConsumer<ResourceKey<T>, T>> source) {
         EVENT_BUS.addListener((Consumer<RegisterEvent>) event -> {
             if (registry.equals(event.getRegistryKey())) {
-                source.accept((t, id) -> event.register(registry, id.identifier(), () -> t));
+                source.accept((id, t) -> event.register(registry, id.identifier(), () -> t));
             }
         });
     }

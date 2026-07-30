@@ -38,7 +38,7 @@ public class PigeonChat implements ModInitializer {
         PigeonChatConfig.init();
         networkingInit();
 
-        bind(BuiltInRegistries.DATA_COMPONENT_TYPE, PigeonChatComponents::register);
+        bind(BuiltInRegistries.DATA_COMPONENT_TYPE, PigeonChatComponents::registerAll);
         ItemComponentTooltipProviderRegistry.addAfter(DataComponents.DAMAGE,
                 PigeonChatComponents.CONVERTED);
         ItemComponentTooltipProviderRegistry.addAfter(PigeonChatComponents.CONVERTED,
@@ -47,7 +47,7 @@ public class PigeonChat implements ModInitializer {
                 PigeonChatComponents.CAGED_MESSENGER);
 
         bindKey(BuiltInRegistries.ENTITY_TYPE, EntityTypes::registerTypes);
-        bind(BuiltInRegistries.MENU, MenuTypes::register);
+        bind(BuiltInRegistries.MENU, MenuTypes::registerAll);
         MenuProviders.setMessenger(MessengerAnimalMenu::open);
         MenuProviders.setCage(MessengerCageMenu::open);
         EntityTypes.registerSpawnPlacements(SpawnPlacements::register);
@@ -59,16 +59,15 @@ public class PigeonChat implements ModInitializer {
                 Pigeon.MAX_SPAWN_COUNT);
 
         bindKey(BuiltInRegistries.BLOCK_ENTITY_TYPE, BlockEntities::register);
-        bindKey(BuiltInRegistries.BLOCK, Blocks::registerBlocks);
-        bind(BuiltInRegistries.ITEM, Items::register);
-        bindKey(BuiltInRegistries.ITEM, Blocks::registerItems);
-        bind(BuiltInRegistries.CREATIVE_MODE_TAB, CreativeTabs::register);
+        bindKey(BuiltInRegistries.BLOCK, Blocks::registerAll);
+        bindKey(BuiltInRegistries.ITEM, Items::registerAll);
+        bindKey(BuiltInRegistries.CREATIVE_MODE_TAB, CreativeTabs::registerAll);
 
         EntityTypes.registerAttributes(FabricDefaultAttributeRegistry::register);
 
         CreativeTabs.TAB_ITEMS.forEach((tab, items) ->
                 CreativeModeTabEvents.modifyOutputEvent(tab).register(entries ->
-                        items.forEach(supplier -> entries.accept(supplier.get()))));
+                        items.forEach(supplier -> entries.accept(supplier.get().create()))));
 
         PigeonChatCommon.init();
     }
@@ -87,15 +86,15 @@ public class PigeonChat implements ModInitializer {
                 (payload, ctx) -> payload.handle(ctx.player()));
     }
 
-    private <T> void bind(Registry<T> registry, Consumer<BiConsumer<T, Identifier>> source) {
+    private <T> void bind(Registry<T> registry, Consumer<BiConsumer<Identifier, T>> source) {
         bindKey(registry, tgt ->
-                source.accept((t, id) ->
-                        tgt.accept(t, PigeonChatCommon.resourceKey(registry.key(), id))));
+                source.accept((id, t) ->
+                        tgt.accept(PigeonChatCommon.resourceKey(registry.key(), id), t)));
     }
 
     private <T> void bindKey(
             Registry<T> registry,
-            Consumer<BiConsumer<T, ResourceKey<T>>> source) {
-        source.accept((t, id) -> Registry.register(registry, id, t));
+            Consumer<BiConsumer<ResourceKey<T>, T>> source) {
+        source.accept((id, t) -> Registry.register(registry, id, t));
     }
 }

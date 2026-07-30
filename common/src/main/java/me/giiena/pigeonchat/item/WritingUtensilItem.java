@@ -24,9 +24,9 @@ public class WritingUtensilItem extends Item implements PigeonChatItem {
     @Override
     public int pigeonchat$getMaxDamage(ItemStack stack) {
         Identifier id = BuiltInRegistries.ITEM.getKey(stack.getItem());
-        if (id == ItemIDs.PEN) {
+        if (id == ItemIDs.PEN.identifier()) {
             return PigeonChatConfig.Common.PEN_FILL.get();
-        } else if (id == ItemIDs.QUILL) {
+        } else if (id == ItemIDs.QUILL.identifier()) {
             return PigeonChatConfig.Common.QUILL_FILL.get();
         }
         return PigeonChatItem.super.pigeonchat$getMaxDamage(stack);

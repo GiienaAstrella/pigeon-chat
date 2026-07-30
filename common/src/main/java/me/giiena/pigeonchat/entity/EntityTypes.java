@@ -3,6 +3,7 @@ package me.giiena.pigeonchat.entity;
 import me.giiena.pigeonchat.PigeonChatCommon;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
@@ -14,20 +15,30 @@ import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.level.levelgen.Heightmap;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.function.BiConsumer;
 
 @SuppressWarnings("SameParameterValue")
 public class EntityTypes {
-    public static EntityType<Pigeon> PIGEON;
+    private static final Map<ResourceKey<EntityType<?>>, EntityType<?>> TYPES = new HashMap<>();
+
+    public static final EntityType<Pigeon> PIGEON = registerType("pigeon",
+            EntityType.Builder.<Pigeon>of(Pigeon::new, MobCategory.CREATURE)
+                    .sized(0.5f, 0.9f)
+                    .eyeHeight(0.54f));
 
     public static void registerTypes(
-            BiConsumer<EntityType<?>, ResourceKey<EntityType<?>>> consumer) {
-        PIGEON = EntityType.Builder.<Pigeon>of(Pigeon::new, MobCategory.CREATURE)
-                .sized(0.5F, 0.9F)
-                .eyeHeight(0.54F)
-                .build(resourceKey("pigeon"));
+            BiConsumer<ResourceKey<EntityType<?>>, EntityType<?>> registry) {
+        TYPES.forEach(registry);
+    }
 
-        consumer.accept(PIGEON, resourceKey("pigeon"));
+    private static <T extends Entity> EntityType<T> registerType(final String id,
+                                                                 EntityType.Builder<T> builder) {
+        ResourceKey<EntityType<?>> key = resourceKey(id);
+        EntityType<T> type = builder.build(key);
+        TYPES.put(key, type);
+        return type;
     }
 
     public static void registerAttributes(
