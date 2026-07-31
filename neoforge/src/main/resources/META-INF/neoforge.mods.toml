@@ -8,7 +8,7 @@ version = "${version}"
 displayName = "${mod_name}"
 displayURL="${homepage}"
 logoFile="${mod_id}.png"
-credits="${credits}"
+credits= '''${credits}'''
 authors = "${mod_author}"
 description = '''${description}'''
 [[mixins]]

@@ -52,6 +52,10 @@ processResources {
     exclude '**/*.aseprite'
     exclude '**/*.ase'
 
+    def creditsList = (credits as String).split(',').collect { it.trim() }.findAll()
+    def tomlCredits = creditsList.join('\n')
+    def jsonCredits = creditsList.collect { '"' + it + '"' }.join(',\n        ')
+
     var expandProps = [
             'version'                      : version,
             'group'                        : project.group, //Else we target the task's group.
@@ -68,13 +72,14 @@ processResources {
             'issueTracker'                 : issueTracker,
             'neoforge_version'             : neoforge_version,
             'neoforge_loader_version_range': neoforge_loader_version_range,
-            'credits'                      : credits,
+            'credits'                      : tomlCredits,
             'java_version'                 : java_version
     ]
 
     var jsonExpandProps = expandProps.collectEntries {
         key, value -> [(key): value instanceof String ? value.replace('\n', '\\\\n') : value]
     }
+    jsonExpandProps.credits = jsonCredits
 
     filesMatching(['META-INF/mods.toml', 'META-INF/neoforge.mods.toml']) {
         expand expandProps
@@ -85,6 +90,7 @@ processResources {
     }
 
     inputs.properties(expandProps)
+    inputs.property('jsonCredits', jsonCredits)
 }
 
 publishing {
