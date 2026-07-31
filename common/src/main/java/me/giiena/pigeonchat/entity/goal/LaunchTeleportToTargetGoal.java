@@ -37,8 +37,7 @@ public class LaunchTeleportToTargetGoal extends AbstractApproachTargetGoal {
 
     @Override
     public boolean canContinueToUse() {
-        return this.target != null && !this.teleported && this.gaveUpTicks > 0 &&
-                !this.navigation.isDone();
+        return this.target != null && !this.teleported;
     }
 
     @Override
