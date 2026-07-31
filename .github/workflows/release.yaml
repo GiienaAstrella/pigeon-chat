@@ -100,23 +100,45 @@ jobs:
           gh release upload "${{ github.ref_name }}" \
             "${{ steps.jars.outputs.fabric }}" \
             "${{ steps.jars.outputs.neoforge }}"
-      - name: Publish to Modrinth & CurseForge
+      - name: Parse tag
+        id: parse_tag
+        run: |
+          tag="${{ github.ref_name }}"
+          # Strip leading 'v', then split on '+' into mod_version and mc_version.
+          # v0.2.0+26.2 -> mod_version=0.2.0, mc_version=26.2
+          stripped="${tag#v}"
+          mod_version="${stripped%%+*}"
+          mc_version="${stripped#*+}"
+          if [ -z "$mod_version" ] || [ -z "$mc_version" ] || [ "$mod_version" = "$stripped" ]; then
+            echo "Tag '$tag' does not match expected format vX.Y.Z+MC_VERSION" >&2
+            exit 1
+          fi
+          echo "mod_version=$mod_version" >> "$GITHUB_OUTPUT"
+          echo "mc_version=$mc_version" >> "$GITHUB_OUTPUT"
+      - name: Publish to Modrinth & CurseForge (Fabric)
         uses: Kir-Antipov/mc-publish@v3
         with:
           modrinth-id: ${{ vars.MODRINTH_PROJECT_ID }}
           modrinth-token: ${{ secrets.MODRINTH_TOKEN }}
           curseforge-id: ${{ vars.CURSEFORGE_PROJECT_ID }}
           curseforge-token: ${{ secrets.CURSEFORGE_TOKEN }}
-          files: |
-            ${{ steps.jars.outputs.fabric }}
-            ${{ steps.jars.outputs.neoforge }}
-          loaders: |
-            fabric
-            neoforge
-          game-versions: |
-            26.2
+          files: fabric/build/libs/!(*-@(dev|sources|javadoc)).jar
+          loaders: fabric
+          game-versions: ${{ steps.parse_tag.outputs.mc_version }}
+          version: ${{ steps.parse_tag.outputs.mod_version }}
           version-type: alpha
-          changelog-file: RELEASE.md
+      - name: Publish to Modrinth & CurseForge (NeoForge)
+        uses: Kir-Antipov/mc-publish@v3
+        with:
+          modrinth-id: ${{ vars.MODRINTH_PROJECT_ID }}
+          modrinth-token: ${{ secrets.MODRINTH_TOKEN }}
+          curseforge-id: ${{ vars.CURSEFORGE_PROJECT_ID }}
+          curseforge-token: ${{ secrets.CURSEFORGE_TOKEN }}
+          files: neoforge/build/libs/!(*-@(dev|sources|javadoc)).jar
+          loaders: neoforge
+          game-versions: ${{ steps.parse_tag.outputs.mc_version }}
+          version: ${{ steps.parse_tag.outputs.mod_version }}
+          version-type: alpha
       - name: Publish release
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
