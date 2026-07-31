@@ -70,9 +70,9 @@ public class NameTagEditScreen extends Screen {
                 .setY((this.height - BOX_HEIGHT) / 2 - BOX_HEIGHT_DELTA)
                 .setPastText(this.pastText)
                 .setLineLimit(4)
-                .setCharacterLimit(remainingFill)
                 .build(this.font, BOX_WIDTH, BOX_HEIGHT, Component.empty());
         this.box.characterLimit(MAX_CHARS);
+        this.box.inkLimit(remainingFill);
         this.box.setEditable(editable);
 
         Button done = Button
