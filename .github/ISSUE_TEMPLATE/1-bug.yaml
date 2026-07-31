@@ -25,7 +25,10 @@ body:
     id: loader
     attributes:
       label: Mod Loader
-      description: What mod loader (e.g. Fabric or NeoForge) are you running? If the issue exists on multiple mod loaders, please submit a separate bug report for each loader.
+      description: |
+        What mod loader (e.g. Fabric or NeoForge) are you running?
+        If the issue exists on multiple mod loaders, please select all applicable loaders.
+      multiple: true
       options:
         - Fabric
         - NeoForge
@@ -35,7 +38,11 @@ body:
     id: loader-version
     attributes:
       label: Mod Loader Version
-      description: What mod loader version are you running? For Fabric, this is the version of the mod loader itself, not the Fabric API.
+      description: |
+        What mod loader version are you running?
+        For Fabric, this is the version of the mod loader itself, not the Fabric API.
+        If reporting for multiple loaders, sort using the same order as the dropdown above and
+        separate by `,`.
       placeholder: "0.19.3"
     validations:
       required: true
