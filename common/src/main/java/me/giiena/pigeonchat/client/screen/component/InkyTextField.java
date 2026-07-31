@@ -480,7 +480,15 @@ public class InkyTextField {
                         (StringUtil.endsWithNewLine(newValue) ? 1 : 0) > this.lineLimit;
     }
 
-    public record StringView(int begin, int end) {
+    public static class StringView {
+        public final int begin;
+        public final int end;
+        public StringView(int begin, int end) {
+            this.begin = begin;
+            this.end = end;
+        }
+        public int begin() { return this.begin; }
+        public int end() { return this.end; }
         public static final StringView EMPTY = new StringView(0, 0);
     }
 }
