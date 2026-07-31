@@ -73,7 +73,7 @@ public abstract class ItemMixin {
 
         int consumeAmount = PigeonChatConfig.Common.INK_BOTTLE_DYE_REFILL.get();
 
-        if (material.count() < consumeAmount) return null;
+        if (material.getCount() < consumeAmount) return null;
         material.consume(consumeAmount, player);
 
         ItemStack newContainer = new ItemStack(Items.INK_BOTTLE);
