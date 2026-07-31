@@ -1,0 +1,47 @@
+name: Report Mistranslation
+description: Report translation issues
+labels: [ "localization" ]
+body:
+  - type: input
+    id: version
+    attributes:
+      label: Mod Version
+      description: The numbers on the jar file name (e.g. `pigeonchat-fabric-26.2-0.1.0` is version `26.2-0.1.0`).
+      placeholder: "26.2-0.1.0"
+    validations:
+      required: true
+  - type: input
+    id: mc-version
+    attributes:
+      label: Minecraft Version
+      description: What version of Minecraft are you running?
+      placeholder: "26.2"
+    validations:
+      required: true
+  - type: input
+    id: lang
+    attributes:
+      label: Language
+      placeholder: English
+  - type: input
+    id: key
+    attributes:
+      label: Translation Key or English Localization
+      description: |
+        We prefer translation key, but we will accept the English localization of the entry.
+      placeholder:
+        entity.pigeonchat.pigeon
+    validations:
+      required: true
+  - type: input
+    id: current
+    attributes:
+      label: Current Translation
+      placeholder: N/A
+    validations:
+      required: true
+  - type: input
+    id: correct
+    attributes:
+      label: Correct Translation
+      placeholder: Pigeon
