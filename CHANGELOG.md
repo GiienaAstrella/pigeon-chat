@@ -16,6 +16,9 @@ The format is based on [Keep a Changelog].
 
 ### Fixed
 
+- Capturing Pigeon while holding multiple Bird Cage in a stack no longer captures to all held
+  Bird Cage. ([#12])
+
 ### Security
 
 ## [0.2.0+26.2] - 2026-07-30
@@ -78,6 +81,7 @@ The format is based on [Keep a Changelog].
 [#2]: https://github.com/GiienaAstrella/pigeon-chat/issues/2
 [#4]: https://github.com/GiienaAstrella/pigeon-chat/issues/4
 [#7]: https://github.com/GiienaAstrella/pigeon-chat/issues/7
+[#12]: https://github.com/GiienaAstrella/pigeon-chat/issues/12
 [0.1.0]: https://github.com/GiienaAstrella/pigeon-chat/compare/0f0e4a9c15de3a94691e7d807bed1eacdb5a48bb...v0.1.0
 [0.2.0+26.2]: https://github.com/GiienaAstrella/pigeon-chat/releases/tag/v0.2.0+26.2
 [Keep a Changelog]: https://keepachangelog.com/en/1.1.0/

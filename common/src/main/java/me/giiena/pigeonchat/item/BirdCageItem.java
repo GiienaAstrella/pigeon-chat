@@ -25,30 +25,45 @@ public class BirdCageItem extends BlockItem implements PigeonChatItem {
                                                   @NonNull Player player,
                                                   @NonNull LivingEntity target,
                                                   @NonNull InteractionHand hand) {
-        if (target instanceof MessengerAnimal messenger) {
-            stack.set(PigeonChatComponents.CAGED_MESSENGER, new CagedMessenger(messenger));
-            messenger.discard();
-            player.setItemInHand(hand, stack);
-            if (!player.level().isClientSide()) {
-                player.level().playSound(null,
-                        player.getX(),
-                        player.getY(),
-                        player.getZ(),
-                        SoundEvents.IRON_DOOR_OPEN,
-                        SoundSource.PLAYERS,
-                        1.0f,
-                        1.0f);
-                player.level().playSound(null,
-                        player.getX(),
-                        player.getY(),
-                        player.getZ(),
-                        SoundEvents.IRON_DOOR_CLOSE,
-                        SoundSource.PLAYERS,
-                        1.0f,
-                        1.0f);
-            }
-            return InteractionResult.SUCCESS;
+        if (!(target instanceof MessengerAnimal messenger)) {
+            return super.interactLivingEntity(stack, player, target, hand);
         }
-        return super.interactLivingEntity(stack, player, target, hand);
+
+        CagedMessenger data = new CagedMessenger(messenger);
+        messenger.discard();
+
+        ItemStack cage;
+        if (stack.count() == 1) {
+            cage = stack;
+        } else {
+            cage = stack.copyWithCount(1);
+            stack.consume(1, player);
+        }
+
+        cage.set(PigeonChatComponents.CAGED_MESSENGER, data);
+        if (stack.count() > 1 && !player.addItem(cage)) {
+            player.drop(cage, false);
+        }
+
+        if (!player.level().isClientSide()) {
+            player.level().playSound(null,
+                    player.getX(),
+                    player.getY(),
+                    player.getZ(),
+                    SoundEvents.IRON_DOOR_OPEN,
+                    SoundSource.PLAYERS,
+                    1.0f,
+                    1.0f);
+            player.level().playSound(null,
+                    player.getX(),
+                    player.getY(),
+                    player.getZ(),
+                    SoundEvents.IRON_DOOR_CLOSE,
+                    SoundSource.PLAYERS,
+                    1.0f,
+                    1.0f);
+        }
+
+        return InteractionResult.SUCCESS;
     }
 }
