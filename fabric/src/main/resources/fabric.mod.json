@@ -36,12 +36,9 @@
     "accessWidener": "${mod_id}.accesswidener",
     "depends": {
         "fabricloader": ">=${fabric_loader_version}",
-        "fabric-api": "*",
+        "fabric-api": "${fabric_version_range}",
         "minecraft": "~${minecraft_version}",
         "java": ">=${java_version}"
-    },
-    "suggests": {
-        "another-mod": "*"
     }
 }
   

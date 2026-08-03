@@ -18,6 +18,8 @@ The format is based on [Keep a Changelog].
 
 ### Fixed
 
+- Fixed an issue where Pigeon Chat loads in an environment where GCL cannot load. ([#16])
+
 ### Security
 
 ## [0.2.1+26.2] - 2026-08-02
@@ -85,6 +87,7 @@ The format is based on [Keep a Changelog].
 - Right-clicking a Name Tag without holding a writing utensil with the other hand displays its name.
 
 [#12]: https://github.com/GiienaAstrella/pigeon-chat/issues/12
+[#16]: https://github.com/GiienaAstrella/pigeon-chat/issues/16
 [#2]: https://github.com/GiienaAstrella/pigeon-chat/issues/2
 [#4]: https://github.com/GiienaAstrella/pigeon-chat/issues/4
 [#7]: https://github.com/GiienaAstrella/pigeon-chat/issues/7
