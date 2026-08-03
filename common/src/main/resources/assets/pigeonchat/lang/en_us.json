@@ -27,6 +27,7 @@
   "pigeonchat.common.pen.fill": "Max Fill",
   "pigeonchat.common.pigeon": "Pigeon Configuration",
   "pigeonchat.common.pigeon.allow_return": "Allow Return Delivery",
+  "pigeonchat.common.pigeon.allow_self_delivery": "Allow delivery to self",
   "pigeonchat.common.pigeon.invincible_delivery": "Invincible During Delivery",
   "pigeonchat.common.quill": "Quill Configuration",
   "pigeonchat.common.quill.fill": "Max Fill",
