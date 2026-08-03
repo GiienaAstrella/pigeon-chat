@@ -4,22 +4,12 @@ All notable changes in Changelog will be documented in this file.
 
 The format is based on [Keep a Changelog].
 
-## [UNRELEASED]
-
-### Added
-
-### Changed
-
-### Deprecated
-
-### Removed
+## [0.2.1+26.2] - 2026-08-02
 
 ### Fixed
 
 - Capturing Pigeon while holding multiple Bird Cage in a stack no longer captures to all held
   Bird Cage. ([#12])
-
-### Security
 
 ## [0.2.0+26.2] - 2026-07-30
 
@@ -78,11 +68,11 @@ The format is based on [Keep a Changelog].
 - Name Tags can now be named by right-clicking while holding a writing utensil with the other hand.
 - Right-clicking a Name Tag without holding a writing utensil with the other hand displays its name.
 
+[#12]: https://github.com/GiienaAstrella/pigeon-chat/issues/12
 [#2]: https://github.com/GiienaAstrella/pigeon-chat/issues/2
 [#4]: https://github.com/GiienaAstrella/pigeon-chat/issues/4
 [#7]: https://github.com/GiienaAstrella/pigeon-chat/issues/7
-[#12]: https://github.com/GiienaAstrella/pigeon-chat/issues/12
 [0.1.0]: https://github.com/GiienaAstrella/pigeon-chat/compare/0f0e4a9c15de3a94691e7d807bed1eacdb5a48bb...v0.1.0
 [0.2.0+26.2]: https://github.com/GiienaAstrella/pigeon-chat/releases/tag/v0.2.0+26.2
+[0.2.1+26.2]: https://github.com/GiienaAstrella/pigeon-chat/releases/tag/v0.2.1+26.2
 [Keep a Changelog]: https://keepachangelog.com/en/1.1.0/
-[UNRELEASED]: https://github.com/GiienaAstrella/pigeon-chat/compare/v0.2.0+26.2...release/26.2/0.2.x
