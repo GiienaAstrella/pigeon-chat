@@ -19,6 +19,8 @@ The format is based on [Keep a Changelog].
 ### Fixed
 
 - Fixed an issue where Pigeon Chat loads in an environment where GCL cannot load. ([#16])
+- Fixed an issue where common configuration is still editable from the client side edit screen
+  when connected to a dedicated server. ([#17])
 
 ### Security
 
@@ -88,6 +90,7 @@ The format is based on [Keep a Changelog].
 
 [#12]: https://github.com/GiienaAstrella/pigeon-chat/issues/12
 [#16]: https://github.com/GiienaAstrella/pigeon-chat/issues/16
+[#17]: https://github.com/GiienaAstrella/pigeon-chat/issues/17
 [#2]: https://github.com/GiienaAstrella/pigeon-chat/issues/2
 [#4]: https://github.com/GiienaAstrella/pigeon-chat/issues/4
 [#7]: https://github.com/GiienaAstrella/pigeon-chat/issues/7
