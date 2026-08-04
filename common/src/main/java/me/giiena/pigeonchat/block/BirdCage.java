@@ -59,28 +59,14 @@ public class BirdCage extends BaseEntityBlock {
                                                @NonNull BlockPos pos,
                                                Player player,
                                                @NonNull BlockHitResult hitResult) {
-        if (!player.isCrouching()) return InteractionResult.PASS;
+        Direction front = state.getValue(FACING);
 
-        ItemStack cage = new ItemStack(this.asItem());
-        if (level.getBlockEntity(pos) instanceof BirdCageEntity entity) {
-            cage.applyComponents(DataComponentMap.builder().addAll(entity.components()).build());
+        if (player.isCrouching()) {
+            return retrieveCage(level, pos, player);
+        } else if (hitResult.getDirection() == front) {
+            return releaseMessenger(level, pos, front);
         }
-
-        level.removeBlock(pos, false);
-
-        if (player.getMainHandItem().isEmpty()) {
-            player.setItemInHand(InteractionHand.MAIN_HAND, cage);
-        } else if (player.getOffhandItem().isEmpty()) {
-            player.setItemInHand(InteractionHand.OFF_HAND, cage);
-        } else if (!player.getInventory().add(cage)) {
-            Block.popResource(level, pos, cage);
-        }
-
-        if (!level.isClientSide()) {
-            level.playSound(null, pos, SoundEvents.ITEM_PICKUP, SoundSource.BLOCKS, 1.0f, 1.0f);
-        }
-
-        return InteractionResult.SUCCESS;
+        return InteractionResult.PASS;
     }
 
     @Override
@@ -182,5 +168,62 @@ public class BirdCage extends BaseEntityBlock {
     @Nullable
     public BlockEntity newBlockEntity(@NonNull BlockPos blockPos, @NonNull BlockState blockState) {
         return new BirdCageEntity(blockPos, blockState);
+    }
+
+    @NonNull
+    private InteractionResult retrieveCage(@NonNull Level level,
+                                           @NonNull BlockPos pos,
+                                           Player player) {
+        ItemStack cage = new ItemStack(this.asItem());
+        if (level.getBlockEntity(pos) instanceof BirdCageEntity entity) {
+            cage.applyComponents(DataComponentMap.builder().addAll(entity.components()).build());
+        }
+
+        level.removeBlock(pos, false);
+
+        if (player.getMainHandItem().isEmpty()) {
+            player.setItemInHand(InteractionHand.MAIN_HAND, cage);
+        } else if (player.getOffhandItem().isEmpty()) {
+            player.setItemInHand(InteractionHand.OFF_HAND, cage);
+        } else if (!player.getInventory().add(cage)) {
+            Block.popResource(level, pos, cage);
+        }
+
+        if (!level.isClientSide()) {
+            level.playSound(null, pos, SoundEvents.ITEM_PICKUP, SoundSource.BLOCKS, 1.0f, 1.0f);
+        }
+
+        return InteractionResult.SUCCESS;
+    }
+
+    @NonNull
+    private static InteractionResult releaseMessenger(@NonNull Level level,
+                                                      @NonNull BlockPos pos,
+                                                      Direction front) {
+        if (level.getBlockEntity(pos) instanceof BirdCageEntity cage) {
+            MessengerAnimal messenger = cage.messenger();
+            if (messenger != null) {
+                BlockPos frontPos = pos.relative(front);
+                if (cage.spawnMessenger(messenger, front, frontPos)) {
+                    if (!level.isClientSide()) {
+                        level.playSound(null,
+                                pos,
+                                SoundEvents.IRON_DOOR_OPEN,
+                                SoundSource.BLOCKS,
+                                1.0f,
+                                1.0f);
+                        level.playSound(null,
+                                pos,
+                                SoundEvents.IRON_DOOR_CLOSE,
+                                SoundSource.BLOCKS,
+                                1.0f,
+                                1.0f);
+                    }
+                    cage.messenger(null);
+                    return InteractionResult.SUCCESS;
+                }
+            }
+        }
+        return InteractionResult.PASS;
     }
 }

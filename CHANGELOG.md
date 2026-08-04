@@ -12,6 +12,8 @@ The format is based on [Keep a Changelog].
 
 ### Changed
 
+- Right-clicking the front side of a Bird Cage containing a Pigeon now releases the Pigeon.
+
 ### Deprecated
 
 ### Removed
