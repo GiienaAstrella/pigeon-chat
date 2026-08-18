@@ -168,6 +168,7 @@ public class BirdCageEntity extends BlockEntity implements MessengerMenuSource {
             sender.sendOverlayMessage(Component.translatable(PigeonChatCommon.langKey("cage",
                     "overlay",
                     "blocked")).withColor(TextColor.RED));
+            return;
         }
 
         if (!this.spawnMessenger(messenger, facing, front)) {

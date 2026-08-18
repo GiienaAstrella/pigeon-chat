@@ -23,6 +23,8 @@ The format is based on [Keep a Changelog].
 - Fixed an issue where Pigeon Chat loads in an environment where GCL cannot load. ([#16])
 - Fixed an issue where common configuration is still editable from the client side edit screen
   when connected to a dedicated server. ([#17])
+- Delivery assignment that began when the Bird Cage is unblocked now correctly cancels the
+  assignment if the cage is blocked after target selection. ([#14])
 
 ### Security
 
@@ -91,6 +93,7 @@ The format is based on [Keep a Changelog].
 - Right-clicking a Name Tag without holding a writing utensil with the other hand displays its name.
 
 [#12]: https://github.com/GiienaAstrella/pigeon-chat/issues/12
+[#14]: https://github.com/GiienaAstrella/pigeon-chat/issues/14
 [#16]: https://github.com/GiienaAstrella/pigeon-chat/issues/16
 [#17]: https://github.com/GiienaAstrella/pigeon-chat/issues/17
 [#2]: https://github.com/GiienaAstrella/pigeon-chat/issues/2
