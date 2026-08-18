@@ -2,6 +2,7 @@ package me.giiena.pigeonchat.component;
 
 import com.mojang.serialization.Codec;
 import me.giiena.pigeonchat.PigeonChatCommon;
+import me.giiena.pigeonchat.entity.Pigeon;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.resources.Identifier;
@@ -46,6 +47,10 @@ public class PigeonChatComponents {
             DataComponentType.<CagedMessenger>builder()
                     .persistent(CagedMessenger.CODEC)
                     .networkSynchronized(CagedMessenger.STREAM_CODEC));
+    public static DataComponentType<Pigeon.Variant> PIGEON_VARIANT = register("pigeon/variant",
+            DataComponentType.<Pigeon.Variant>builder()
+                    .persistent(Pigeon.Variant.CODEC)
+                    .networkSynchronized(Pigeon.Variant.STREAM_CODEC));
 
     public static void registerAll(BiConsumer<Identifier, DataComponentType<?>> registry) {
         TYPES.forEach(registry);

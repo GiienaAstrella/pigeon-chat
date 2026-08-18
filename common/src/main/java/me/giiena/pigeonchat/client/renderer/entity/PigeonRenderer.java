@@ -10,9 +10,12 @@ import net.minecraft.world.item.ItemDisplayContext;
 import org.jspecify.annotations.NonNull;
 
 public class PigeonRenderer extends MobRenderer<Pigeon, PigeonRenderState, PigeonModel> {
-    private static final Identifier TEXTURE = PigeonChatCommon.identifier("pigeon")
-            .withPrefix("textures/entity/pigeon/")
-            .withSuffix(".png");
+    private static final Identifier BASE = PigeonChatCommon.identifier("pigeon")
+            .withPrefix("textures/entity/pigeon/");
+    private static final Identifier GRAY = BASE.withSuffix("_gray.png");
+    private static final Identifier WHITE = BASE.withSuffix("_white.png");
+    private static final Identifier RED = BASE.withSuffix("_red.png");
+    private static final Identifier RED_WHITE = BASE.withSuffix("_red_white.png");
 
     public PigeonRenderer(EntityRendererProvider.Context ctx) {
         super(ctx, new PigeonModel(ctx.bakeLayer(EntityModelLayers.PIGEON)), 0.3f);
@@ -22,7 +25,7 @@ public class PigeonRenderer extends MobRenderer<Pigeon, PigeonRenderState, Pigeo
     @Override
     @NonNull
     public Identifier getTextureLocation(@NonNull PigeonRenderState state) {
-        return TEXTURE;
+        return getVariantTexture(state.variant);
     }
 
     @Override
@@ -31,6 +34,8 @@ public class PigeonRenderer extends MobRenderer<Pigeon, PigeonRenderState, Pigeo
                                    float partialTicks) {
         super.extractRenderState(entity, state, partialTicks);
         state.carrying = entity.carrying();
+        state.variant = entity.variant();
+
         float flap = Mth.lerp(partialTicks, entity.oFlap, entity.flap);
         float flapSpeed = Mth.lerp(partialTicks, entity.oFlapSpeed, entity.flapSpeed);
         state.flapAngle = (Mth.sin(flap) + 1.0f) * flapSpeed;
@@ -53,5 +58,17 @@ public class PigeonRenderer extends MobRenderer<Pigeon, PigeonRenderState, Pigeo
     @NonNull
     public PigeonRenderState createRenderState() {
         return new PigeonRenderState();
+    }
+
+    public static Identifier getVariantTexture(Pigeon.Variant variant) {
+        Identifier texture;
+        switch (variant) {
+            case GRAY -> texture = GRAY;
+            case WHITE -> texture = WHITE;
+            case RED -> texture = RED;
+            case RED_WHITE -> texture = RED_WHITE;
+            default -> throw new MatchException(null, null);
+        }
+        return texture;
     }
 }

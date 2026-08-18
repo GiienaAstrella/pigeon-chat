@@ -60,6 +60,8 @@ The format is based on [Keep a Changelog].
   At that point, they will continue to fly to their target. ([#2])
 - Self delivery is now configurable (`pigeon.allow_self_delivery`).
   This defaults to `false` outside of the development environment.
+- Pigeons now have a few variants for their coat.
+  The existing coat has been renamed to `gray` and is the default variant. ([#5]) 
 
 ### Fixed
 
@@ -100,6 +102,7 @@ The format is based on [Keep a Changelog].
 [#18]: https://github.com/GiienaAstrella/pigeon-chat/issues/18
 [#2]: https://github.com/GiienaAstrella/pigeon-chat/issues/2
 [#4]: https://github.com/GiienaAstrella/pigeon-chat/issues/4
+[#5]: https://github.com/GiienaAstrella/pigeon-chat/issues/5
 [#7]: https://github.com/GiienaAstrella/pigeon-chat/issues/7
 [#8]: https://github.com/GiienaAstrella/pigeon-chat/issues/8
 [0.1.0]: https://github.com/GiienaAstrella/pigeon-chat/compare/0f0e4a9c15de3a94691e7d807bed1eacdb5a48bb...v0.1.0

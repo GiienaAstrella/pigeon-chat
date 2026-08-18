@@ -1,15 +1,31 @@
 package me.giiena.pigeonchat.entity;
 
+import com.mojang.serialization.Codec;
+import io.netty.buffer.ByteBuf;
 import me.giiena.pigeonchat.PigeonChatConfig;
+import me.giiena.pigeonchat.component.PigeonChatComponents;
 import me.giiena.pigeonchat.entity.goal.DirectApproachTargetGoal;
 import me.giiena.pigeonchat.entity.goal.LaunchTeleportToTargetGoal;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.component.DataComponentGetter;
+import net.minecraft.core.component.DataComponentType;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.ItemTags;
+import net.minecraft.util.ByIdMap;
 import net.minecraft.util.Mth;
+import net.minecraft.util.StringRepresentable;
+import net.minecraft.util.Util;
+import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.entity.AgeableMob;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.SpawnGroupData;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.control.FlyingMoveControl;
@@ -23,10 +39,15 @@ import net.minecraft.world.entity.npc.villager.AbstractVillager;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.phys.Vec3;
 import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
+
+import java.util.function.IntFunction;
 
 /**
  * Messenger pigeon.
@@ -36,6 +57,9 @@ public class Pigeon extends MessengerAnimal {
     public static final int MIN_SPAWN_COUNT = 2;
     public static final int MAX_SPAWN_COUNT = 6;
     public static final int SPAWN_WEIGHT = 8;
+
+    private static final EntityDataAccessor<Integer> DATA_VARIANT_ID =
+            SynchedEntityData.defineId(Pigeon.class, EntityDataSerializers.INT);
 
     public float flap;
     public float flapSpeed;
@@ -146,6 +170,19 @@ public class Pigeon extends MessengerAnimal {
     }
 
     @Override
+    @Nullable
+    public SpawnGroupData finalizeSpawn(ServerLevelAccessor level,
+                                                  @NonNull DifficultyInstance difficulty,
+                                                  @NonNull EntitySpawnReason spawnReason,
+                                                  @Nullable SpawnGroupData groupData) {
+        this.variant(Util.getRandom(Variant.values(), level.getRandom()));
+        if (groupData == null) {
+            groupData = new AgeableMobGroupData(false);
+        }
+        return super.finalizeSpawn(level, difficulty, spawnReason, groupData);
+    }
+
+    @Override
     public @Nullable AgeableMob getBreedOffspring(
             @NonNull ServerLevel serverLevel,
             @NonNull AgeableMob ageableMob) {
@@ -184,6 +221,55 @@ public class Pigeon extends MessengerAnimal {
         return false;
     }
 
+    public Variant variant() {
+        return Variant.byID(this.entityData.get(DATA_VARIANT_ID));
+    }
+
+    private void variant(Variant variant) {
+        this.entityData.set(DATA_VARIANT_ID, variant.id());
+    }
+
+    @Override
+    @Nullable
+    public <T> T get(@NonNull DataComponentType<? extends T> type) {
+        return (type == PigeonChatComponents.PIGEON_VARIANT) ?
+                castComponentValue(type, this.variant()) : super.get(type);
+    }
+
+    @Override
+    protected void applyImplicitComponents(@NonNull DataComponentGetter components) {
+        this.applyImplicitComponentIfPresent(components, PigeonChatComponents.PIGEON_VARIANT);
+        super.applyImplicitComponents(components);
+    }
+
+    @Override
+    protected <T> boolean applyImplicitComponent(@NonNull DataComponentType<T> type,
+                                                 @NonNull T value) {
+        if (type == PigeonChatComponents.PIGEON_VARIANT) {
+            this.variant(castComponentValue(PigeonChatComponents.PIGEON_VARIANT, value));
+            return true;
+        }
+        return super.applyImplicitComponent(type, value);
+    }
+
+    @Override
+    protected void defineSynchedData(SynchedEntityData.@NonNull Builder entityData) {
+        super.defineSynchedData(entityData);
+        entityData.define(DATA_VARIANT_ID, Variant.DEFAULT.id());
+    }
+
+    @Override
+    protected void addAdditionalSaveData(@NonNull ValueOutput output) {
+        super.addAdditionalSaveData(output);
+        output.store("Variant", Variant.LEGACY_CODEC, this.variant());
+    }
+
+    @Override
+    protected void readAdditionalSaveData(@NonNull ValueInput input) {
+        super.readAdditionalSaveData(input);
+        this.variant(input.read("Variant", Variant.LEGACY_CODEC).orElse(Variant.DEFAULT));
+    }
+
     @Override
     protected boolean canFly() {
         return true;
@@ -200,6 +286,48 @@ public class Pigeon extends MessengerAnimal {
         @Override
         public boolean canUse() {
             return !this.messenger.hasTarget();
+        }
+    }
+
+    public enum Variant implements StringRepresentable {
+        GRAY(0, "gray"),
+        WHITE(1, "white"),
+        RED(2, "red"),
+        RED_WHITE(3, "red_white");
+
+        public static final Variant DEFAULT = GRAY;
+        public static final Codec<Variant> CODEC = StringRepresentable.fromEnum(Variant::values);
+        public static final Codec<Variant> LEGACY_CODEC;
+        public static final StreamCodec<ByteBuf, Variant> STREAM_CODEC;
+
+        private static final IntFunction<Variant> BY_ID =
+                ByIdMap.continuous(Variant::id, values(), ByIdMap.OutOfBoundsStrategy.CLAMP);
+
+        static {
+            LEGACY_CODEC = Codec.INT.xmap(BY_ID::apply, Variant::id);
+            STREAM_CODEC = ByteBufCodecs.idMapper(BY_ID, Variant::id);
+        }
+
+        private final int id;
+        private final String name;
+
+        Variant(int id, String name) {
+            this.id = id;
+            this.name = name;
+        }
+
+        public static Variant byID(int id) {
+            return BY_ID.apply(id);
+        }
+
+        public int id() {
+            return this.id;
+        }
+
+        @Override
+        @NonNull
+        public String getSerializedName() {
+            return this.name;
         }
     }
 }
