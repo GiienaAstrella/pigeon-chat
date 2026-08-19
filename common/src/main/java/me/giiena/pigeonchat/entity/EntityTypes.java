@@ -25,8 +25,8 @@ public class EntityTypes {
 
     public static final EntityType<Pigeon> PIGEON = registerType("pigeon",
             EntityType.Builder.<Pigeon>of(Pigeon::new, MobCategory.CREATURE)
-                    .sized(0.5f, 0.9f)
-                    .eyeHeight(0.54f));
+                    .sized(0.4f, 0.75f)
+                    .eyeHeight(0.64f));
 
     public static void registerTypes(
             BiConsumer<ResourceKey<EntityType<?>>, EntityType<?>> registry) {
