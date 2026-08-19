@@ -12,6 +12,7 @@ import me.giiena.pigeonchat.item.CreativeTabs;
 import me.giiena.pigeonchat.item.Items;
 import me.giiena.pigeonchat.network.AssignMessengerPayload;
 import me.giiena.pigeonchat.network.SaveWritablePayload;
+import me.giiena.pigeonchat.sounds.PigeonChatSoundEvents;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.Identifier;
@@ -55,6 +56,7 @@ public class PigeonChat {
         bindKey(Registries.BLOCK, Blocks::registerAll);
         bindKey(Registries.ITEM, Items::registerAll);
         bindKey(Registries.CREATIVE_MODE_TAB, CreativeTabs::registerAll);
+        bindKey(Registries.SOUND_EVENT, PigeonChatSoundEvents::init);
 
         EVENT_BUS.addListener((Consumer<BuildCreativeModeTabContentsEvent>) event ->
                 CreativeTabs.TAB_ITEMS.forEach((tab, items) -> {

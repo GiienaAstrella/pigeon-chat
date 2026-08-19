@@ -6,6 +6,7 @@ import me.giiena.pigeonchat.PigeonChatConfig;
 import me.giiena.pigeonchat.component.PigeonChatComponents;
 import me.giiena.pigeonchat.entity.goal.DirectApproachTargetGoal;
 import me.giiena.pigeonchat.entity.goal.LaunchTeleportToTargetGoal;
+import me.giiena.pigeonchat.sounds.PigeonChatSoundEvents;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.component.DataComponentGetter;
 import net.minecraft.core.component.DataComponentType;
@@ -15,12 +16,14 @@ import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvent;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.util.ByIdMap;
 import net.minecraft.util.Mth;
 import net.minecraft.util.StringRepresentable;
 import net.minecraft.util.Util;
 import net.minecraft.world.DifficultyInstance;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.AgeableMob;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntitySpawnReason;
@@ -196,6 +199,7 @@ public class Pigeon extends MessengerAnimal {
 
     @Override
     protected void onFlap() {
+        this.playSound(PigeonChatSoundEvents.PIGEON_FLY, 0.15f, 1.0f);
         this.nextFlap = this.flyDist + this.flapSpeed / 2.0f;
     }
 
@@ -273,6 +277,27 @@ public class Pigeon extends MessengerAnimal {
     @Override
     protected boolean canFly() {
         return true;
+    }
+
+    @Override
+    @Nullable
+    public SoundEvent getAmbientSound() {
+        return PigeonChatSoundEvents.PIGEON_AMBIENT;
+    }
+
+    @Override
+    protected SoundEvent getHurtSound(@NonNull DamageSource source) {
+        return PigeonChatSoundEvents.PIGEON_HURT;
+    }
+
+    @Override
+    protected SoundEvent getDeathSound() {
+        return PigeonChatSoundEvents.PIGEON_DEATH;
+    }
+
+    @Override
+    protected void playStepSound(@NonNull BlockPos pos, @NonNull BlockState state) {
+        this.playSound(PigeonChatSoundEvents.PIGEON_STEP, 0.15f, 1.0f);
     }
 
     public static class PigeonWanderGoal extends WaterAvoidingRandomFlyingGoal {

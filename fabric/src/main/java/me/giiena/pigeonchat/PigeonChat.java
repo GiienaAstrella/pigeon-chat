@@ -13,6 +13,7 @@ import me.giiena.pigeonchat.item.CreativeTabs;
 import me.giiena.pigeonchat.item.Items;
 import me.giiena.pigeonchat.network.AssignMessengerPayload;
 import me.giiena.pigeonchat.network.SaveWritablePayload;
+import me.giiena.pigeonchat.sounds.PigeonChatSoundEvents;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.biome.v1.BiomeModifications;
 import net.fabricmc.fabric.api.biome.v1.BiomeSelectors;
@@ -62,6 +63,7 @@ public class PigeonChat implements ModInitializer {
         bindKey(BuiltInRegistries.BLOCK, Blocks::registerAll);
         bindKey(BuiltInRegistries.ITEM, Items::registerAll);
         bindKey(BuiltInRegistries.CREATIVE_MODE_TAB, CreativeTabs::registerAll);
+        bindKey(BuiltInRegistries.SOUND_EVENT, PigeonChatSoundEvents::init);
 
         EntityTypes.registerAttributes(FabricDefaultAttributeRegistry::register);
 
