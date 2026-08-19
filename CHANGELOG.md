@@ -9,6 +9,8 @@ The format is based on [Keep a Changelog].
 ### Added
 
 - Added localization for common config key `pigeon.allow_self_delivery`. ([#8])
+- Naming Pigeon with the name of a very specific fictional character will alter its appearance,
+  inspired by said very specific fictional character. ([#9])
 
 ### Changed
 
@@ -105,6 +107,7 @@ The format is based on [Keep a Changelog].
 [#5]: https://github.com/GiienaAstrella/pigeon-chat/issues/5
 [#7]: https://github.com/GiienaAstrella/pigeon-chat/issues/7
 [#8]: https://github.com/GiienaAstrella/pigeon-chat/issues/8
+[#9]: https://github.com/GiienaAstrella/pigeon-chat/issues/9
 [0.1.0]: https://github.com/GiienaAstrella/pigeon-chat/compare/0f0e4a9c15de3a94691e7d807bed1eacdb5a48bb...v0.1.0
 [0.2.0+26.2]: https://github.com/GiienaAstrella/pigeon-chat/releases/tag/v0.2.0+26.2
 [0.2.1+26.2]: https://github.com/GiienaAstrella/pigeon-chat/releases/tag/v0.2.1+26.2

@@ -11,6 +11,7 @@ public class PigeonRenderState extends LivingEntityRenderState {
     public Pigeon.Variant variant;
     public float flapAngle;
     public PigeonModel.Pose pose;
+    public boolean columbina = false;
 
     public PigeonRenderState() {
         this.variant = Pigeon.Variant.DEFAULT;

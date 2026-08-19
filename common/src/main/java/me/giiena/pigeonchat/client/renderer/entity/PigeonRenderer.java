@@ -4,6 +4,7 @@ import me.giiena.pigeonchat.PigeonChatCommon;
 import me.giiena.pigeonchat.entity.Pigeon;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.util.Mth;
 import net.minecraft.world.item.ItemDisplayContext;
@@ -16,6 +17,7 @@ public class PigeonRenderer extends MobRenderer<Pigeon, PigeonRenderState, Pigeo
     private static final Identifier WHITE = BASE.withSuffix("_white.png");
     private static final Identifier RED = BASE.withSuffix("_red.png");
     private static final Identifier RED_WHITE = BASE.withSuffix("_red_white.png");
+    private static final Identifier COLUMBINA = BASE.withSuffix("_columbina.png");
 
     public PigeonRenderer(EntityRendererProvider.Context ctx) {
         super(ctx, new PigeonModel(ctx.bakeLayer(EntityModelLayers.PIGEON)), 0.3f);
@@ -25,7 +27,7 @@ public class PigeonRenderer extends MobRenderer<Pigeon, PigeonRenderState, Pigeo
     @Override
     @NonNull
     public Identifier getTextureLocation(@NonNull PigeonRenderState state) {
-        return getVariantTexture(state.variant);
+        return state.columbina ? COLUMBINA : getVariantTexture(state.variant);
     }
 
     @Override
@@ -33,6 +35,11 @@ public class PigeonRenderer extends MobRenderer<Pigeon, PigeonRenderState, Pigeo
                                    @NonNull PigeonRenderState state,
                                    float partialTicks) {
         super.extractRenderState(entity, state, partialTicks);
+
+        Component customName = entity.getCustomName();
+        state.columbina = (customName != null) &&
+                customName.getString().equalsIgnoreCase("Columbina");
+
         state.carrying = entity.carrying();
         state.variant = entity.variant();
 

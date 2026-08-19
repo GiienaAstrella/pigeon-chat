@@ -17,6 +17,7 @@ import java.util.Objects;
 public class PigeonModel extends EntityModel<PigeonRenderState> {
 	public final ModelPart head;
 	public final ModelPart beak;
+	public final ModelPart bow;
 	public final ModelPart torso;
 	public final ModelPart tail;
 	public final ModelPart rWing;
@@ -28,6 +29,7 @@ public class PigeonModel extends EntityModel<PigeonRenderState> {
 		super(root);
 		this.head = root.getChild("head");
 		this.beak = this.head.getChild("beak");
+		this.bow = this.head.getChild("bow");
 		this.torso = root.getChild("torso");
 		this.tail = root.getChild("tail");
 		this.rWing = root.getChild("rWing");
@@ -47,6 +49,11 @@ public class PigeonModel extends EntityModel<PigeonRenderState> {
 		PartDefinition head = partdefinition.addOrReplaceChild("head", CubeListBuilder.create().texOffs(0, 0).addBox(-1.5F, -1.5F, -1.5F, 3.0F, 3.0F, 3.0F, new CubeDeformation(0.0F))
 				.texOffs(13, 2).addBox(-1.5F, 1.5F, -1.5F, 3.0F, 1.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offset(-1.0F, 14.0F, -2.5F));
 		head.addOrReplaceChild("beak", CubeListBuilder.create().texOffs(26, 4).addBox(-0.5F, -0.5F, -0.5F, 1.0F, 1.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 0.5F, -2.0F));
+		head.addOrReplaceChild("bow", CubeListBuilder.create().texOffs(4, 26).addBox(0.0F, -1.0F, 0.0F, 1.0F, 1.0F, 1.0F, new CubeDeformation(0.0F))
+				.texOffs(8, 24).addBox(-0.75F, -1.75F, 0.0F, 1.0F, 1.0F, 1.0F, new CubeDeformation(0.0F))
+				.texOffs(0, 24).addBox(0.75F, -1.75F, 0.0F, 1.0F, 1.0F, 1.0F, new CubeDeformation(0.0F))
+				.texOffs(0, 28).addBox(0.75F, -0.5F, 0.0F, 1.0F, 1.0F, 1.0F, new CubeDeformation(0.0F))
+				.texOffs(8, 28).addBox(-0.75F, -0.5F, 0.0F, 1.0F, 1.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offset(-0.5F, 0.25F, 1.75F));
 		partdefinition.addOrReplaceChild("torso", CubeListBuilder.create().texOffs(0, 7).addBox(-2.0F, -3.5F, -2.0F, 4.0F, 7.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-1.0F, 19.0199F, -1.2173F, 0.4363F, 0.0F, 0.0F));
 		partdefinition.addOrReplaceChild("tail", CubeListBuilder.create().texOffs(4, 19).addBox(-1.5F, -0.0858F, -0.5F, 3.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-1.0F, 20.3467F, 1.0745F, 0.7854F, 0.0F, 0.0F));
 		partdefinition.addOrReplaceChild("rWing", CubeListBuilder.create().texOffs(17, 9).addBox(-1.0F, 0.0206F, -1.5293F, 1.0F, 6.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-3.0F, 15.8167F, -2.6786F, 0.4363F, 0.0F, 0.0F));
@@ -63,6 +70,7 @@ public class PigeonModel extends EntityModel<PigeonRenderState> {
 		this.prepare(state.pose);
 		this.head.xRot = state.xRot * Mth.DEG_TO_RAD;
 		this.head.yRot = state.yRot * Mth.DEG_TO_RAD;
+		this.bow.visible = state.columbina;
 
 		switch (state.pose) {
 			case STANDING:
