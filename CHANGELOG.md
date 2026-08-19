@@ -25,6 +25,7 @@ The format is based on [Keep a Changelog].
   when connected to a dedicated server. ([#17])
 - Delivery assignment that began when the Bird Cage is unblocked now correctly cancels the
   assignment if the cage is blocked after target selection. ([#14])
+- Capturing Pigeon with a Bird Cage in creative mode now actually captures the Pigeon. ([#18])
 
 ### Security
 
@@ -96,6 +97,7 @@ The format is based on [Keep a Changelog].
 [#14]: https://github.com/GiienaAstrella/pigeon-chat/issues/14
 [#16]: https://github.com/GiienaAstrella/pigeon-chat/issues/16
 [#17]: https://github.com/GiienaAstrella/pigeon-chat/issues/17
+[#18]: https://github.com/GiienaAstrella/pigeon-chat/issues/18
 [#2]: https://github.com/GiienaAstrella/pigeon-chat/issues/2
 [#4]: https://github.com/GiienaAstrella/pigeon-chat/issues/4
 [#7]: https://github.com/GiienaAstrella/pigeon-chat/issues/7

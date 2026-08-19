@@ -41,8 +41,10 @@ public class BirdCageItem extends BlockItem implements PigeonChatItem {
         }
 
         cage.set(PigeonChatComponents.CAGED_MESSENGER, data);
-        if (stack.count() > 1 && !player.addItem(cage)) {
-            player.drop(cage, false);
+        if (stack.count() > 1) {
+            if (!player.addItem(cage)) player.drop(cage, false);
+        } else {
+            player.setItemInHand(hand, cage);
         }
 
         if (!player.level().isClientSide()) {
