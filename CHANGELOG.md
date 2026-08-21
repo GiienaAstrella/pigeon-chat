@@ -17,6 +17,7 @@ The format is based on [Keep a Changelog].
 
 - Right-clicking the front side of a Bird Cage containing a Pigeon now releases the Pigeon.
 - Hitbox scaling for Pigeon and its eye-level is now more accurately sized to the model.
+- Updated minimum NeoForge version to 26.2.0.57.
 
 ### Deprecated
 
