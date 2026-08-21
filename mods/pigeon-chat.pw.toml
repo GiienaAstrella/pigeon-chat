@@ -1,0 +1,13 @@
+name = "Pigeon Chat"
+filename = "pigeonchat-fabric-0.3.0+26.2.jar"
+side = "both"
+
+[download]
+url = "https://cdn.modrinth.com/data/t76OI5IO/versions/3V2q8DDP/pigeonchat-fabric-0.3.0%2B26.2.jar"
+hash-format = "sha512"
+hash = "a052dd573577f23ac9ce1ecd859a318271778525fc74354b0fe60e36b80c689fd8919ac83f810ea365796795444a57ca21fb7e3d41527360d009c968f306dd03"
+
+[update]
+[update.modrinth]
+mod-id = "t76OI5IO"
+version = "3V2q8DDP"

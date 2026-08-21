@@ -1,0 +1,34 @@
+#Pigeon configuration
+[pigeon]
+    #Make pigeons invincible during delivery
+    invincible_delivery = true
+    #Set to true to make Pigeons wait by their target to be dismissed or assigned a return delivery
+    allow_return = true
+    #Allow delivery to self
+    allow_self_delivery = false
+
+#Pen configuration
+[pen]
+    #Maximum fill
+    fill = 500
+
+#Quill configuration
+[quill]
+    #Maximum fill
+    fill = 60
+
+#Name Tag configuration
+[name_tag]
+    #Make Name Tags viewable
+    viewable = true
+    #Make Name Tags editable with utensils
+    editable = true
+    #Allow naming on Anvil
+    anvil_editable = false
+
+#Ink Bottle configuration
+[ink_bottle]
+    #Amount of dye required to fill
+    dye_refill = 2
+    #Maximum fill
+    fill = 2000

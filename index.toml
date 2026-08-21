@@ -1,0 +1,79 @@
+hash-format = "sha256"
+
+[[files]]
+file = "CHANGELOG.md"
+hash = "2fcefdea34ea6d3da7923e1e56c45b647d5b8e5044e5650ed87f59f9d8c8c15e"
+
+[[files]]
+file = "LICENSE"
+hash = "bf5165672211a75407a237f5300b3f1dea633f013005d18b7ce7eb0355bab477"
+
+[[files]]
+file = "config/crash_assistant/config.toml"
+hash = "7db22bc01f171b70e5edc6e5629e403c5d141841c10967675d9b36e4b15eb38a"
+
+[[files]]
+file = "config/crash_assistant/modlist.json"
+hash = "50a1e2192b5f8d39d3c36ec0befd1908fd5312f8a0054fcd700623d27899a596"
+
+[[files]]
+file = "config/crash_assistant/pack.png"
+hash = "7cd346b6639bb3e5644781625af9487f6f724a0f61e37155b80c583aa15a2959"
+
+[[files]]
+file = "config/modmenu.json"
+hash = "91ecb59398a3de2dcd5e4cc8b979e70bcf476bb5520f0a6edc611eeff79be3a5"
+
+[[files]]
+file = "config/pigeonchat.toml"
+hash = "894a75d4f7a5b47ea269dd34a42e46d46fa35ec24cb2a42122c3cffc4098b16d"
+
+[[files]]
+file = "mods/betterf3.pw.toml"
+hash = "73326213899af53071fedc242ad04f0c8fc45cf7151d8fadcc35550970a72e51"
+metafile = true
+
+[[files]]
+file = "mods/cloth-config.pw.toml"
+hash = "7fa9592b9948b8809018a4e7c3ca7da4d19fc5ef8c03021414cb22ae0253f083"
+metafile = true
+
+[[files]]
+file = "mods/clumps.pw.toml"
+hash = "3e4d788583a36e9d145407fadce148f037e5229bff430f7dcd281d4d426c9ee6"
+metafile = true
+
+[[files]]
+file = "mods/crash-assistant.pw.toml"
+hash = "26df46292aa3a6195a25d641c22930f7ef6f23cf9c6061354fdb8edffc7c167f"
+metafile = true
+
+[[files]]
+file = "mods/fabric-api.pw.toml"
+hash = "7ed424f5ce1febe2c2c0e5fc58d34858f1bbd97eabdceb9b9c6afdde4bf578df"
+metafile = true
+
+[[files]]
+file = "mods/lithium.pw.toml"
+hash = "a5ee497ec151dd6e6b946091e12e2c56362e5c772c4b8ea175b2e81277cc708d"
+metafile = true
+
+[[files]]
+file = "mods/modmenu.pw.toml"
+hash = "9ceb72b7c586df8828ee5e9eaf096c913f8debe92805cd5ce6c4ea8922e5fe1d"
+metafile = true
+
+[[files]]
+file = "mods/pigeon-chat.pw.toml"
+hash = "8e40fad7af108592054564c3bd373406320232f250880946395907f63dc9f311"
+metafile = true
+
+[[files]]
+file = "mods/placeholder-api.pw.toml"
+hash = "b234ade7fd54bb9d99c27769cd1635b18835752676d0cdd0a29af2b4146251a8"
+metafile = true
+
+[[files]]
+file = "mods/spark.pw.toml"
+hash = "c7b6e4a7666e9e64a70df0b550db2e25f7150d4c1c2c2e79e81dfbc036ce3a25"
+metafile = true

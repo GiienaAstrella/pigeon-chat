@@ -1,0 +1,64 @@
+{
+  "fabric-loader-0.19.3.jar (modloader)": {
+    "jarName": "fabric-loader-0.19.3.jar (modloader)",
+    "modId": "fabric",
+    "name": "fabric",
+    "version": "fabric-loader-0.19.3.jar"
+  },
+  "BetterF3-19.0.0-Fabric-26.2.jar": {
+    "jarName": "BetterF3-19.0.0-Fabric-26.2.jar",
+    "modId": "betterf3",
+    "name": "BetterF3",
+    "version": "19.0.0",
+    "curseForgeHash": 2431570425,
+    "modrinthHash": "f3e0c3dc93a2c5fba86f8796bd127076df6287b4"
+  },
+  "cloth-config-26.2.155.jar": {
+    "jarName": "cloth-config-26.2.155.jar",
+    "modId": "cloth-config",
+    "name": "Cloth Config v26.2",
+    "version": "26.2.155",
+    "curseForgeHash": 352328733,
+    "modrinthHash": "babcf16dbd15e09d326e21ffe85ab3f7d843ef9e"
+  },
+  "CrashAssistant-fabric-26.2-1.11.12.jar": {
+    "jarName": "CrashAssistant-fabric-26.2-1.11.12.jar",
+    "modId": "crash_assistant",
+    "name": "Crash Assistant",
+    "version": "1.11.12",
+    "curseForgeHash": 791412326,
+    "modrinthHash": "b0b2d6b3fc4581fb1097e807eeaec09bca7dac4c"
+  },
+  "fabric-api-0.158.0+26.2.jar": {
+    "jarName": "fabric-api-0.158.0+26.2.jar",
+    "modId": "fabric-api",
+    "name": "Fabric API",
+    "version": "0.158.0+26.2",
+    "curseForgeHash": 421689651,
+    "modrinthHash": "7d0fb560579d28b933bdbc36b47449efe78d3bda"
+  },
+  "modmenu-20.0.1.jar": {
+    "jarName": "modmenu-20.0.1.jar",
+    "modId": "modmenu",
+    "name": "Mod Menu",
+    "version": "20.0.1",
+    "curseForgeHash": 4202657052,
+    "modrinthHash": "8562dee49eae1a6bdd14b026be1b300aedb5ce0f"
+  },
+  "pigeonchat-fabric-0.3.0+26.2.jar": {
+    "jarName": "pigeonchat-fabric-0.3.0+26.2.jar",
+    "modId": "pigeonchat",
+    "name": "Pigeon Chat",
+    "version": "0.3.0+26.2",
+    "curseForgeHash": 3755773722,
+    "modrinthHash": "babac517c7cfdc0f6fb9887053297abab2c9d9b2"
+  },
+  "placeholder-api-3.1.0-beta.1+26.2.jar": {
+    "jarName": "placeholder-api-3.1.0-beta.1+26.2.jar",
+    "modId": "placeholder-api",
+    "name": "Placeholder API",
+    "version": "3.1.0-beta.1+26.2",
+    "curseForgeHash": 600247438,
+    "modrinthHash": "99b57ccc1d4323c4ef71887828dac25ce4ce2103"
+  }
+}

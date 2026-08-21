@@ -1,0 +1,11 @@
+README.md
+.gradle/
+.idea/
+.stfolder/
+.stignore
+build-logic/
+build/
+common/
+fabric/
+neoforge/
+.github/

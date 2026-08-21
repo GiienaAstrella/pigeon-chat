@@ -1,0 +1,26 @@
+# OS ignores
+## Windows
+Thumbs.db
+
+## macOS
+.DS_Store
+
+## Linux
+lost+found
+
+# Stack ignores
+*.mrpack
+
+# IDE ignores
+.vscode
+
+# Project ignores
+.gradle/
+.idea/
+.stfolder/
+.stignore
+build-logic/
+build/
+common/
+fabric/
+neoforge/
