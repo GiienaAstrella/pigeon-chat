@@ -4,7 +4,7 @@ All notable changes in Changelog will be documented in this file.
 
 The format is based on [Keep a Changelog].
 
-## [UNRELEASED]
+## [0.3.0+26.2] - 2026-08-21
 
 ### Added
 
@@ -19,10 +19,6 @@ The format is based on [Keep a Changelog].
 - Hitbox scaling for Pigeon and its eye-level is now more accurately sized to the model.
 - Updated minimum NeoForge version to 26.2.0.57.
 
-### Deprecated
-
-### Removed
-
 ### Fixed
 
 - Fixed an issue where Pigeon Chat loads in an environment where GCL cannot load. ([#16])
@@ -31,8 +27,6 @@ The format is based on [Keep a Changelog].
 - Delivery assignment that began when the Bird Cage is unblocked now correctly cancels the
   assignment if the cage is blocked after target selection. ([#14])
 - Capturing Pigeon with a Bird Cage in creative mode now actually captures the Pigeon. ([#18])
-
-### Security
 
 ## [0.2.1+26.2] - 2026-08-02
 
@@ -66,7 +60,7 @@ The format is based on [Keep a Changelog].
 - Self delivery is now configurable (`pigeon.allow_self_delivery`).
   This defaults to `false` outside of the development environment.
 - Pigeons now have a few variants for their coat.
-  The existing coat has been renamed to `gray` and is the default variant. ([#5]) 
+  The existing coat has been renamed to `gray` and is the default variant. ([#5])
 
 ### Fixed
 
@@ -115,4 +109,5 @@ The format is based on [Keep a Changelog].
 [0.1.0]: https://github.com/GiienaAstrella/pigeon-chat/compare/0f0e4a9c15de3a94691e7d807bed1eacdb5a48bb...v0.1.0
 [0.2.0+26.2]: https://github.com/GiienaAstrella/pigeon-chat/releases/tag/v0.2.0+26.2
 [0.2.1+26.2]: https://github.com/GiienaAstrella/pigeon-chat/releases/tag/v0.2.1+26.2
+[0.3.0+26.2]: https://github.com/GiienaAstrella/pigeon-chat/releases/tag/v0.3.0+26.2
 [Keep a Changelog]: https://keepachangelog.com/en/1.1.0/
